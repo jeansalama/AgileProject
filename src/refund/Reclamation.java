@@ -35,12 +35,8 @@ public class Reclamation {
     /**
      * 
      * @param soin 
-     * @throws java.lang.Exception 
      */
-    public void setSoin(int soin) throws Exception {
-        if(!validerSoin(soin)){
-            throw new Exception();
-        }
+    public void setSoin(int soin) {
         this.soin = soin;
     }
     
@@ -102,27 +98,11 @@ public class Reclamation {
         
         return estDouble;
     }
-    
-    public double montantReclamation (String montant) throws Exception {
-       double montantDouble = 0.0;
-        if(validerMontantReclamation(montant) == true){
-            montantDouble = Double.parseDouble(montant.substring(0, montant.length() -1));
-        }else{
-            throw  new Exception();
-        }
-        return montantDouble;
-    }
-    
-    public static boolean validerSoin( int soin){
-        boolean soinValide = false;
         
-        if(soin == 0 || 100 == soin || soin == 200 || (soin >= 300 
-                && soin <= 399) || soin == 400 || soin == 500 || soin == 600 
-                || soin == 700){
-            
-            soinValide = true;
-        }
-        return soinValide;
-    }
-        
+    
+    
+    
 }
+
+    
+
