@@ -11,7 +11,7 @@ package refund;
  */
 public class Reclamation {
     private int soin;
-    private Date date;
+    private String date;
     private String montantReclamation;
 
     /**
@@ -20,7 +20,7 @@ public class Reclamation {
      * @param date
      * @param montantReclamation 
      */
-    public Reclamation(int soin, Date date, String montantReclamation) {
+    public Reclamation(int soin, String date, String montantReclamation) {
         this.soin = soin;
         this.date = date;
         this.montantReclamation = montantReclamation;
@@ -44,7 +44,7 @@ public class Reclamation {
      * 
      * @return 
      */
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
     
@@ -52,7 +52,7 @@ public class Reclamation {
      * 
      * @param date 
      */
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
     
@@ -60,33 +60,20 @@ public class Reclamation {
      * 
      * @return 
      */
-    public double getMontantReclamation() {
+    public String getMontantReclamation() {
         return montantReclamation;
     }
     
     /**
      * 
      * @param montantReclamation 
+     * @throws java.lang.Exception 
      */
-    public void setMontantReclamation(String montantReclamation) {
-        if(validerMontantReclamation(montantReclamation) == true){
-            this.montantReclamation = montantReclamation;
+    public void setMontantReclamation(String montantReclamation) throws Exception {
+        if(!validerMontantReclamation(montantReclamation)){
+            throw new Exception();
         }
-    
-    /**
-     *
-     * @param montant
-     * @return
-     * @throws Exception
-     */
-    public double montantReclamation (String montant) throws Exception {
-        double montantDouble = 0.0;
-        if(validerMontantReclamation(montant) == true){
-            montantDouble = Double.parseDouble(montant.substring(0, montant.length() -1));
-        }else{
-            throw  new Exception();
-        }
-        return montantDouble;
+        this.montantReclamation = montantReclamation;
     }
     
     public static boolean validerMontantReclamation(String montant) {
