@@ -1,8 +1,6 @@
 
-package Refund;
+package refund;
 import static jdk.nashorn.internal.runtime.JSType.isNumber;
-import static org.apache.commons.lang.math.NumberUtils.*;
-
 /**
  * Class pour gerer l'infos d'un client
  * @author Max
