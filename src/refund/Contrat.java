@@ -46,7 +46,16 @@ public class Contrat {
      */
     public String calculRemboursement(Reclamation reclam){
         double remboursement = 0;
-        int soin = reclam.getSoin();
+        double montantReclamation = reclam.getMontantReclamationDouble();
+        String soin = reclam.getSoin() + "";
+        JSONObject regle = regles.getJSONObject(soin).getJSONObject(type);
+        
+        double tauxRemb = regle.getDouble("taux");
+        
+        remboursement = montantReclamation*tauxRemb;
+        if(regle.has("max") && remboursement > regle.getDouble("max")){
+            remboursement = regle.getDouble("max");
+        }        
         
         return remboursement + "$";
     }
