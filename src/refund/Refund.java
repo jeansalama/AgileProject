@@ -78,8 +78,9 @@ public class Refund {
         JSONArray tableau = fichier.getJSONArray("reclamations");
         Client client = null;
         try {
+            Contrat contrat = new Contrat(fichier.getString("contrat"));
             client = new Client(fichier.getString("client"),
-                    fichier.getString("contrat"), fichier.getString("mois"));
+                    contrat , fichier.getString("mois"));
         } catch (Exception e) {
             JSONObject erreur = new JSONObject();
             erreur.accumulate("message", "DonnÃ©es invalides");

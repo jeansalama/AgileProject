@@ -8,8 +8,9 @@ import static jdk.nashorn.internal.runtime.JSType.isNumber;
 public class Client {
 
     private String numero;
-    private String contrat;
     private String date;
+    private Reclamation [] reclamations;
+    private Contrat contrat;
      
     /**
      * Ce constructeur cree un objet Client avec tous les infos de celui ci
@@ -18,7 +19,7 @@ public class Client {
      * @param date Un String d'une date AAAA-MM
      * @throws Exception Si une des valeurs est invalide 
      */
-    public Client(String numero, String contrat, String date) throws Exception {
+    public Client(String numero, Contrat contrat, String date) throws Exception {
 
         setNumero(numero);
         setContrat(contrat);
@@ -29,7 +30,7 @@ public class Client {
         return numero;
     }
 
-    public String getContrat() {
+    public Contrat getContrat() {
         return contrat;
     }
 
@@ -51,11 +52,7 @@ public class Client {
         this.numero = numero;
     }
 
-    public final void setContrat(String contrat) throws Exception {
-        String valide = "ABCD";
-        if (!valide.contains(contrat) || contrat.length() > 1 || contrat.isEmpty()) {
-            throw new Exception();
-        }
+    public final void setContrat(Contrat contrat) throws Exception {
         this.contrat = contrat;
     }
 
