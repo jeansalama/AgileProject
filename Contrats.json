@@ -1,124 +1,124 @@
 {
     "0":{
 		    "A":{
-		        	"montant": 0.25
+		        	"taux": 0.25
 		        },
 		    "B":{
-				    "montant": 0.50,
+				    "taux": 0.50,
 				    "max": 40
 		        },
 		    "C":{
-		        	"montant": 0.90
+		        	"taux": 0.90
 		        },
 		    "D":{
-				    "montant": 1,
+				    "taux": 1,
 				    "max": 85
 		        }
 	},
 	"100":{
 		    "A":{
-		        	"montant": 0.25
+		        	"taux": 0.25
 		        },
 		    "B":{
-				    "montant": 0.50,
+				    "taux": 0.50,
 				    "max": 40
 		        },
 		    "C":{
-		        	"montant": 0.90
+		        	"taux": 0.90
 		        },
 		    "D":{
-				    "montant": 1,
+				    "taux": 1,
 				    "max": 75
 		        }
 	},
 	"200":{
 		    "A":{
-		        	"montant": 0.25
+		        	"taux": 0.25
 		        },
 		    "B":{
-				    "montant": 1,
+				    "taux": 1,
 				    "max": 70
 		        },
 		    "C":{
-		        	"montant": 0.90
+		        	"taux": 0.90
 		        },
 		    "D":{
-				    "montant": 1,
+				    "taux": 1,
 				    "max": 100
 		        }
 	},
 	"300":{
 		    "A":{
-		        	"montant": 0
+		        	"taux": 0
 		        },
 		    "B":{
-				    "montant": 0.50
+				    "taux": 0.50
 		        },
 		    "C":{
-		        	"montant": 0.90
+		        	"taux": 0.90
 		        },
 		    "D":{
-				    "montant": 1
+				    "taux": 1
 		        }
 	},
 	"400":{
 		    "A":{
-		        	"montant": 0
+		        	"taux": 0
 		        },
 		    "B":{
-				    "montant": 0
+				    "taux": 0
 		        },
 		    "C":{
-		        	"montant": 0.90
+		        	"taux": 0.90
 		        },
 		    "D":{
-				    "montant": 1,
+				    "taux": 1,
 				    "max": 65
 		        }
 	},
 	"500":{
 		    "A":{
-		        	"montant": 0.25
+		        	"taux": 0.25
 		        },
 		    "B":{
-				    "montant": 0.50,
+				    "taux": 0.50,
 				    "max": 50
 		        },
 		    "C":{
-		        	"montant": 0.90
+		        	"taux": 0.90
 		        },
 		    "D":{
-				    "montant": 1,
+				    "taux": 1,
 				    "max": 75
 		        }
 	},
 	"600":{
 		    "A":{
-		        	"montant": 0.40
+		        	"taux": 0.40
 		        },
 		    "B":{
-				    "montant": 1
+				    "taux": 1
 		        },
 		    "C":{
-		        	"montant": 0.90
+		        	"taux": 0.90
 		        },
 		    "D":{
-				    "montant": 1,
+				    "taux": 1,
 				    "max": 100
 		        }
 	},
 	"700":{
 		    "A":{
-		        	"montant": 0
+		        	"taux": 0
 		        },
 		    "B":{
-				    "montant": 0.70
+				    "taux": 0.70
 		        },
 		    "C":{
-		        	"montant": 0.90
+		        	"taux": 0.90
 		        },
 		    "D":{
-				    "montant": 1,
+				    "taux": 1,
 				    "max": 90
 		        }
 	}
