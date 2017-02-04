@@ -62,10 +62,19 @@ public class Reclamation {
     
     /**
      * 
-     * @return 
+     * @return String le montant de reclamation
      */
     public String getMontantReclamation() {
         return montantReclamation;
+    }
+    
+    /**
+     * 
+     * @return double le montant de reclamation
+     */
+    public double getMontantReclamationDouble(){
+        return Double.parseDouble(montantReclamation.substring(0, 
+                montantReclamation.length() -1));
     }
     
     /**
