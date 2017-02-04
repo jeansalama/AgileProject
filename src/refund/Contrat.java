@@ -5,13 +5,18 @@
  */
 package refund;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import net.sf.json.JSONObject;
+import net.sf.json.JSONSerializer;
+
 /**
  * Cette classe sert a modeliser un contrat d'assurence
  * @author Jean Salama
  */
 public class Contrat {
     // contient les règles du remboursement
-    private static String[][] regles = chargerRegles(); 
+    private static JSONObject regles = chargerRegles(); 
     
     private String type; // type du contrat
 
@@ -61,8 +66,18 @@ public class Contrat {
      * @return String[][] une representation des regles de remboursement
      *                    sous forme de double tableaux
      */
-    private static String[][] chargerRegles(){
-        return new String[9][5];
+    private static JSONObject chargerRegles(){
+        String stringJson;
+        JSONObject regles = new JSONObject();
+        try{
+            stringJson = Utf8File.loadFileIntoString("Contrats.json");
+            regles = (JSONObject) JSONSerializer.toJSON(stringJson);
+        } catch(FileNotFoundException fnfe){
+            System.out.println(fnfe.getMessage());
+        } catch(IOException ioe){
+            System.out.println(ioe.getMessage());
+        } 
+       return regles; 
     }
     
     
