@@ -19,11 +19,15 @@ public class Reclamation {
      * 
      * @param date la date à laquelle la réclamation est faite.
      * @param montantReclamation un nombre décimal indiquant le montant réclamé.
+     * @throws ReclamationException s'il y a tentative de construction d'un 
+     *                              objet Reclamation avec des valeurs invalides
      */
-    public Reclamation(int soin, String date, String montantReclamation) {
-        this.soin = soin;
+    public Reclamation(int soin, String date, String montantReclamation)
+            throws ReclamationException {
+        
+        setSoin(soin);
         this.date = date;
-        this.montantReclamation = montantReclamation;
+        setMontantReclamation(montantReclamation);
     }
     /**
      * Retourne la valeur de l'attribut soin de l'objet de type Reclamation sur 
