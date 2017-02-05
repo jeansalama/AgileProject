@@ -62,10 +62,17 @@ public class Contrat {
         
         return df.format(remboursement) + "$";
     }
+
+    @Override
+    public String toString() {
+        return "" + type;
+    }
+    
     
     /**
-     * 
-     * @param type 
+     * Cette methode indique si le type de contrat est valide ou non :
+     * cad si c'est un String d'un caractere parmi 'A','B','C' ou 'D'
+     * @param type un String representant le type d'un contrat
      * @return boolean true si le type est valide, false sinon
      */
     private boolean estTypeValide(String type){
