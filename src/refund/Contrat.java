@@ -74,7 +74,9 @@ public class Contrat {
     }
     
     /**
-     * 
+     * Cette methode "charge" le contenu des regles de remboursement
+     * pour tout type de contrat et de soin et le retourne dans 
+     * un objet de type JSONObject
      * @return JSONObject une representation des regles de remboursement
      */
     private static JSONObject chargerRegles(){
