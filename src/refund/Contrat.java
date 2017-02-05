@@ -47,7 +47,7 @@ public class Contrat {
      */
     public String calculRemboursement(Reclamation reclam){
         double remboursement = 0;
-        double montantReclamation = reclam.getMontantReclamationDouble();
+        double montantReclamation = 0; //reclam.getMontantReclamationDouble();
         String soin = reclam.getSoin() + "";
         JSONObject regle = regles.getJSONObject(soin).getJSONObject(type);
         
