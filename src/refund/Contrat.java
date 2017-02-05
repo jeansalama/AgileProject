@@ -7,6 +7,7 @@ package refund;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
@@ -55,9 +56,11 @@ public class Contrat {
         remboursement = montantReclamation*tauxRemb;
         if(regle.has("max") && remboursement > regle.getDouble("max")){
             remboursement = regle.getDouble("max");
-        }        
+        }
+        // deux decimales apres la virgule
+        DecimalFormat df = new DecimalFormat("#.##");
         
-        return remboursement + "$";
+        return df.format(remboursement) + "$";
     }
     
     /**
@@ -72,8 +75,7 @@ public class Contrat {
     
     /**
      * 
-     * @return String[][] une representation des regles de remboursement
-     *                    sous forme de double tableaux
+     * @return JSONObject une representation des regles de remboursement
      */
     private static JSONObject chargerRegles(){
         String stringJson;
