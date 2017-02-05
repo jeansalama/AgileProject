@@ -83,6 +83,14 @@ public class Reclamation {
         return montantReclamation;
     }
     
+    /** 
+     * @return double le montant de reclamation
+     */
+    public double getMontantReclamationDouble(){
+        return Double.parseDouble(montantReclamation.substring(0, 
+                montantReclamation.length() -1));
+    }
+    
     /**
      * Change la valeur de l'attribut montantReclamation d'un objet de type 
      * Reclamation par la valeur passée en paramètre.
