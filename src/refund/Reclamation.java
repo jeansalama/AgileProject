@@ -122,15 +122,9 @@ public class Reclamation {
      * @return true si le montant est valide, false sinon.
      */
     public static boolean validerMontantReclamation(String montant) {
-        boolean montantValide = false;
-        
-        if(montant.contains(".") && (montant.charAt(montant.length() -1) == '$')
-                && (montant.charAt(0)> 0 && montant.charAt(0)<= 9)){
-            if(estUnDouble(montant.substring(0, montant.length()-1)) == true){
-                montantValide = true;
-            } 
-        }
-        return montantValide;
+       return (montant != null && montant.contains(".") 
+               && (montant.charAt(montant.length() -1) == '$') 
+               && estUnDouble(montant.substring(0, montant.length()-1)));
     }
 
     /**
@@ -177,15 +171,9 @@ public class Reclamation {
      * @return true si le numéro de soin est valide, false sinon.
      */
     public static boolean validerSoin( int soin){
-        boolean soinValide = false;
-        
-        if(soin == 0 || 100 == soin || soin == 200 || (soin >= 300 
-                && soin <= 399) || soin == 400 || soin == 500 || soin == 600 
-                || soin == 700){
-            
-            soinValide = true;
-        }
-        return soinValide;
+        return soin == 0 || 100 == soin || soin == 200 
+                || (soin >= 300 && soin <= 399) || soin == 400 || soin == 500 
+                || soin == 600 || soin == 700;
     }
 
     @Override
