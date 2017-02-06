@@ -9,7 +9,6 @@ public class Client {
 
     private String numero;
     private String date;
-    private Reclamation [] reclamations;
     private Contrat contrat;
      
     /**
@@ -67,3 +66,10 @@ public class Client {
     }
 
 }
+class ClientException extends Exception {
+        public ClientException(){}
+    
+        public ClientException(String msg){
+            super(msg);
+        }
+    }

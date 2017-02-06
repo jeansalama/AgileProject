@@ -7,6 +7,7 @@ package refund;
 
 import java.io.IOException;
 import net.sf.json.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -18,15 +19,31 @@ public class Refund {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Client client;
+        ArrayList<Reclamation> reclamations = new ArrayList<>(0);
         try {
             String loadString = readFile(args[0]);
             JSONObject infoClient = (JSONObject) JSONSerializer.toJSON(loadString);
-            client = getClient(infoClient);
+            JSONArray tableau = infoClient.getJSONArray("reclamations");
+            Contrat contrat = new Contrat(infoClient.getString("contrat"));
+            Client client = new Client(infoClient.getString("client"),
+                    contrat, infoClient.getString("mois"));
+
+            for (int i = 0; i > tableau.size(); i++) {
+                JSONObject item = tableau.getJSONObject(i);
+                reclamations.add(new Reclamation(item.getInt("soin"),
+                        item.getString("date"), item.getString("montant")));
+            }
+
             writeFile(client, args[1]);
 
         } catch (Exception j) {
-            System.out.println("Commande invalide ");
+            JSONObject erreur = new JSONObject();
+            erreur.accumulate("message", "Données invalides");
+            try {
+                Utf8File.saveStringIntoFile(args[1], erreur.toString(2));
+            } catch (IOException e) {
+                System.out.println("Erreur avec le fichier de sortie : " + e.getLocalizedMessage());
+            }
         }
     }
 
@@ -37,7 +54,7 @@ public class Refund {
      * @param client infos du client
      * @param fileName nom du fichier sortant
      */
-    private static void writeFile(Client client, String fileName) {
+    public static void writeFile(Client client, String fileName) {
         JSONObject infoClient = new JSONObject();
         infoClient.accumulate("client", client.getNumero());
         infoClient.accumulate("mois", client.getDate());
@@ -68,31 +85,4 @@ public class Refund {
         return jsonTxt;
     }
 
-    /**
-     * Recupere l'info du client du fichier .JSON
-     *
-     * @param fichier l'info du client
-     * @return retourne un Client avec son info
-     */
-    private static Client getClient(JSONObject fichier) {
-        JSONArray tableau = fichier.getJSONArray("reclamations");
-        Client client = null;
-        try {
-            Contrat contrat = new Contrat(fichier.getString("contrat"));
-            client = new Client(fichier.getString("client"),
-                    contrat , fichier.getString("mois"));
-        } catch (Exception e) {
-            JSONObject erreur = new JSONObject();
-            erreur.accumulate("message", "DonnÃ©es invalides");
-            try {
-                Utf8File.saveStringIntoFile("refunds.json", erreur.toString(2));
-            } catch (IOException f) {
-                System.out.println("Erreur avec le fichier de sortie : " + f.getLocalizedMessage());
-
-            }
-
-        }
-
-        return client;
-    }
 }
