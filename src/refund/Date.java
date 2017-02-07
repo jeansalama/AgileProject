@@ -13,8 +13,21 @@ import static java.lang.Integer.parseInt;
  */
 public class Date {
 
+    public Date() throws Exception {
+        // System.out.println("constructeur sans parametre : " + this.date);
+        this.date = date;
+        this.annee = annee;
+        this.mois = mois;
+        this.jour = jour;
+
+    }
+
     public Date(String date) throws Exception {
         setDate(date);
+        this.date = date;
+        this.annee = annee;
+        this.mois = mois;
+        this.jour = jour;
     }
 
     public String getAnnee() {
@@ -29,7 +42,15 @@ public class Date {
         return jour;
     }
 
-    public String getDate() {
+    public String getDate() throws Exception {
+        // System.out.println("getDate : " + this.annee +"-" + this.mois +"-" + this.jour);
+        if ("9999".equals(this.date)) {
+            date = "";
+        } else if ("".equals(this.jour)) {
+            date = this.annee + "-" + this.mois;
+        } else {
+            date = this.annee + "-" + this.mois + "-" + this.jour;
+        }      
         return date;
     }
 
@@ -44,12 +65,12 @@ public class Date {
                 jour = dateSepareeTabString(date)[2];
             }
             if (validerAnnee(annee)) {
-                System.out.println("annee valide : " + annee);
+                setAnnee(annee);
                 if (validerMois(mois)) {
-                    System.out.println("mois valide: " + mois);
+                    setMois(mois);
                     if ((dateSepareeTabString(date)).length == 3) {
                         if (validerJour(mois, jour, annee)) {
-                            System.out.println("jour valide : " + jour);
+                            setJour(jour);
                         }
                     }
                 }
@@ -79,8 +100,8 @@ public class Date {
     private static boolean dateLongueur(String date) throws Exception {
         boolean estLongueur = true;
 
-        if (!(date.length() == 7 || date.length() == 10)) {
-            //System.out.println("Erreur dans la date!" + date.length());
+        if (!(date.length() == 7 || date.length() == 10) || date == "9999") {
+            System.out.println("Date non valide");
             System.exit(1);
         }
         return estLongueur;
@@ -98,7 +119,6 @@ public class Date {
     private boolean validerAnnee(String annee) {
         boolean anneeValide = true;
         if ((annee.length()) != 4 || parseInt(annee) < 2000) {
-            //System.out.println("annee invalide");
             System.exit(0);
         }
         return anneeValide;
@@ -107,7 +127,6 @@ public class Date {
     private boolean validerMois(String mois) {
         boolean moisValide = true;
         if ((mois.length()) != 2 || ((parseInt(mois) < 1) || (parseInt(mois) > 12))) {
-            //System.out.println("mois invalide");
             System.exit(0);
         }
         return moisValide;
@@ -117,7 +136,6 @@ public class Date {
         boolean jourValide = false;
 
         if ((jour.length()) != 2 || ((parseInt(jour) < 1) || (parseInt(jour) > 31))) {
-            //System.out.println("jour invalide");
             System.exit(0);
         }
         try {
@@ -170,7 +188,7 @@ public class Date {
         return "Date : " + date + "\n" + jour + mois + annee;
     }
 
-    private String date;
+    private String date = "9999";
     private String annee;
     private String mois;
     private String jour;
