@@ -7,8 +7,9 @@ package refund;
  */
 public class Reclamation {
     private int soin;
-    private String date;
-    private String montantReclamation;
+    private Date date;
+    private String montantReclamationS;
+    private double montantReclamationDouble;
 
     /**
      * Vise à construire un objet de type Reclamation avec les valeurs passées 
@@ -22,7 +23,7 @@ public class Reclamation {
      * @throws ReclamationException s'il y a tentative de construction d'un 
      *                              objet Reclamation avec des valeurs invalides
      */
-    public Reclamation(int soin, String date, String montantReclamation)
+    public Reclamation(int soin, Date date, String montantReclamation)
             throws ReclamationException {
         
         setSoin(soin);
@@ -62,7 +63,7 @@ public class Reclamation {
      * @return la date auquelle le soin pour lequel il y a réclamation a été 
      * octroyé.
      */
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
     
@@ -73,7 +74,7 @@ public class Reclamation {
      * @param date la nouvelle date auquelle le soin pour lequel il y a
      * réclamation a été octroyé.
      */
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
     
@@ -84,85 +85,42 @@ public class Reclamation {
      * @return Le montant réclamé.  
      */
     public String getMontantReclamation() {
-        return montantReclamation;
+        return montantReclamationS;
     }
     
     /** 
      * @return double le montant de reclamation
      */
     public double getMontantReclamationDouble(){
-        return Double.parseDouble(montantReclamation.substring(0, 
-                montantReclamation.length() -1));
+        return Double.parseDouble(montantReclamationS.substring(0, 
+                montantReclamationS.length() -1));
     }
     
     /**
      * Change la valeur de l'attribut montantReclamation d'un objet de type 
-     * Reclamation par la valeur passée en paramètre.
+     * Reclamation par la valeur passée en paramètre, vérifie ensuite si cette
+     * valeur peut être transformée en nombre décimal
      * 
-     * @param montantReclamation une chaîne de caractères représentant le 
+     * @param montantReclam une chaîne de caractères représentant le 
      *                           nouveau montant demandé par le client.
      * 
      * @throws ReclamationException si la valeur passée en paramètre est 
      *                              invalide.
      */
-    public void setMontantReclamation(String montantReclamation) 
+    public void setMontantReclamation(String montantReclam) 
             throws ReclamationException {
-        
-        if(!validerMontantReclamation(montantReclamation)){
-            throw new ReclamationException("montant de réclamation invalide.");
-        }
-        this.montantReclamation = montantReclamation;
-    }
-    
-    /**
-     *Indique si la valeur passée en paramètre est un montant de réclamation 
-     * valide.
-     * 
-     * @param montant une chaîne de caractère représentant un montant.
-     * @return true si le montant est valide, false sinon.
-     */
-    public static boolean validerMontantReclamation(String montant) {
-       return (montant != null && montant.contains(".") 
-               && (montant.charAt(montant.length() -1) == '$') 
-               && estUnDouble(montant.substring(0, montant.length()-1)));
-    }
-
-    /**
-     *Indique si la valeur passée en paramètre représente un nombre décimal.
-     * 
-     * @param montant une chaîne de caractère représentant un montant.
-     * @return true si la chaîne de caractères représente un montant, false 
-     *         sinon.
-     */
-    public static boolean estUnDouble(String montant){
-        boolean estDouble = true;
-        double montantDouble;
         try{
-            montantDouble = Double.parseDouble(montant);
+            this.montantReclamationS = montantReclam; 
+            this.montantReclamationDouble 
+                    = Double.parseDouble(montantReclam.substring(0,
+                            montantReclam.length()-1));
         }catch(NumberFormatException e){
-            estDouble = false;
+            throw new ReclamationException("Montant de réclamation ne peut être"
+                    + " transformé en double.");
         }
         
-        return estDouble;
     }
-    
-    /**
-     *Tranforme une chaîne de caractères représentant un montant d'argent 
-     *en nombre décimal.
-     * 
-     * @param montant une chaine de caractères représentant un montant.
-     * @return un nombre décimal représentant le montant réclamé.
-     * @throws ReclamationException si la chaîne de caractères n'est pas valide.
-     */
-    public double montantReclamation (String montant) throws ReclamationException {
-       double montantDouble = 0.0;
-        if(validerMontantReclamation(montant) == true){
-            montantDouble = Double.parseDouble(montant.substring(0, montant.length() -1));
-        }else{
-            throw  new ReclamationException("Montant de réclamation invalide");
-        }
-        return montantDouble;
-    }
+ 
     
     /**
      *Indique si le numéro de soin passé en paramètre est valide.
@@ -179,8 +137,12 @@ public class Reclamation {
     @Override
     public String toString() {
         return "Reclamation{" + "soin=" + soin + ", date=" + date 
-                + ", montantReclamation=" + montantReclamation + '}';
+                + ", montantReclamationS=" + montantReclamationS 
+                + ", montantReclamationDouble=" 
+                + montantReclamationDouble + '}';
     }
+
+
     
     class ReclamationException extends Exception {
         public ReclamationException(){}
