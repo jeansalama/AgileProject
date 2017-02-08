@@ -212,3 +212,14 @@ public class Date {
     private String jour;
 
 }//fin classe Date
+
+
+class DateException extends Exception {
+
+    public DateException() {
+    }
+
+    public DateException(String msg) {
+        super(msg);
+    }
+}
