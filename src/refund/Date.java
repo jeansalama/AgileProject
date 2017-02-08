@@ -50,7 +50,7 @@ public class Date {
             date = this.annee + "-" + this.mois;
         } else {
             date = this.annee + "-" + this.mois + "-" + this.jour;
-        }      
+        }
         return date;
     }
 
@@ -181,6 +181,24 @@ public class Date {
             estBissextile = false;
         }
         return estBissextile;
+    }
+
+    public void supprimerJourDeDate(String date) throws Exception {
+        String dateTemp = "";
+        String[] tabTemp = new String[dateSepareeTabString(date).length - 1];
+
+        for (int i = 0; i < tabTemp.length; i++) {
+            tabTemp[i] = dateSepareeTabString(date)[i];
+            if (i == 0) {
+                dateTemp = (tabTemp[i] + "-");
+            } else {
+                dateTemp = dateTemp + (tabTemp[i]);
+            }
+        }
+        System.out.println(dateTemp);
+        date = dateTemp;
+        System.out.println(date);
+        setDate(this.date = date);
     }
 
     @Override
