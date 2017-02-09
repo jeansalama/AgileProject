@@ -30,8 +30,9 @@ public class Refund {
 
             for (int i = 0; i > tableau.size(); i++) {
                 JSONObject item = tableau.getJSONObject(i);
+                Date date = new Date(item.getString("date"));
                 reclamations.add(new Reclamation(item.getInt("soin"),
-                        item.getString("date"), item.getString("montant")));
+                        date, item.getString("montant")));
             }
 
             writeFile(client, args[1]);
