@@ -8,12 +8,24 @@ package refund;
 import static java.lang.Integer.parseInt;
 
 /**
+ * Classe cree et gere des objets Date.
  *
- * @author Billy
+ * @author Lucignano Veronique
  */
 public class Date {
 
-    public Date() throws Exception {
+    private String date = "9999";
+    private String annee;
+    private String mois;
+    private String jour;
+
+    /**
+     * Ce constructeur cree une date avec son type
+     *
+     * @param type un String d'un caractere parmi 'A', 'B', 'C', 'D'
+     * @throws ContratException si le type du contrat n'est pas valide
+     */
+    public Date() throws DateException {
         // System.out.println("constructeur sans parametre : " + this.date);
         this.date = date;
         this.annee = annee;
@@ -22,7 +34,7 @@ public class Date {
 
     }
 
-    public Date(String date) throws Exception {
+    public Date(String date) throws DateException, Exception {
         setDate(date);
         this.date = date;
         this.annee = annee;
@@ -43,7 +55,6 @@ public class Date {
     }
 
     public String getDate() throws Exception {
-        // System.out.println("getDate : " + this.annee +"-" + this.mois +"-" + this.jour);
         if ("9999".equals(this.date)) {
             date = "";
         } else if ("".equals(this.jour)) {
@@ -79,25 +90,25 @@ public class Date {
         this.date = date;
     }
 
-    public void setAnnee(String annee) throws Exception {
+    public void setAnnee(String annee) throws DateException {
         if (validerAnnee(annee)) {
             this.annee = annee;
         }
     }
 
-    public void setMois(String mois) throws Exception {
+    public void setMois(String mois) throws DateException {
         if (validerMois(mois)) {
             this.mois = mois;
         }
     }
 
-    public final void setJour(String jour) throws Exception {
+    public final void setJour(String jour) throws DateException {
         if (validerJour(mois, jour, annee)) {
             this.jour = jour;
         }
     }
 
-    private static boolean dateLongueur(String date) throws Exception {
+    private static boolean dateLongueur(String date) throws DateException {
         boolean estLongueur = true;
 
         if (!(date.length() == 7 || date.length() == 10) || date == "9999") {
@@ -107,16 +118,18 @@ public class Date {
         return estLongueur;
     }
 
-    private static String[] dateSepareeTabString(String date) {
+       private static String[] dateSepareeTabString(String date) throws DateException {
         String[] tabDateEstSeparee;
 
+        if (!(date.indexOf('-') > -1)) {
+            throw new DateException("Date non valide separateurs");
+        }
         String separateurs = "[-]";
         tabDateEstSeparee = date.split(separateurs);
-
         return tabDateEstSeparee;
     }
 
-    private boolean validerAnnee(String annee) {
+    private boolean validerAnnee(String annee) throws DateException{
         boolean anneeValide = true;
         if ((annee.length()) != 4 || parseInt(annee) < 2000) {
             System.exit(0);
@@ -124,7 +137,7 @@ public class Date {
         return anneeValide;
     }
 
-    private boolean validerMois(String mois) {
+    private boolean validerMois(String mois) throws DateException{
         boolean moisValide = true;
         if ((mois.length()) != 2 || ((parseInt(mois) < 1) || (parseInt(mois) > 12))) {
             System.exit(0);
@@ -132,7 +145,7 @@ public class Date {
         return moisValide;
     }
 
-    private boolean validerJour(String mois, String jour, String annee) {
+    private boolean validerJour(String mois, String jour, String annee) throws DateException{
         boolean jourValide = false;
 
         if ((jour.length()) != 2 || ((parseInt(jour) < 1) || (parseInt(jour) > 31))) {
@@ -166,13 +179,12 @@ public class Date {
                 }
             }
         } catch (NumberFormatException e) {
-            //System.out.println("jour invalide");
             System.out.println(e);
         }
         return jourValide;
     }
 
-    private boolean anneeEstBissextile(String annee) {
+    private boolean anneeEstBissextile(String annee) throws DateException{
         boolean estBissextile = true;
         int anneeInt = parseInt(annee);
 
@@ -184,7 +196,13 @@ public class Date {
     }
 
     public void supprimerJourDeDate(String date) throws Exception {
+        // d3 = new Date2("2017-05");
         String dateTemp = "";
+
+        if (date.length() != 10) {
+            System.out.println("Changement impossible: jour inexistant");
+            System.exit(1);
+        }
         String[] tabTemp = new String[dateSepareeTabString(date).length - 1];
 
         for (int i = 0; i < tabTemp.length; i++) {
@@ -195,24 +213,26 @@ public class Date {
                 dateTemp = dateTemp + (tabTemp[i]);
             }
         }
-        System.out.println(dateTemp);
         date = dateTemp;
-        System.out.println(date);
         setDate(this.date = date);
+
     }
 
     @Override
     public String toString() {
-        return "Date : " + date + "\n" + jour + mois + annee;
+        if ((this.date).length() == 7) {
+            date = annee + "-" + mois;
+        } else if ((this.date).length() == 10) {
+            date = annee + "-" + mois + "-" + jour;
+        } else {
+            if (date.equals("")) {
+                date = "9999";
+            }
+        }
+        return "Date : " + date;
     }
 
-    private String date = "9999";
-    private String annee;
-    private String mois;
-    private String jour;
-
 }//fin classe Date
-
 
 class DateException extends Exception {
 
