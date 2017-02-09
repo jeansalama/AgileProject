@@ -7,7 +7,7 @@ package refund;
 
 import java.io.IOException;
 import net.sf.json.*;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  *
@@ -21,7 +21,7 @@ public class Refund {
     public static void main(String[] args) {
         ArrayList<Reclamation> reclamations = new ArrayList<>(0);
         try {
-            String loadString = readFile(args[0]);
+            String loadString = readFile("inputfile.json");
             JSONObject infoClient = (JSONObject) JSONSerializer.toJSON(loadString);
             JSONArray tableau = infoClient.getJSONArray("reclamations");
             Contrat contrat = new Contrat(infoClient.getString("contrat"));
@@ -35,7 +35,7 @@ public class Refund {
                         date, item.getString("montant")));
             }
 
-            writeFile(client, args[1]);
+            writeFile(client, reclamations, "refunds.json");
 
         } catch (Exception j) {
             JSONObject erreur = new JSONObject();
@@ -55,11 +55,24 @@ public class Refund {
      * @param client infos du client
      * @param fileName nom du fichier sortant
      */
-    public static void writeFile(Client client, String fileName) {
+    public static void writeFile(Client client, ArrayList<Reclamation> reclamations, String fileName) {
         JSONObject infoClient = new JSONObject();
+        JSONArray liste = new JSONArray();
+        JSONObject temp = new JSONObject();
+        
         infoClient.accumulate("client", client.getNumero());
         infoClient.accumulate("mois", client.getDate());
-        //ajouter l'info des remboursements ici
+        for(Reclamation reclam: reclamations){
+            temp.accumulate("soin", reclam.getSoin());
+            temp.accumulate("date", reclam.getDate());
+            temp.accumulate("montant", client.getContrat().calculRemboursement(reclam));
+            liste.add(temp);
+            temp.clear();
+        }
+        
+        infoClient.accumulate("remboursement", liste);
+        
+       
         try {
             Utf8File.saveStringIntoFile(fileName, infoClient.toString(2));
         } catch (IOException e) {
