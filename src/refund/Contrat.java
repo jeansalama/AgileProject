@@ -45,7 +45,8 @@ public class Contrat {
     /**
      * Cette methode calcule le remboursement etant donne une reclamation
      * @param reclam une reclamation valide
-     * @return String le remboursement concatene a '$'
+     * @return String le montant de remboursement en dollars 
+     *                a deux decimales pres
      */
     public String calculRemboursement(Reclamation reclam){
         double remboursement = 0;
@@ -60,9 +61,9 @@ public class Contrat {
             remboursement = regle.getDouble("max");
         }
         // deux decimales apres la virgule
-        DecimalFormat df = new DecimalFormat("#.##");
+        DecimalFormat df = new DecimalFormat("0.00$");
         
-        return df.format(remboursement) + "$";
+        return df.format(remboursement);
     }
 
     @Override
