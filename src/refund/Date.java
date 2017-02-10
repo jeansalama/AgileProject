@@ -163,7 +163,7 @@ public class Date {
     private boolean validerAnnee(String annee) throws DateException{
         boolean anneeValide = true;
         if ((annee.length()) != 4 || parseInt(annee) < 2000) {
-            System.exit(0);
+            throw new DateException("Annee non valide");
         }
         return anneeValide;
     }
@@ -177,7 +177,7 @@ public class Date {
     private boolean validerMois(String mois) throws DateException{
         boolean moisValide = true;
         if ((mois.length()) != 2 || ((parseInt(mois) < 1) || (parseInt(mois) > 12))) {
-            System.exit(0);
+            throw new DateException("Mois non valide");
         }
         return moisValide;
     }
@@ -194,7 +194,7 @@ public class Date {
         boolean jourValide = false;
 
         if ((jour.length()) != 2 || ((parseInt(jour) < 1) || (parseInt(jour) > 31))) {
-            System.exit(0);
+            throw new DateException("Jour non valide");
         }
         try {
             int moisInt = parseInt(mois);
@@ -224,7 +224,7 @@ public class Date {
                 }
             }
         } catch (NumberFormatException e) {
-            System.out.println(e);
+            throw new DateException("Jour non valide");
         }
         return jourValide;
     }
