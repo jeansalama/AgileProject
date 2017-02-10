@@ -8,8 +8,10 @@ package refund;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import net.sf.json.JSONObject;
-import net.sf.json.JSONSerializer;
+import net.sf.json.*;
+
+
+
 
 /**
  * Cette classe sert a modeliser un contrat d'assurence
@@ -49,12 +51,10 @@ public class Contrat {
         double remboursement = 0;
         double montantReclamation = reclam.getMontantReclamationDouble();
         String soin = reclam.getSoin() + "";
-        if(reclam.getSoin() >= 300 || reclam.getSoin() < 400)
+        if(reclam.getSoin() >= 300 && reclam.getSoin() < 400)
             soin = "300";
         JSONObject regle = regles.getJSONObject(soin).getJSONObject(type);
-        
         double tauxRemb = regle.getDouble("taux");
-        
         remboursement = montantReclamation*tauxRemb;
         if(regle.has("max") && remboursement > regle.getDouble("max")){
             remboursement = regle.getDouble("max");
