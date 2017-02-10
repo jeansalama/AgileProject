@@ -35,7 +35,7 @@ public class Refund {
             Client client = new Client(infoClient.getString("client"),
                     contrat, infoClient.getString("mois"));
 
-            for (int i = 0; i > tableau.size(); i++) {
+            for (int i = 0; i < tableau.size(); i++) {
                 JSONObject item = tableau.getJSONObject(i);
                 Date date = new Date(item.getString("date"));
                 reclamations.add(new Reclamation(item.getInt("soin"),

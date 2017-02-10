@@ -303,7 +303,8 @@ public class Date {
                 date = "9999";
             }
         }
-        return "Date : " + date;
+        
+        return date;
     }
 
 }//fin classe Date

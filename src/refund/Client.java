@@ -45,7 +45,7 @@ public class Client {
      */
     public final void setNumero(String numero) throws Exception {
             
-        if (numero.length() > 6 || !isNumber(numero)) {
+        if (numero.length() > 6) {
             throw new Exception();
         }
         this.numero = numero;

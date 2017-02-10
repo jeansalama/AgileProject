@@ -49,6 +49,8 @@ public class Contrat {
         double remboursement = 0;
         double montantReclamation = reclam.getMontantReclamationDouble();
         String soin = reclam.getSoin() + "";
+        if(reclam.getSoin() >= 300 || reclam.getSoin() < 400)
+            soin = "300";
         JSONObject regle = regles.getJSONObject(soin).getJSONObject(type);
         
         double tauxRemb = regle.getDouble("taux");

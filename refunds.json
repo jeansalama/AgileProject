@@ -1,0 +1,36 @@
+{
+  "client": "100323",
+  "mois": "2017-01",
+  "remboursement":   [
+        {
+      "soin": 100,
+      "date":       {
+        "annee": "2017",
+        "date": "2017-01-11",
+        "jour": "11",
+        "mois": "01"
+      },
+      "montant": "0$"
+    },
+        {
+      "soin": 200,
+      "date":       {
+        "annee": "2017",
+        "date": "2017-01-13",
+        "jour": "13",
+        "mois": "01"
+      },
+      "montant": "0$"
+    },
+        {
+      "soin": 334,
+      "date":       {
+        "annee": "2017",
+        "date": "2017-01-23",
+        "jour": "23",
+        "mois": "01"
+      },
+      "montant": "0$"
+    }
+  ]
+}
