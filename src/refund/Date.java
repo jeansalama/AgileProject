@@ -14,35 +14,18 @@ import static java.lang.Integer.parseInt;
  */
 public class Date {
 
-    private String date = "9999";
+    private String date;
     private String annee;
     private String mois;
     private String jour;
 
     /**
-     * Ce constructeur sans parametre cree une date 
-     * @param date par defaut "9999"
-     * @throws DateException si date n'est pas valide
-     */
-    public Date() throws DateException {
-        this.date = date;
-        this.annee = annee;
-        this.mois = mois;
-        this.jour = jour;
-
-    }
-
-        /**
      * Ce constructeur avec un parametre cree une date
      * @param date est un String incluant soit annee-mois soit annee-mois-jour
      * @throws DateException si date n'est pas valide
      */
     public Date(String date) throws DateException, Exception {
         setDate(date);
-        this.date = date;
-        this.annee = annee;
-        this.mois = mois;
-        this.jour = jour;
     }
 
     public String getAnnee() {
@@ -57,14 +40,14 @@ public class Date {
         return jour;
     }
 
-    public String getDate() throws Exception {
-        if ("9999".equals(this.date)) {
+    public String getDate() {
+       /* if ("9999".equals(this.date)) {
             date = "";
         } else if ("".equals(this.jour)) {
             date = this.annee + "-" + this.mois;
         } else {
             date = this.annee + "-" + this.mois + "-" + this.jour;
-        }
+        }*/
         return date;
     }
 
@@ -75,27 +58,28 @@ public class Date {
      * @param date String
      * @throws Exception si pas valide
      */
-    public final void setDate(String date) throws Exception {
-
-        if (dateLongueur(date) == true) {
-            dateSepareeTabString(date);
-
-            annee = dateSepareeTabString(date)[0];
-            mois = dateSepareeTabString(date)[1];
-            if ((dateSepareeTabString(date)).length == 3) {
-                jour = dateSepareeTabString(date)[2];
+    public final void setDate(String date) throws DateException {
+        String[] tab;
+        if (dateLongueur(date)) {
+            tab = dateSepareeTabString(date);
+            annee = tab[0];
+            mois = tab[1];
+            if (tab.length == 3) {
+                jour = tab[2];
             }
             if (validerAnnee(annee)) {
                 setAnnee(annee);
                 if (validerMois(mois)) {
                     setMois(mois);
-                    if ((dateSepareeTabString(date)).length == 3) {
+                    if (tab.length == 3) {
                         if (validerJour(mois, jour, annee)) {
                             setJour(jour);
                         }
                     }
                 }
             }
+        }else{
+            throw new DateException();
         }
         this.date = date;
     }
@@ -143,12 +127,10 @@ public class Date {
      * @param date String 
      * @throws DateException si date n'est pas valide
      */
-    private static boolean dateLongueur(String date) throws DateException {
+    private static boolean dateLongueur(String date){
         boolean estLongueur = true;
-
-        if (!(date.length() == 7 || date.length() == 10) || date == "9999") {
-            System.out.println("Date non valide");
-            System.exit(1);
+        if (!(date.length() == 7 || date.length() == 10)) {
+            estLongueur = false;
         }
         return estLongueur;
     }
@@ -163,7 +145,7 @@ public class Date {
        private static String[] dateSepareeTabString(String date) throws DateException {
         String[] tabDateEstSeparee;
 
-        if (!(date.indexOf('-') > -1)) {
+        if ((date.indexOf('-') == -1)) {
             throw new DateException("Date non valide separateurs");
         }
         String separateurs = "[-]";
@@ -294,16 +276,10 @@ public class Date {
 
     @Override
     public String toString() {
-        if ((this.date).length() == 7) {
-            date = annee + "-" + mois;
-        } else if ((this.date).length() == 10) {
-            date = annee + "-" + mois + "-" + jour;
-        } else {
-            if (date.equals("")) {
-                date = "9999";
-            }
-        }
-        
+      /*  String dateIso = annee + "-" + mois;
+        if(jour != null){
+            dateIso = dateIso + "-" + jour;
+        }*/
         return date;
     }
 

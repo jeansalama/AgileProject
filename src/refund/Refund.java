@@ -72,7 +72,7 @@ public class Refund {
         infoClient.accumulate("mois", client.getDate());
         for(Reclamation reclam: reclamations){
             temp.accumulate("soin", reclam.getSoin());
-            temp.accumulate("date", reclam.getDate());
+            temp.accumulate("date", reclam.getDate().toString());
             temp.accumulate("montant", client.getContrat().calculRemboursement(reclam));
             liste.add(temp);
             temp.clear();
