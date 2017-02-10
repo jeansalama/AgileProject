@@ -37,6 +37,11 @@ public class Refund {
 
             for (int i = 0; i < tableau.size(); i++) {
                 JSONObject item = tableau.getJSONObject(i);
+                
+                if(!item.getString("date").contains(infoClient.getString("mois"))){
+                    throw new DateException();
+                }
+                
                 Date date = new Date(item.getString("date"));
                 reclamations.add(new Reclamation(item.getInt("soin"),
                         date, item.getString("montant")));
