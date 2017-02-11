@@ -119,11 +119,18 @@ public class Reclamation {
                         + "et placee apres le montant");
             
             indicePoint = montantReclam.indexOf(".");
+            
+            if(indicePoint == -1 && montantReclam.contains(","))
+                throw new ReclamationException("Le separateur decimal doit etre"
+                        + " un point et non une virgule!");
+            
             // pour rejeter 0.0$ et 0.000$, il doit obligatoirement avoir
             // deux chiffres entre '.' et '$'
-            if(montantReclam.substring(indicePoint + 1).length() != 3)
+            if(!montantReclam.contains(".") || indicePoint == 0 
+                    ||montantReclam.substring(indicePoint + 1).length() != 3)
                 throw new ReclamationException("Le montant doit etre represente"
-                        + " exactement sur deux decimales apres la \"virgule\"!");
+                        + " exactement sur deux decimales apres la \"virgule\""
+                        + " et au moins une decimale avant!");
             
             this.montantReclamationDouble 
                     = Double.parseDouble(montantReclam.substring(0,
