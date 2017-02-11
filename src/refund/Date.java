@@ -9,7 +9,6 @@ import static java.lang.Integer.parseInt;
 
 /**
  * Classe cree et gere des objets Date.
- *
  * @author Lucignano Veronique
  */
 public class Date {
@@ -20,11 +19,11 @@ public class Date {
     private String jour;
 
     /**
-     * Ce constructeur avec un parametre cree une date
+     * Ce constructeur avec un parametre cree un Objet date
      * @param date est un String incluant soit annee-mois soit annee-mois-jour
      * @throws DateException si date n'est pas valide
      */
-    public Date(String date) throws DateException, Exception {
+    public Date(String date) throws DateException {
         setDate(date);
     }
 
@@ -41,22 +40,15 @@ public class Date {
     }
 
     public String getDate() {
-       /* if ("9999".equals(this.date)) {
-            date = "";
-        } else if ("".equals(this.jour)) {
-            date = this.annee + "-" + this.mois;
-        } else {
-            date = this.annee + "-" + this.mois + "-" + this.jour;
-        }*/
         return date;
     }
 
     /**
      * Initialise date
-     * appel methodes: validation longueur et si numerique apres separation de la date sans separateur
-     * dependamment des longueurs acceptees
+     * appel methodes: validation longueur et si numerique 
+     * apres divise de la date sans separateur dependamment des longueurs acceptees
      * @param date String
-     * @throws Exception si pas valide
+     * @throws DateException si pas valide
      */
     public final void setDate(String date) throws DateException {
         String[] tab;
@@ -84,48 +76,49 @@ public class Date {
         this.date = date;
     }
 
-    
      /**
      * Initialise annee
      * appel methode: validation longueur 
      * @param annee String
-     * @throws Exception si pas valide
+     * @throws DateException si pas valide
      */
     public void setAnnee(String annee) throws DateException {
-        if (validerAnnee(annee)) {
-            this.annee = annee;
+        if (!validerAnnee(annee)) {
+           throw new DateException("Annee invalide!");
         }
-    }
-
+            this.annee = annee;
+    }  
+    
      /**
      * Initialise mois
      * appel methode: validation longueur 
      * @param mois String
-     * @throws Exception si pas valide
+     * @throws DateException si pas valide
      */
     public void setMois(String mois) throws DateException {
-        if (validerMois(mois)) {
-            this.mois = mois;
-        }
+        if (!validerMois(mois)) {
+           throw new DateException("Mois invalide!");
+        } 
+        this.mois = mois;
     }
 
     /**
      * Initialise jour
      * appel methode: validation longueur 
      * @param jour String
-     * @throws Exception si pas valide
+     * @throws DateException si pas valide
      */
     public final void setJour(String jour) throws DateException {
-        if (validerJour(mois, jour, annee)) {
-            this.jour = jour;
+        if (!validerJour(mois, jour, annee)) {
+           throw new DateException("Jour invalide!");
         }
+        this.jour = jour;
     }
 
     /**
      * Methode qui valide la longueur de la date 
-     * retourne true si valide
+     * retourne true si valide false si non valide
      * @param date String 
-     * @throws DateException si date n'est pas valide
      */
     private static boolean dateLongueur(String date){
         boolean estLongueur = true;
@@ -136,17 +129,18 @@ public class Date {
     }
 
     /**
-     * Methode qui separe la date 
-     * retourne un tableau de String en separant  date en 3 ou 2 cases
-     * et en enlevant le separateur '-'
+     * Methode qui separe la date dans un tableau de String
+     * retourne un tableau de String en separant date en 3 ou 2 cases
+     * les separateurs '-' sont enleves et valides
      * @param date String 
-     * @throws DateException si date n'est pas valide
+     * @throws DateException si les separateurs ne correspondent pas a '-' 
+     * 
      */
-       private static String[] dateSepareeTabString(String date) throws DateException {
+       private static String[] dateSepareeTabString(String date) throws DateException{
         String[] tabDateEstSeparee;
 
         if ((date.indexOf('-') == -1)) {
-            throw new DateException("Date non valide separateurs");
+            throw new DateException("Separateurs dans Date non valide!");
         }
         String separateurs = "[-]";
         tabDateEstSeparee = date.split(separateurs);
@@ -154,23 +148,21 @@ public class Date {
     }
 
     /**
-     * methode qui valide la longueur l'annee et si => 2000
-     * arrete le programme si non valide
+     * methode qui valide la longueur l'annee
      * return true si valide
      * @param annee String
-     * @throws DateException si annee n'est pas valide
+     * @throws DateException si longueur annee n'est pas valide
      */
     private boolean validerAnnee(String annee) throws DateException{
         boolean anneeValide = true;
-        if ((annee.length()) != 4 || parseInt(annee) < 2000) {
-            throw new DateException("Annee non valide");
+         if (annee.length() != 4) {
+            throw new DateException("Annee non valide!");
         }
         return anneeValide;
     }
 
     /**
      * methode qui valide la longueur du mois et si entre 1 <-> 12
-     * arrete le programme si non valide
      * @param mois String
      * @throws DateException si mois n'est pas valide
      */
@@ -183,10 +175,10 @@ public class Date {
     }
 
     /**
-     * methode qui valide la longueur du jour et si entre 1 <-> 27/31 dependamment  du mois
-     * si mois 02 verifie si annee est bissextile (appel a la methode anneeEstBissextile()
+     * methode qui valide la longueur du jour et si entre 1 <-> 27/31 dependamment du mois
+     * si mois 02 verifie si annee est bissextile (appel a la methode: anneeEstBissextile())
      * et valide le jour
-     * return true si valide
+     * return true si jour est valide
      * @param jour String
      * @throws DateException si jour n'est pas valide
      */
@@ -224,18 +216,17 @@ public class Date {
                 }
             }
         } catch (NumberFormatException e) {
-            throw new DateException("Jour non valide");
+            throw new DateException("Jour non valide" + e);
         }
         return jourValide;
     }
 
-        /**
+    /**
      * methode qui valide si annee est bissextile
      * return true si est bissextile
      * @param annee String
-     * @throws DateException si jour n'est pas valide
      */
-    private boolean anneeEstBissextile(String annee) throws DateException{
+    private boolean anneeEstBissextile(String annee){
         boolean estBissextile = true;
         int anneeInt = parseInt(annee);
 
@@ -250,14 +241,13 @@ public class Date {
      * methode qui supprime le jour d'une date aaaa-mm-jj
      * date est MAJ sans le jour
      * @param date String
-     * @throws Exception si date n'est pas valide
+     * @throws DateException si date n'est pas valide
      */
-    public void supprimerJourDeDate(String date) throws Exception {
+    public void supprimerJourDeDate(String date) throws DateException {
          String dateTemp = "";
 
         if (date.length() != 10) {
-            System.out.println("Changement impossible: jour inexistant");
-            System.exit(1);
+            throw new DateException("Changement impossible: jour inexistant");
         }
         String[] tabTemp = new String[dateSepareeTabString(date).length - 1];
 
@@ -276,10 +266,6 @@ public class Date {
 
     @Override
     public String toString() {
-      /*  String dateIso = annee + "-" + mois;
-        if(jour != null){
-            dateIso = dateIso + "-" + jour;
-        }*/
         return date;
     }
 
@@ -288,6 +274,7 @@ public class Date {
 class DateException extends Exception {
 
     public DateException() {
+         System.out.println("DateException: methodes dans Date");
     }
 
     public DateException(String msg) {
