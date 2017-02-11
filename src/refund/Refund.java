@@ -39,7 +39,8 @@ public class Refund {
                 JSONObject item = tableau.getJSONObject(i);
                 
                 if(!item.getString("date").contains(infoClient.getString("mois"))){
-                    throw new DateException();
+                    throw new ReclamationException("Les reclamations doivent "
+                            + "etre du meme mois");
                 }
                 
                 Date date = new Date(item.getString("date"));

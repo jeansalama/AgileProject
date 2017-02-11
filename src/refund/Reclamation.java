@@ -141,17 +141,13 @@ public class Reclamation {
                 + ", montantReclamationDouble=" 
                 + montantReclamationDouble + '}';
     }
+  
+} // fin Reclamation
 
-
-    
-    class ReclamationException extends Exception {
+class ReclamationException extends Exception {
         public ReclamationException(){}
     
         public ReclamationException(String msg){
             super(msg);
         }
-    }
-    
-    
-        
 }
