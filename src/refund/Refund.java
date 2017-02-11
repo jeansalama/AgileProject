@@ -29,18 +29,20 @@ public class Refund {
         ArrayList<Reclamation> reclamations = new ArrayList<>(0);
         try {
             String loadString = readFile(args[0]);
+            
             JSONObject infoClient = (JSONObject)JSONSerializer.toJSON(loadString);
             JSONArray tableau = infoClient.getJSONArray("reclamations");
-            Contrat contrat = new Contrat(infoClient.getString("contrat"));
-            Client client = new Client(infoClient.getString("client"),
-                    contrat, infoClient.getString("mois"));
             
+            Contrat contrat = new Contrat(infoClient.getString("contrat"));
             Date mois = new Date(infoClient.getString("mois"));
+            Client client = new Client(infoClient.getString("client"),
+                    contrat, mois);
+            
 
             for (int i = 0; i < tableau.size(); i++) {
+                
                 JSONObject item = tableau.getJSONObject(i);
                 Date date = new Date(item.getString("date"));
-                
                 
                 if(!mois.getMois().equals(date.getMois())
                         || !mois.getAnnee().equals(date.getAnnee())){
@@ -55,7 +57,8 @@ public class Refund {
 
             writeFile(client, reclamations, args[1]);
 
-        } catch (Exception j) {
+        } catch (ContratException | DateException | ClientException 
+                    | ReclamationException j) {
             System.out.println(j.getMessage());
             JSONObject erreur = new JSONObject();
             erreur.accumulate("message", "Données invalides");
@@ -80,7 +83,7 @@ public class Refund {
         JSONObject temp = new JSONObject();
         
         infoClient.accumulate("client", client.getNumero());
-        infoClient.accumulate("mois", client.getDate());
+        infoClient.accumulate("mois", client.getDate().toString());
         for(Reclamation reclam: reclamations){
             temp.accumulate("soin", reclam.getSoin());
             temp.accumulate("date", reclam.getDate().toString());
