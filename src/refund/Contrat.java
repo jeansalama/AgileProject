@@ -8,6 +8,8 @@ package refund;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 import net.sf.json.*;
 
 
@@ -60,10 +62,8 @@ public class Contrat {
         if(regle.has("max") && remboursement > regle.getDouble("max")){
             remboursement = regle.getDouble("max");
         }
-        // deux decimales apres la virgule
-        DecimalFormat df = new DecimalFormat("0.00$");
         
-        return df.format(remboursement);
+        return formatRemboursement(remboursement);
     }
 
     @Override
@@ -71,7 +71,27 @@ public class Contrat {
         return "" + type;
     }
     
-    
+    /**
+     * Cette methode formatte un montant en double en une chaine de caractere
+     * representant ce montant en dollars a deux decimales pres avec 
+     * le caractere '.' comme separateur decimal :
+     *          123.451 sera transformee en "123.45$"
+     * @param montant a formatter
+     * @return String la chaine de caractere representant le montant avec
+     *         les specifications mentionnees ci-dessus
+     */
+    private String formatRemboursement(double montant){
+        // deux decimales apres la virgule
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
+        //symbols.setDecimalSeparator('|');
+        //symbols.setGroupingSeparator('^');
+        
+        DecimalFormat df = new DecimalFormat("0.00$", symbols);
+        
+        return df.format(montant);
+    }
+            
+            
     /**
      * Cette methode indique si le type de contrat est valide ou non :
      * cad si c'est un String d'un caractere parmi 'A','B','C' ou 'D'
