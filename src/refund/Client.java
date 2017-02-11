@@ -45,7 +45,12 @@ public class Client {
      */
     public final void setNumero(String numero) throws ClientException {
             
-        if (numero.length() > 6) {
+        if (numero.length() != 6) {
+            throw new ClientException("Numero du client invalide");
+        }
+        try{
+            Integer.parseInt(numero);
+        } catch(NumberFormatException nfe){
             throw new ClientException("Numero du client invalide");
         }
         this.numero = numero;
