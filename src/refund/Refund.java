@@ -34,24 +34,16 @@ public class Refund {
             Contrat contrat = new Contrat(infoClient.getString("contrat"));
             Client client = new Client(infoClient.getString("client"),
                     contrat, infoClient.getString("mois"));
-            // Il faut valider le mois des réclamations 
-            Date mois = new Date(infoClient.getString("mois"));
 
             for (int i = 0; i < tableau.size(); i++) {
                 JSONObject item = tableau.getJSONObject(i);
                 
-                Date date = new Date(item.getString("date"));
-                /*
                 if(!item.getString("date").contains(infoClient.getString("mois"))){
-                    throw new ReclamationException("Les reclamations doivent "
-                            + "etre du meme mois");
-                }*/
-                if(mois.getMois().equals(date.getMois())
-                        && mois.getAnnee().equals(date.getAnnee())){
                     throw new ReclamationException("Les reclamations doivent "
                             + "etre du meme mois");
                 }
                 
+                Date date = new Date(item.getString("date"));
                 reclamations.add(new Reclamation(item.getInt("soin"),
                         date, item.getString("montant")));
             }
