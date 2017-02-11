@@ -108,11 +108,23 @@ public class Reclamation {
      */
     public void setMontantReclamation(String montantReclam) 
             throws ReclamationException {
+        int longueur;
+        int indicePoint;
         try{
             this.montantReclamationS = montantReclam;
-            if(montantReclam.charAt(montantReclam.length()-1) != '$')
+            longueur = montantReclam.length();
+            
+            if(montantReclam.charAt(longueur-1) != '$')
                 throw new ReclamationException("La devise doit etre en '$' "
                         + "et placee apres le montant");
+            
+            indicePoint = montantReclam.indexOf(".");
+            // pour rejeter 0.0$ et 0.000$, il doit obligatoirement avoir
+            // deux chiffres entre '.' et '$'
+            if(montantReclam.substring(indicePoint + 1).length() != 3)
+                throw new ReclamationException("Le montant doit etre represente"
+                        + " exactement sur deux decimales apres la \"virgule\"!");
+            
             this.montantReclamationDouble 
                     = Double.parseDouble(montantReclam.substring(0,
                             montantReclam.length()-1));
