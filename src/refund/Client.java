@@ -8,7 +8,7 @@ import static jdk.nashorn.internal.runtime.JSType.isNumber;
 public class Client {
 
     private String numero;
-    private String date;
+    private Date date;
     private Contrat contrat;
      
     /**
@@ -18,7 +18,7 @@ public class Client {
      * @param date Un String d'une date AAAA-MM
      * @throws Exception Si une des valeurs est invalide 
      */
-    public Client(String numero, Contrat contrat, String date) throws Exception {
+    public Client(String numero, Contrat contrat, Date date) throws ClientException {
 
         setNumero(numero);
         setContrat(contrat);
@@ -33,7 +33,7 @@ public class Client {
         return contrat;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
@@ -41,21 +41,21 @@ public class Client {
      * Valide si la String a seulement 6 characteres de long et qu'il s'agit 
      * que de numeros sinon lance une exception
      * @param numero
-     * @throws Exception
+     * @throws ClientException
      */
-    public final void setNumero(String numero) throws Exception {
+    public final void setNumero(String numero) throws ClientException {
             
         if (numero.length() > 6) {
-            throw new Exception();
+            throw new ClientException("Numero du client invalide");
         }
         this.numero = numero;
     }
 
-    public final void setContrat(Contrat contrat) throws Exception {
+    public final void setContrat(Contrat contrat) throws ClientException {
         this.contrat = contrat;
     }
 
-    public final void setDate(String date) throws Exception {
+    public final void setDate(Date date) throws ClientException {
         this.date = date;
     }
 
