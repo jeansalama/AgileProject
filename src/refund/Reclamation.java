@@ -92,8 +92,7 @@ public class Reclamation {
      * @return double le montant de reclamation
      */
     public double getMontantReclamationDouble(){
-        return Double.parseDouble(montantReclamationS.substring(0, 
-                montantReclamationS.length() -1));
+        return montantReclamationDouble;
     }
     
     /**
@@ -110,7 +109,10 @@ public class Reclamation {
     public void setMontantReclamation(String montantReclam) 
             throws ReclamationException {
         try{
-            this.montantReclamationS = montantReclam; 
+            this.montantReclamationS = montantReclam;
+            if(montantReclam.charAt(montantReclam.length()-1) != '$')
+                throw new ReclamationException("La devise doit etre en '$' "
+                        + "et placee apres le montant");
             this.montantReclamationDouble 
                     = Double.parseDouble(montantReclam.substring(0,
                             montantReclam.length()-1));
