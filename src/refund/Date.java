@@ -71,7 +71,7 @@ public class Date {
                 }
             }
         }else{
-            throw new DateException();
+            throw new DateException("Format de date invalide !");
         }
         this.date = date;
     }
