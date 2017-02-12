@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import java.util.*;
 import net.sf.json.JSONArray;
+import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
@@ -58,7 +59,7 @@ public class Refund {
             writeFile(client, reclamations, args[1]);
 
         } catch (ContratException | DateException | ClientException 
-                    | ReclamationException j) {
+                    | ReclamationException | JSONException j) {
             System.out.println(j.getMessage());
             JSONObject erreur = new JSONObject();
             erreur.accumulate("message", "Données invalides");
