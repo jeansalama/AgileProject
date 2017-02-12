@@ -124,6 +124,11 @@ public class Reclamation {
                 throw new ReclamationException("Le separateur decimal doit etre"
                         + " un point et non une virgule!");
             
+            if(montantReclam.contains("-"))
+                throw new ReclamationException("Le montant de la réclamation ne"
+                        + " peut pas être négatif!");
+            
+            
             // pour rejeter 0.0$ et 0.000$, il doit obligatoirement avoir
             // deux chiffres entre '.' et '$'
             if(!montantReclam.contains(".") || indicePoint == 0 
