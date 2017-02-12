@@ -157,10 +157,7 @@ public class Reclamation {
 
     @Override
     public String toString() {
-        return "Reclamation{" + "soin=" + soin + ", date=" + date 
-                + ", montantReclamationS=" + montantReclamationS 
-                + ", montantReclamationDouble=" 
-                + montantReclamationDouble + '}';
+        return montantReclamationS;
     }
   
 } // fin Reclamation
