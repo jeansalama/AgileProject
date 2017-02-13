@@ -36,6 +36,9 @@ public class Refund {
             
             Contrat contrat = new Contrat(infoClient.getString("contrat"));
             Date mois = new Date(infoClient.getString("mois"));
+            if(mois.contientUnJour()){
+                throw new ReclamationException();
+            }
             Client client = new Client(infoClient.getString("client"),
                     contrat, mois);
             
@@ -44,7 +47,7 @@ public class Refund {
                 
                 JSONObject item = tableau.getJSONObject(i);
                 Date date = new Date(item.getString("date"));
-                
+
                 if(!mois.getMois().equals(date.getMois())
                         || !mois.getAnnee().equals(date.getAnnee())){
                     throw new ReclamationException("Les reclamations doivent "

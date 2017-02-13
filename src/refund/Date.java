@@ -105,14 +105,17 @@ public class Date {
         }
         this.jour = jour;
     }
-
-    /**
+    public boolean  contientUnJour(){
+        return date.length() == 10;
+    }
+    
+       /**
      * Methode qui valide la longueur de la date retourne true si valide false
      * si non valide
      *
      * @param date String
      */
-    private static boolean dateLongueur(String date) {
+    private boolean dateLongueur(String date) {
         boolean estLongueur = true;
         if (!(date.length() == 7 || date.length() == 10)) {
             estLongueur = false;
