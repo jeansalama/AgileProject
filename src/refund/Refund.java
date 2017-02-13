@@ -73,7 +73,7 @@ public class Refund {
     /**
      * Ecrit un fichier .JSON avec les infos du client et le montant du
      * remboursement pour chaque reclamation
-     *
+     *@param reclamations tableau ArrayList
      * @param client infos du client
      * @param fileName nom du fichier sortant
      */
