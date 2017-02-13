@@ -273,7 +273,6 @@ public class Date {
     @Override
     public String toString() {
         return date;
-
     }
 
 }//fin classe Date
@@ -281,7 +280,6 @@ public class Date {
 class DateException extends Exception {
 
     public DateException() {
-        System.out.println();
     }
 
     public DateException(String msg) {
