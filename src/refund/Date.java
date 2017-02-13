@@ -62,7 +62,7 @@ public class Date {
                 setJour(tab[2]);
             }
         } else {
-            throw new DateException("Format de date invalide !");
+            throw new DateException();
         }
         this.date = date;
     }
@@ -75,7 +75,7 @@ public class Date {
      */
     public void setAnnee(String annee) throws DateException {
         if (!validerAnnee(annee)) {
-            throw new DateException("Annee invalide!");
+            throw new DateException();
         }
         this.annee = annee;
     }
@@ -88,7 +88,7 @@ public class Date {
      */
     public void setMois(String mois) throws DateException {
         if (!validerMois(mois)) {
-            throw new DateException("Mois invalide!");
+            throw new DateException();
         }
         this.mois = mois;
     }
@@ -101,7 +101,7 @@ public class Date {
      */
     public final void setJour(String jour) throws DateException {
         if (!validerJour(mois, jour, annee)) {
-            throw new DateException("Jour invalide!");
+            throw new DateException();
         }
         this.jour = jour;
     }
@@ -152,13 +152,12 @@ public class Date {
      */
     private boolean validerAnnee(String annee) throws DateException {
         boolean anneeValide = true;
-        System.out.println(annee);
         try {
             if (annee.length() != 4 || parseInt(annee) < 2000) {
-                throw new DateException("Annee non valide!");
+                throw new DateException();
             }
         } catch (NumberFormatException nfe) {
-            throw new DateException("L'annee doit etre un nombre entier");
+            throw new DateException();
         }
         return anneeValide;
     }
@@ -173,10 +172,10 @@ public class Date {
         boolean moisValide = true;
         try {
             if ((mois.length()) != 2 || ((parseInt(mois) < 1) || (parseInt(mois) > 12))) {
-                throw new DateException("Mois non valide");
+                throw new DateException();
             }
         } catch (NumberFormatException e) {
-            throw new DateException("Mois doit etre un nombre entier" + e);
+            throw new DateException();
         }
         return moisValide;
     }
@@ -194,7 +193,7 @@ public class Date {
         boolean jourValide = false;
         try {
             if ((jour.length()) != 2 || ((parseInt(jour) < 1) || (parseInt(jour) > 31))) {
-                throw new DateException("Jour non valide");
+                throw new DateException();
             }
 
             int moisInt = parseInt(mois);
@@ -205,25 +204,25 @@ public class Date {
                         || moisInt == 8 || moisInt == 10 || moisInt == 12) {
                     if (jourInt >= 1 && jourInt <= 31) {
                         jourValide = true;
-                    }    //31 jours
+                    } 
                 } else if (moisInt == 4 || moisInt == 6 || moisInt == 9 || moisInt == 11) {
                     if (jourInt >= 1 && jourInt <= 30) {
                         jourValide = true;
-                    }    //30 jours
+                    } 
                 } else if (moisInt == 2) {
                     if (anneeEstBissextile(annee)) {
                         if (jourInt >= 1 && jourInt <= 29) {
                             jourValide = true;
-                        }   //29 jours
+                        }  
                     } else {
                         if (jourInt >= 1 && jourInt <= 28) {
                             jourValide = true;
-                        }   //28 jours
+                        } 
                     }
                 }
             }
         } catch (NumberFormatException e) {
-            throw new DateException("Jour doit etre un nombre entier" + e);
+            throw new DateException();
         }
         return jourValide;
     }
@@ -254,7 +253,7 @@ public class Date {
         String dateTemp = "";
 
         if (date.length() != 10) {
-            throw new DateException("Changement impossible: jour inexistant");
+            throw new DateException();
         }
         String[] tabTemp = new String[dateSepareeTabString(date).length - 1];
 
@@ -282,7 +281,7 @@ public class Date {
 class DateException extends Exception {
 
     public DateException() {
-        System.out.println("DateException: methodes dans Date");
+        System.out.println();
     }
 
     public DateException(String msg) {
