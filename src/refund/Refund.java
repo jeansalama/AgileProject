@@ -60,7 +60,7 @@ public class Refund {
 
         } catch (ContratException | DateException | ClientException 
                     | ReclamationException | JSONException j) {
-            System.out.println(j.getMessage());
+            //System.out.println(j.getMessage());
             JSONObject erreur = new JSONObject();
             erreur.accumulate("message", "Données invalides");
             try {

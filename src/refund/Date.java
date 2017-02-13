@@ -133,7 +133,7 @@ public class Date {
         String[] tabDateEstSeparee;
 
         if ((date.indexOf('-') == -1)) {
-            throw new DateException("Separateurs dans Date non valide!");
+            throw new DateException();
         }
 
         String separateurs = "[-]";
