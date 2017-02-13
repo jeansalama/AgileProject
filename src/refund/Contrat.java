@@ -1,16 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package refund;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.Locale;
-import net.sf.json.*;
+import net.sf.json.JSONObject;
+import net.sf.json.JSONSerializer;
 
 
 
@@ -51,14 +47,18 @@ public class Contrat {
      *                a deux decimales pres
      */
     public String calculRemboursement(Reclamation reclam){
-        double remboursement = 0;
+        double remboursement;
         double montantReclamation = reclam.getMontantReclamationDouble();
         String soin = reclam.getSoin() + "";
+        
         if(reclam.getSoin() >= 300 && reclam.getSoin() < 400)
             soin = "300";
+        
         JSONObject regle = regles.getJSONObject(soin).getJSONObject(type);
         double tauxRemb = regle.getDouble("taux");
+        
         remboursement = montantReclamation*tauxRemb;
+        
         if(regle.has("max") && remboursement > regle.getDouble("max")){
             remboursement = regle.getDouble("max");
         }
@@ -81,10 +81,9 @@ public class Contrat {
      *         les specifications mentionnees ci-dessus
      */
     private String formatRemboursement(double montant){
-        // deux decimales apres la virgule
-        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
-        //symbols.setDecimalSeparator('|');
-        //symbols.setGroupingSeparator('^');
+        
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setDecimalSeparator('.');
         
         DecimalFormat df = new DecimalFormat("0.00$", symbols);
         
