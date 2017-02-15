@@ -132,7 +132,8 @@ public class Date {
      * @throws DateException si les separateurs ne correspondent pas a '-'
      *
      */
-    private static String[] dateSepareeTabString(String date) throws DateException {
+    private static String[] dateSepareeTabString(String date) 
+            throws DateException {
         String[] tabDateEstSeparee;
 
         if ((date.indexOf('-') == -1)) {
@@ -171,7 +172,8 @@ public class Date {
     private boolean validerMois(String mois) throws DateException {
         boolean moisValide = true;
         try {
-            if ((mois.length()) != 2 || ((parseInt(mois) < 1) || (parseInt(mois) > 12))) {
+            if ((mois.length()) != 2 || ((parseInt(mois) < 1) 
+                    || (parseInt(mois) > 12))) {
                 throw new DateException();
             }
         } catch (NumberFormatException e) {
@@ -189,10 +191,12 @@ public class Date {
      * @param jour String
      * @throws DateException si jour n'est pas valide
      */
-    private boolean validerJour(String mois, String jour, String annee) throws DateException {
+    private boolean validerJour(String mois, String jour, String annee) 
+            throws DateException {
         boolean jourValide = false;
         try {
-            if ((jour.length()) != 2 || ((parseInt(jour) < 1) || (parseInt(jour) > 31))) {
+            if ((jour.length()) != 2 || ((parseInt(jour) < 1) 
+                    || (parseInt(jour) > 31))) {
                 throw new DateException();
             }
 
@@ -205,7 +209,8 @@ public class Date {
                     if (jourInt >= 1 && jourInt <= 31) {
                         jourValide = true;
                     } 
-                } else if (moisInt == 4 || moisInt == 6 || moisInt == 9 || moisInt == 11) {
+                } else if (moisInt == 4 || moisInt == 6 || moisInt == 9 
+                        || moisInt == 11) {
                     if (jourInt >= 1 && jourInt <= 30) {
                         jourValide = true;
                     } 
@@ -236,7 +241,8 @@ public class Date {
         boolean estBissextile = true;
         int anneeInt = parseInt(annee);
 
-        if (!((anneeInt % 4 == 0) && (anneeInt % 100 != 0) || (anneeInt % 400 == 0))) {
+        if (!((anneeInt % 4 == 0) && (anneeInt % 100 != 0) 
+                || (anneeInt % 400 == 0))) {
             estBissextile = false;
         }
         return estBissextile;
