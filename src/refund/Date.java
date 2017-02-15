@@ -54,6 +54,9 @@ public class Date {
      */
     public final void setDate(String date) throws DateException {
         String[] tab;
+        if(date == null){
+            throw new DateException();
+        }
         if (dateLongueur(date)) {
             tab = dateSepareeTabString(date);
             setAnnee(tab[0]);
