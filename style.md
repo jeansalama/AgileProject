@@ -1,6 +1,5 @@
 # Style et normes de condification du projet :
 
-### Pour ce projet, nous utilisons :
 * Le style Java (par défaut) 
 * Le "beautifier" de NetBeans (8.x) afin d'uniformiser le format du code source au sein de l'équipe.
 * Les lignes sont d'un maximum de 80 caractères
