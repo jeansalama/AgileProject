@@ -23,48 +23,48 @@ public class Refund {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        if(args.length != 2){
+        if (args.length != 2) {
             System.out.println("Saisie invalide");
             System.exit(2);
         }
         ArrayList<Reclamation> reclamations = new ArrayList<>(0);
         try {
             String loadString = readFile(args[0]);
-            
-            JSONObject infoClient = (JSONObject)JSONSerializer.toJSON(loadString);
+
+            JSONObject infoClient = (JSONObject) JSONSerializer.toJSON(loadString);
             JSONArray tableau = infoClient.getJSONArray("reclamations");
-            
+
             Contrat contrat = new Contrat(infoClient.getString("contrat"));
             Date mois = new Date(infoClient.getString("mois"));
-            if(mois.contientUnJour()){
+            if (mois.contientUnJour()) {
                 throw new ReclamationException();
             }
             Client client = new Client(infoClient.getString("client"),
                     contrat, mois);
-            
 
             for (int i = 0; i < tableau.size(); i++) {
-                
+
                 JSONObject item = tableau.getJSONObject(i);
                 Date date = new Date(item.getString("date"));
 
-                if(!mois.getMois().equals(date.getMois())
-                        || !mois.getAnnee().equals(date.getAnnee())){
+                if (!mois.getMois().equals(date.getMois())
+                        || !mois.getAnnee().equals(date.getAnnee())) {
                     throw new ReclamationException("Les reclamations doivent "
                             + "etre du meme mois");
                 }
-                
-                
+
                 reclamations.add(new Reclamation(item.getInt("soin"),
                         date, item.getString("montant")));
             }
 
             writeFile(client, reclamations, args[1]);
 
-        } catch (ContratException | DateException | ClientException 
-                    | ReclamationException | JSONException j) {
+        } catch (ContratException | DateException | ClientException | ReclamationException | JSONException j) {
             JSONObject erreur = new JSONObject();
             erreur.accumulate("message", "Données invalides");
+
+            System.out.println(retourProprieteManquantes(j.getMessage()));
+
             try {
                 Utf8File.saveStringIntoFile(args[1], erreur.toString(2));
             } catch (IOException e) {
@@ -76,7 +76,8 @@ public class Refund {
     /**
      * Ecrit un fichier .JSON avec les infos du client et le montant du
      * remboursement pour chaque reclamation
-     *@param reclamations tableau ArrayList
+     *
+     * @param reclamations tableau ArrayList
      * @param client infos du client
      * @param fileName nom du fichier sortant
      */
@@ -84,20 +85,19 @@ public class Refund {
         JSONObject infoClient = new JSONObject();
         JSONArray liste = new JSONArray();
         JSONObject temp = new JSONObject();
-        
+
         infoClient.accumulate("client", client.getNumero());
         infoClient.accumulate("mois", client.getDate().toString());
-        for(Reclamation reclam: reclamations){
+        for (Reclamation reclam : reclamations) {
             temp.accumulate("soin", reclam.getSoin());
             temp.accumulate("date", reclam.getDate().toString());
             temp.accumulate("montant", client.getContrat().calculRemboursement(reclam));
             liste.add(temp);
             temp.clear();
         }
-        
+
         infoClient.accumulate("remboursement", liste);
-        
-       
+
         try {
             Utf8File.saveStringIntoFile(fileName, infoClient.toString(2));
         } catch (IOException e) {
@@ -116,7 +116,7 @@ public class Refund {
         String jsonTxt = null;
         try {
             jsonTxt = Utf8File.loadFileIntoString(fileName);
-            
+
         } catch (IOException ex) {
             System.out.println("Erreur lors de la lecture du fichier JSON. "
                     + ex.getLocalizedMessage());
@@ -125,4 +125,20 @@ public class Refund {
         return jsonTxt;
     }
 
+    /* exemples de tests :
+     "client      == Expected a ':' after a key .... 
+     client"      == Missing value. at character 7 of {
+     "" ||  "  "  == JSONObject["client"] not found.   ok
+     client       == ecrit pareil client a la sortie   
+     System.out.println(j);      pour verifier le msg originale
+     */
+    private static String retourProprieteManquantes(String j) {
+
+        int debutChainePropriete = j.indexOf("\"") + 1;
+        int finChainePropriete = j.lastIndexOf("\"");
+
+        return  "La propriete " 
+                + j.substring(debutChainePropriete, finChainePropriete)
+                + " est manquante.";
+    }
 }
