@@ -109,7 +109,7 @@ public class Reclamation {
     public static boolean validerSoin(int soin) {
         return soin == 0 || 100 == soin || soin == 200
                 || (soin >= 300 && soin <= 399) || soin == 400 || soin == 500
-                || soin == 600 || soin == 700;
+                || soin == 600 || soin == 700 ||soin == 150 || soin == 175;
     }
 
     @Override
