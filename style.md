@@ -9,4 +9,4 @@
 * Les attribus et variables de classes déclarés au début de celle-ci
 * Les variables locales déclarées au début des méthodes
 * Le nomenclature des méthodes est *verbeComplement* (Exemple: afficherTableau() ou estValide())
-* Seul les @params, @return et @throws sont utilisés en JavaDoc pour commenter les méthodes
+* Seul les @params, @return et @throws sont utilisés en JavaDoc pour commenter les méthodes, mais les "getters" et "setters" n'ont jamais de JavaDoc.
