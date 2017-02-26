@@ -11,24 +11,6 @@ import java.text.ParseException;
  */
 public class MontantFormat {
 
-    public static void main(String[] args) {
-        
-        try{
-            System.out.println(analyserReclamation("1,23$") + " (1,23$)");
-            System.out.println(analyserReclamation("1.23$") + " (1.23$)");
-            
-            System.out.println(analyserReclamation("1000.23$") + " (1000.23$)");            
-            System.out.println(analyserReclamation("1000,23$") + " (1000,23$)");
-            
-            System.out.println(formatRemboursement(analyserReclamation("1000,23$")) 
-                    + " (1000,23$)");
-            
-            System.out.println(analyserReclamation("1.2.3$") + " (erreur ?)");
-        } catch(ReclamationException re){
-            System.out.println(re.getLocalizedMessage());
-        }
-    }
-    
     public static String formatRemboursement(double montant) {
 
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
@@ -57,12 +39,12 @@ public class MontantFormat {
     }
 
     private static DecimalFormat obtenirBonAnalyseur(String montantReclamation) {
-        
+
         DecimalFormatSymbols symboles = new DecimalFormatSymbols();
-        
+
         symboles.setDecimalSeparator('.');
         DecimalFormat analyseur = new DecimalFormat("0.00$", symboles);
-        
+
         if (montantReclamation.contains(",")) {
             symboles.setDecimalSeparator(',');
             analyseur = new DecimalFormat("0.00$", symboles);
