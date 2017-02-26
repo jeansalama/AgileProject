@@ -61,10 +61,8 @@ public class Refund {
 
         } catch (ContratException | DateException | ClientException | ReclamationException | JSONException j) {
             JSONObject erreur = new JSONObject();
-            erreur.accumulate("message", "Données invalides");
-
-            System.out.println(retourProprieteManquantes(j.getMessage()));
-
+            //erreur.accumulate("message", "Données invalides");
+            erreur.accumulate("message", retourProprieteManquantes(j.getMessage()));
             try {
                 Utf8File.saveStringIntoFile(args[1], erreur.toString(2));
             } catch (IOException e) {
@@ -127,6 +125,7 @@ public class Refund {
 
     /* exemples de tests :
      "client      == Expected a ':' after a key .... 
+     "client      == Unterminated string at character 95 of {
      client"      == Missing value. at character 7 of {
      "" ||  "  "  == JSONObject["client"] not found.   ok
      client       == ecrit pareil client a la sortie   
@@ -137,8 +136,15 @@ public class Refund {
         int debutChainePropriete = j.indexOf("\"") + 1;
         int finChainePropriete = j.lastIndexOf("\"");
 
-        return  "La propriete " 
-                + j.substring(debutChainePropriete, finChainePropriete)
-                + " est manquante.";
+        if (j.substring(0, 8).equals("Expected")
+                || j.substring(0, 7).equals("Missing")
+                || j.substring(0, 12).equals("Unterminated")
+                || debutChainePropriete == -1 && finChainePropriete == -1) {
+            return "La propriete est introuvable.";
+        } else {
+            return "La propriete "
+                    + j.substring(debutChainePropriete, finChainePropriete)
+                    + " est manquante.";
+        }
     }
 }
