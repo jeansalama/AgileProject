@@ -54,7 +54,7 @@ public class Date {
      */
     public final void setDate(String date) throws DateException {
         String[] tab;
-        if(date == null){
+        if (date == null) {
             throw new DateException();
         }
         if (dateLongueur(date)) {
@@ -108,11 +108,12 @@ public class Date {
         }
         this.jour = jour;
     }
-    public boolean  contientUnJour(){
+
+    public boolean contientUnJour() {
         return date.length() == 10;
     }
-    
-       /**
+
+    /**
      * Methode qui valide la longueur de la date retourne true si valide false
      * si non valide
      *
@@ -135,7 +136,7 @@ public class Date {
      * @throws DateException si les separateurs ne correspondent pas a '-'
      *
      */
-    private static String[] dateSepareeTabString(String date) 
+    private static String[] dateSepareeTabString(String date)
             throws DateException {
         String[] tabDateEstSeparee;
 
@@ -175,7 +176,7 @@ public class Date {
     private boolean validerMois(String mois) throws DateException {
         boolean moisValide = true;
         try {
-            if ((mois.length()) != 2 || ((parseInt(mois) < 1) 
+            if ((mois.length()) != 2 || ((parseInt(mois) < 1)
                     || (parseInt(mois) > 12))) {
                 throw new DateException();
             }
@@ -194,11 +195,11 @@ public class Date {
      * @param jour String
      * @throws DateException si jour n'est pas valide
      */
-    private boolean validerJour(String mois, String jour, String annee) 
+    private boolean validerJour(String mois, String jour, String annee)
             throws DateException {
         boolean jourValide = false;
         try {
-            if ((jour.length()) != 2 || ((parseInt(jour) < 1) 
+            if ((jour.length()) != 2 || ((parseInt(jour) < 1)
                     || (parseInt(jour) > 31))) {
                 throw new DateException();
             }
@@ -211,21 +212,21 @@ public class Date {
                         || moisInt == 8 || moisInt == 10 || moisInt == 12) {
                     if (jourInt >= 1 && jourInt <= 31) {
                         jourValide = true;
-                    } 
-                } else if (moisInt == 4 || moisInt == 6 || moisInt == 9 
+                    }
+                } else if (moisInt == 4 || moisInt == 6 || moisInt == 9
                         || moisInt == 11) {
                     if (jourInt >= 1 && jourInt <= 30) {
                         jourValide = true;
-                    } 
+                    }
                 } else if (moisInt == 2) {
                     if (anneeEstBissextile(annee)) {
                         if (jourInt >= 1 && jourInt <= 29) {
                             jourValide = true;
-                        }  
+                        }
                     } else {
                         if (jourInt >= 1 && jourInt <= 28) {
                             jourValide = true;
-                        } 
+                        }
                     }
                 }
             }
@@ -244,39 +245,11 @@ public class Date {
         boolean estBissextile = true;
         int anneeInt = parseInt(annee);
 
-        if (!((anneeInt % 4 == 0) && (anneeInt % 100 != 0) 
+        if (!((anneeInt % 4 == 0) && (anneeInt % 100 != 0)
                 || (anneeInt % 400 == 0))) {
             estBissextile = false;
         }
         return estBissextile;
-    }
-
-    /**
-     * methode qui supprime le jour d'une date aaaa-mm-jj date est MAJ sans le
-     * jour
-     *
-     * @param date String
-     * @throws DateException si date n'est pas valide
-     */
-    public void supprimerJourDeDate(String date) throws DateException {
-        String dateTemp = "";
-
-        if (date.length() != 10) {
-            throw new DateException();
-        }
-        String[] tabTemp = new String[dateSepareeTabString(date).length - 1];
-
-        for (int i = 0; i < tabTemp.length; i++) {
-            tabTemp[i] = dateSepareeTabString(date)[i];
-            if (i == 0) {
-                dateTemp = (tabTemp[i] + "-");
-            } else {
-                dateTemp = dateTemp + (tabTemp[i]);
-            }
-        }
-        date = dateTemp;
-        setDate(this.date = date);
-
     }
 
     @Override
