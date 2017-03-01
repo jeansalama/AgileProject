@@ -57,7 +57,7 @@ public class Date {
         if (date == null) {
             throw new DateException();
         }
-        if (dateLongueur(date)) {
+        if (validerDateLongueur(date)) {
             tab = dateSepareeTabString(date);
             setAnnee(tab[0]);
             setMois(tab[1]);
@@ -115,11 +115,11 @@ public class Date {
 
     /**
      * Methode qui valide la longueur de la date retourne true si valide false
-     * si non valide
+     * si non valide (changer nom pour validerDateLongueur)
      *
      * @param date String
      */
-    private boolean dateLongueur(String date) {
+    private boolean validerDateLongueur(String date) {
         boolean estLongueur = true;
         if (!(date.length() == 7 || date.length() == 10)) {
             estLongueur = false;
@@ -207,31 +207,23 @@ public class Date {
             int moisInt = parseInt(mois);
             int jourInt = parseInt(jour);
 
-            if (jourInt >= 1 && jourInt <= 31) {
-                if (moisInt == 1 || moisInt == 3 || moisInt == 5 || moisInt == 7
-                        || moisInt == 8 || moisInt == 10 || moisInt == 12) {
-                    if (jourInt >= 1 && jourInt <= 31) {
+            if (moisInt == 4 || moisInt == 6 || moisInt == 9 || moisInt == 11
+                    && jourInt >= 1 && jourInt <= 30) {
+                jourValide = true;
+            } else if (moisInt == 2) {
+                if (anneeEstBissextile(annee) && (jourInt >= 1 && jourInt <= 29)) {
+                    jourValide = true;
+                } else {
+                    if (jourInt >= 1 && jourInt <= 28) {
                         jourValide = true;
-                    }
-                } else if (moisInt == 4 || moisInt == 6 || moisInt == 9
-                        || moisInt == 11) {
-                    if (jourInt >= 1 && jourInt <= 30) {
-                        jourValide = true;
-                    }
-                } else if (moisInt == 2) {
-                    if (anneeEstBissextile(annee)) {
-                        if (jourInt >= 1 && jourInt <= 29) {
-                            jourValide = true;
-                        }
-                    } else {
-                        if (jourInt >= 1 && jourInt <= 28) {
-                            jourValide = true;
-                        }
                     }
                 }
+            } else {
+                jourValide = true;
             }
+
         } catch (NumberFormatException e) {
-            throw new DateException();
+            throw new DateException("Le jour doit etre entre 1 et 31.");
         }
         return jourValide;
     }
@@ -262,9 +254,11 @@ public class Date {
 class DateException extends Exception {
 
     public DateException() {
+         System.out.println("Le jour doit etre entre 1 et 31.");
     }
 
     public DateException(String msg) {
-        super(msg);
+        //super(msg);
+        System.out.println("Le jour doit etre entre 1 et 31.");
     }
 }
