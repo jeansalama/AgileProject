@@ -59,9 +59,40 @@ public class Refund {
 
             writeFile(client, reclamations, args[1]);
 
-        } catch (ContratException | DateException | ClientException | ReclamationException | JSONException j) {
+        } catch (ContratException e) {
             JSONObject erreur = new JSONObject();
-            //erreur.accumulate("message", "Données invalides");
+            erreur.accumulate("message", "Données contrat invalides");
+            try {
+                Utf8File.saveStringIntoFile(args[1], erreur.toString(2));
+            } catch (IOException ect) {
+                System.out.println("Erreur avec le fichier de sortie : " + ect.getLocalizedMessage());
+            }
+        } catch (DateException d) {
+            JSONObject erreur = new JSONObject();
+            erreur.accumulate("message", "Données date invalides");
+            try {
+                Utf8File.saveStringIntoFile(args[1], erreur.toString(2));
+            } catch (IOException dio) {
+                System.out.println("Erreur avec le fichier de sortie : " + dio.getLocalizedMessage());
+            }
+        } catch (ClientException c) {
+            JSONObject erreur = new JSONObject();
+            erreur.accumulate("message", "Données client invalides");
+            try {
+                Utf8File.saveStringIntoFile(args[1], erreur.toString(2));
+            } catch (IOException clio) {
+                System.out.println("Erreur avec le fichier de sortie : " + clio.getLocalizedMessage());
+            }
+        } catch (ReclamationException e) {
+            JSONObject erreur = new JSONObject();
+            erreur.accumulate("message", "Données reclamantion invalides");
+            try {
+                Utf8File.saveStringIntoFile(args[1], erreur.toString(2));
+            } catch (IOException rio) {
+                System.out.println("Erreur avec le fichier de sortie : " + rio.getLocalizedMessage());
+            }
+        } catch (JSONException j) {
+            JSONObject erreur = new JSONObject();
             erreur.accumulate("message", retourProprieteManquantes(j.getMessage()));
             try {
                 Utf8File.saveStringIntoFile(args[1], erreur.toString(2));
@@ -123,13 +154,11 @@ public class Refund {
         return jsonTxt;
     }
 
-    /* exemples de tests :
-     "client      == Expected a ':' after a key .... 
-     "client      == Unterminated string at character 95 of {
-     client"      == Missing value. at character 7 of {
-     "" ||  "  "  == JSONObject["client"] not found.   ok
-     client       == ecrit pareil client a la sortie   
-     System.out.println(j);      pour verifier le msg originale
+    /* private static String retourProprieteManquantes(String j) {
+     return "La propriete "
+     + j.substring(j.indexOf("\"") + 1, j.lastIndexOf("\""))
+     + " est manquante.";
+     }
      */
     private static String retourProprieteManquantes(String j) {
 
@@ -140,11 +169,12 @@ public class Refund {
                 || j.substring(0, 7).equals("Missing")
                 || j.substring(0, 12).equals("Unterminated")
                 || debutChainePropriete == -1 && finChainePropriete == -1) {
-            return "La propriete est introuvable.";
+            return "Il y a une erreur dans le fichier d'entree.";
         } else {
             return "La propriete "
                     + j.substring(debutChainePropriete, finChainePropriete)
                     + " est manquante.";
         }
     }
+
 }
