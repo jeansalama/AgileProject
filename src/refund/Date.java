@@ -254,11 +254,9 @@ public class Date {
 class DateException extends Exception {
 
     public DateException() {
-         System.out.println("Le jour doit etre entre 1 et 31.");
     }
 
     public DateException(String msg) {
-        //super(msg);
-        System.out.println("Le jour doit etre entre 1 et 31.");
+       super(msg);
     }
 }
