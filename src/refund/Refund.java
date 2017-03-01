@@ -159,6 +159,7 @@ public class Refund {
      + j.substring(j.indexOf("\"") + 1, j.lastIndexOf("\""))
      + " est manquante.";
      }
+     Ajout autres exeptions 
      */
     private static String retourProprieteManquantes(String j) {
 
