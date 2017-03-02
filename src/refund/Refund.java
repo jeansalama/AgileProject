@@ -170,7 +170,7 @@ public class Refund {
                 || j.substring(0, 7).equals("Missing")
                 || j.substring(0, 12).equals("Unterminated")
                 || debutChainePropriete == -1 && finChainePropriete == -1) {
-            return "Il y a une erreur dans le fichier d'entree.";
+            return "Erreur dans le fichier d'entree.";
         } else {
             return "La propriete "
                     + j.substring(debutChainePropriete, finChainePropriete)
