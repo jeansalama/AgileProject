@@ -58,7 +58,7 @@ public class Date {
             throw new DateException();
         }
         if (validerDateLongueur(date)) {
-            tab = dateSepareeTabString(date);
+            tab = SeparerDateTableauString(date);
             setAnnee(tab[0]);
             setMois(tab[1]);
             if (tab.length == 3) {
@@ -136,7 +136,7 @@ public class Date {
      * @throws DateException si les separateurs ne correspondent pas a '-'
      *
      */
-    private static String[] dateSepareeTabString(String date)
+    private static String[] SeparerDateTableauString(String date)
             throws DateException {
         String[] tabDateEstSeparee;
 
@@ -211,7 +211,7 @@ public class Date {
                     && jourInt >= 1 && jourInt <= 30) {
                 jourValide = true;
             } else if (moisInt == 2) {
-                if (anneeEstBissextile(annee) && (jourInt >= 1 && jourInt <= 29)) {
+                if (estAnneeBissextile(annee) && (jourInt >= 1 && jourInt <= 29)) {
                     jourValide = true;
                 } else {
                     if (jourInt >= 1 && jourInt <= 28) {
@@ -233,7 +233,7 @@ public class Date {
      *
      * @param annee String
      */
-    private boolean anneeEstBissextile(String annee) {
+    private boolean estAnneeBissextile(String annee) {
         boolean estBissextile = true;
         int anneeInt = parseInt(annee);
 
