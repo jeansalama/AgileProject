@@ -199,7 +199,7 @@ public class Date {
             throws DateException {
         boolean jourValide = false;
         try {
-            if ((jour.length()) != 2 || ((parseInt(jour) < 1)
+            if ((jour.length()) != 2 || ((parseInt(jour) < 1)                    
                     || (parseInt(jour) > 31))) {
                 throw new DateException();
             }
@@ -223,7 +223,7 @@ public class Date {
             }
 
         } catch (NumberFormatException e) {
-            throw new DateException("Le jour doit etre entre 1 et 31.");
+            throw new DateException("La date doit avoir le format suivant: aaaa-mm-jj.");
         }
         return jourValide;
     }
