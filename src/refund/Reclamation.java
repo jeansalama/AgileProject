@@ -11,7 +11,7 @@ public class Reclamation {
     private String montantReclamationString;
     private double montantReclamationDouble;
 
-     /**
+    /**
      * @param soin une nombre entier représentant la catégorie de soin pour
      * lequelle un montant est réclamé.
      * @param date la date à laquelle la réclamation est faite.
@@ -32,16 +32,15 @@ public class Reclamation {
     public int getSoin() {
         return soin;
     }
-    
+
     public Date getDate() {
         return date;
     }
-    
+
     public String getMontantReclamation() {
         return montantReclamationString;
     }
 
-   
     public double getMontantReclamationDouble() {
         return montantReclamationDouble;
     }
@@ -59,17 +58,17 @@ public class Reclamation {
 
     public void setMontantReclamation(String montantReclam)
             throws ReclamationException {
-         int longueur = montantReclam.length();
-         int indicePoint = montantReclam.indexOf(".");
-         this.montantReclamationString = montantReclam;
-         contientDevise(montantReclam, longueur);
-         validerSeparateur(indicePoint, montantReclam);
-         verifierSiNegatif(montantReclam);
-         verifierSiDeuxDecimales(montantReclam, indicePoint);
-         setMontantReclamationDouble(montantReclam);
+        int longueur = montantReclam.length();
+        int indicePoint = montantReclam.indexOf(".");
+        this.montantReclamationString = montantReclam;
+        contientDevise(montantReclam, longueur);
+        validerSeparateur(indicePoint, montantReclam);
+        verifierSiNegatif(montantReclam);
+        verifierSiDeuxDecimales(montantReclam, indicePoint);
+        setMontantReclamationDouble(montantReclam);
     }
 
-    private void setMontantReclamationDouble(String montantReclam) 
+    private void setMontantReclamationDouble(String montantReclam)
             throws ReclamationException {
         try {
             this.montantReclamationDouble
@@ -80,14 +79,14 @@ public class Reclamation {
                     + " transformé en double.");
         }
     }
-    
+
     /**
      * @param montantReclam Un nombre décimal représentant un montant.
      * @param indicePoint L'indice du montant où se trouve le séparateur.
-     * @throws ReclamationException Si le montant n'a pas de séparateur ou si 
-     * le montant à plus ou moins de deux décimales.
+     * @throws ReclamationException Si le montant n'a pas de séparateur ou si le
+     * montant à plus ou moins de deux décimales.
      */
-    private void verifierSiDeuxDecimales(String montantReclam, int indicePoint) 
+    private void verifierSiDeuxDecimales(String montantReclam, int indicePoint)
             throws ReclamationException {
         if (!montantReclam.contains(".") || indicePoint == 0
                 || montantReclam.substring(indicePoint + 1).length() != 3) {
@@ -98,35 +97,37 @@ public class Reclamation {
     }
 
     /**
-     * @param montantReclam Un nombre décimal représentant un montant. 
+     * @param montantReclam Un nombre décimal représentant un montant.
      * @throws ReclamationException si le montant passé en paramètre est négatif
      */
-    private void verifierSiNegatif(String montantReclam) 
+    private void verifierSiNegatif(String montantReclam)
             throws ReclamationException {
         if (montantReclam.contains("-")) {
             throw new ReclamationException("Le montant de la réclamation ne"
                     + " peut pas être négatif!");
         }
     }
+
     /**
      * @param indicePoint L'indice du montant où se trouve le séparateur.
      * @param montantReclam Un nombre décimal représentant un montant.
-     * @throws ReclamationException 
+     * @throws ReclamationException
      */
-    private void validerSeparateur(int indicePoint, String montantReclam) 
+    private void validerSeparateur(int indicePoint, String montantReclam)
             throws ReclamationException {
         if (indicePoint == -1 && montantReclam.contains(",")) {
             throw new ReclamationException("Le separateur decimal doit etre"
-                    + " un point et non une virgule!");
+                    + " un point et non une virgule.");
         }
     }
+
     /**
-     * 
+     *
      * @param montantReclam Un nombre décimal représentant un montant.
      * @param longueur la longueur de la chaine de caractères du montant.
      * @throws ReclamationException si la devise n'est pas '$'
      */
-    private void contientDevise(String montantReclam, int longueur) 
+    private void contientDevise(String montantReclam, int longueur)
             throws ReclamationException {
         if (montantReclam.charAt(longueur - 1) != '$') {
             throw new ReclamationException("La devise doit etre en '$' "
@@ -141,11 +142,11 @@ public class Reclamation {
     public static boolean validerSoin(int soin) {
         return soin == 0 || 100 == soin || soin == 200
                 || (soin >= 300 && soin <= 399) || soin == 400 || soin == 500
-                || soin == 600 || soin == 700 ||soin == 150 || soin == 175;
+                || soin == 600 || soin == 700 || soin == 150 || soin == 175;
     }
 
     /**
-     * 
+     *
      * @return une représentation sous forme de chaîne de caractère du montant
      * de réclamation.
      */
@@ -154,7 +155,7 @@ public class Reclamation {
         return montantReclamationString;
     }
 
-} 
+}
 
 class ReclamationException extends Exception {
 
