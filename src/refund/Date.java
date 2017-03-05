@@ -19,13 +19,17 @@ public class Date {
     private String mois;
     private String jour;
 
+    public Date() throws DateException{
+        throw new DateException();
+    }
+
     /**
      * Ce constructeur avec un parametre cree un Objet date
      *
      * @param date est un String incluant soit annee-mois soit annee-mois-jour
      * @throws DateException si date n'est pas valide
      */
-    public Date(String date) throws DateException {
+    public Date(String date) throws DateException{
         setDate(date);
     }
 
@@ -57,7 +61,7 @@ public class Date {
         if (date == null) {
             throw new DateException();
         }
-        if (validerDateLongueur(date)) {
+        if (validerLongueurDate(date)) {
             tab = SeparerDateTableauString(date);
             setAnnee(tab[0]);
             setMois(tab[1]);
@@ -119,7 +123,7 @@ public class Date {
      *
      * @param date String
      */
-    private boolean validerDateLongueur(String date) {
+    private boolean validerLongueurDate(String date) {
         boolean estLongueur = true;
         if (!(date.length() == 7 || date.length() == 10)) {
             estLongueur = false;
@@ -187,10 +191,9 @@ public class Date {
     }
 
     /**
-     * methode qui valide la longueur du jour et si entre 1 <-> 27/31
-     * dependamment du mois si mois 02 verifie si annee est bissextile (appel a
-     * la methode: anneeEstBissextile()) et valide le jour return true si jour
-     * est valide
+     * methode qui valide la longueur du jour et si entre 1 <-> 31 si mois 02
+     * verifie si annee est bissextile appel a la methode: estAnneeBissextile et
+     * valide le jour return true si jour est valide
      *
      * @param jour String
      * @throws DateException si jour n'est pas valide
@@ -199,7 +202,7 @@ public class Date {
             throws DateException {
         boolean jourValide = false;
         try {
-            if ((jour.length()) != 2 || ((parseInt(jour) < 1)                    
+            if ((jour.length()) != 2 || ((parseInt(jour) < 1)
                     || (parseInt(jour) > 31))) {
                 throw new DateException();
             }
@@ -257,6 +260,6 @@ class DateException extends Exception {
     }
 
     public DateException(String msg) {
-       super(msg);
+        super(msg);
     }
 }
