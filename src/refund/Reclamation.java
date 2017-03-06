@@ -47,7 +47,7 @@ public class Reclamation {
 
     public void setSoin(int soin) throws ReclamationException {
         if (!validerSoin(soin)) {
-            throw new ReclamationException("numéro de soin non valide.");
+            throw new ReclamationException("Donnee soin invalide !");
         }
         this.soin = soin;
     }

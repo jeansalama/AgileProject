@@ -14,14 +14,12 @@ import static java.lang.Integer.parseInt;
  */
 public class Date {
 
+    public final static String MSG_DATE_EXCEPTION = "Donnees date invalide !";
     private String date;
     private String annee;
     private String mois;
     private String jour;
 
-    public Date() throws DateException{
-        throw new DateException();
-    }
 
     /**
      * Ce constructeur avec un parametre cree un Objet date
@@ -59,7 +57,7 @@ public class Date {
     public final void setDate(String date) throws DateException {
         String[] tab;
         if (date == null) {
-            throw new DateException();
+            throw new DateException(MSG_DATE_EXCEPTION);
         }
         if (validerLongueurDate(date)) {
             tab = SeparerDateTableauString(date);
@@ -69,7 +67,7 @@ public class Date {
                 setJour(tab[2]);
             }
         } else {
-            throw new DateException();
+            throw new DateException(MSG_DATE_EXCEPTION);
         }
         this.date = date;
     }
@@ -82,7 +80,7 @@ public class Date {
      */
     public void setAnnee(String annee) throws DateException {
         if (!validerAnnee(annee)) {
-            throw new DateException();
+            throw new DateException(MSG_DATE_EXCEPTION);
         }
         this.annee = annee;
     }
@@ -95,7 +93,7 @@ public class Date {
      */
     public void setMois(String mois) throws DateException {
         if (!validerMois(mois)) {
-            throw new DateException();
+            throw new DateException(MSG_DATE_EXCEPTION);
         }
         this.mois = mois;
     }
@@ -108,7 +106,7 @@ public class Date {
      */
     public final void setJour(String jour) throws DateException {
         if (!validerJour(mois, jour, annee)) {
-            throw new DateException();
+            throw new DateException(MSG_DATE_EXCEPTION);
         }
         this.jour = jour;
     }
@@ -145,7 +143,7 @@ public class Date {
         String[] tabDateEstSeparee;
 
         if ((date.indexOf('-') == -1)) {
-            throw new DateException();
+            throw new DateException(MSG_DATE_EXCEPTION);
         }
 
         String separateurs = "[-]";
@@ -163,10 +161,10 @@ public class Date {
         boolean anneeValide = true;
         try {
             if (annee.length() != 4 || parseInt(annee) < 2000) {
-                throw new DateException();
+                throw new DateException(MSG_DATE_EXCEPTION);
             }
         } catch (NumberFormatException nfe) {
-            throw new DateException();
+            throw new DateException(MSG_DATE_EXCEPTION);
         }
         return anneeValide;
     }
@@ -182,10 +180,10 @@ public class Date {
         try {
             if ((mois.length()) != 2 || ((parseInt(mois) < 1)
                     || (parseInt(mois) > 12))) {
-                throw new DateException();
+                throw new DateException(MSG_DATE_EXCEPTION);
             }
         } catch (NumberFormatException e) {
-            throw new DateException();
+            throw new DateException(MSG_DATE_EXCEPTION);
         }
         return moisValide;
     }
@@ -204,7 +202,7 @@ public class Date {
         try {
             if ((jour.length()) != 2 || ((parseInt(jour) < 1)
                     || (parseInt(jour) > 31))) {
-                throw new DateException();
+                throw new DateException(MSG_DATE_EXCEPTION);
             }
 
             int moisInt = parseInt(mois);

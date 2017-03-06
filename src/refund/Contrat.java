@@ -36,7 +36,7 @@ public class Contrat {
 
     public void setType(String type) throws ContratException{
         if(!estTypeValide(type))
-            throw new ContratException("Type de contrat invalide !");        
+            throw new ContratException("Donnees contrat invalide !");        
         this.type = type;
     }
     

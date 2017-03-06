@@ -59,41 +59,20 @@ public class Refund {
 
             writeFile(client, reclamations, args[1]);
 
-        } catch (ContratException e) {
+        } catch (ContratException | DateException | ClientException 
+                    | ReclamationException e) {
             JSONObject erreur = new JSONObject();
-            erreur.accumulate("message", "Données contrat invalides");
+            erreur.accumulate("message", e.getMessage());
             try {
                 Utf8File.saveStringIntoFile(args[1], erreur.toString(2));
             } catch (IOException ect) {
-                System.out.println("Erreur avec le fichier de sortie : " + ect.getLocalizedMessage());
-            }
-        } catch (DateException d) {
-            JSONObject erreur = new JSONObject();
-            erreur.accumulate("message", "Données date invalides");
-            try {
-                Utf8File.saveStringIntoFile(args[1], erreur.toString(2));
-            } catch (IOException dio) {
-                System.out.println("Erreur avec le fichier de sortie : " + dio.getLocalizedMessage());
-            }
-        } catch (ClientException c) {
-            JSONObject erreur = new JSONObject();
-            erreur.accumulate("message", "Données client invalides");
-            try {
-                Utf8File.saveStringIntoFile(args[1], erreur.toString(2));
-            } catch (IOException clio) {
-                System.out.println("Erreur avec le fichier de sortie : " + clio.getLocalizedMessage());
-            }
-        } catch (ReclamationException e) {
-            JSONObject erreur = new JSONObject();
-            erreur.accumulate("message", "Données reclamantion invalides");
-            try {
-                Utf8File.saveStringIntoFile(args[1], erreur.toString(2));
-            } catch (IOException rio) {
-                System.out.println("Erreur avec le fichier de sortie : " + rio.getLocalizedMessage());
+                System.out.println("Erreur avec le fichier de sortie : " 
+                        + ect.getLocalizedMessage());
             }
         } catch (JSONException j) {
             JSONObject erreur = new JSONObject();
-            erreur.accumulate("message", retourProprieteManquantes(j.getMessage()));
+            erreur.accumulate("message", 
+                    retourProprieteManquantes(j.getMessage()));
             try {
                 Utf8File.saveStringIntoFile(args[1], erreur.toString(2));
             } catch (IOException e) {
@@ -166,10 +145,10 @@ public class Refund {
         int debutChainePropriete = j.indexOf("\"") + 1;
         int finChainePropriete = j.lastIndexOf("\"");
 
-        if (j.substring(0, 8).equals("Expected")
+        if (debutChainePropriete == -1 || finChainePropriete == -1
+                || j.substring(0, 8).equals("Expected")
                 || j.substring(0, 7).equals("Missing")
-                || j.substring(0, 12).equals("Unterminated")
-                || debutChainePropriete == -1 && finChainePropriete == -1) {
+                || j.substring(0, 12).equals("Unterminated")) {
             return "Erreur dans le fichier d'entree.";
         } else {
             return "La propriete "
