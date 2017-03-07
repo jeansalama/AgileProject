@@ -10,7 +10,16 @@ import java.text.ParseException;
  * @author Jean Salama
  */
 public class MontantFormat {
-
+    
+    /**
+     * Cette methode formatte un montant en double en une chaine de caractere
+     * representant ce montant en dollars a deux decimales pres avec 
+     * le caractere '.' comme separateur decimal :
+     *          123.451 sera transformee en "123.45$"
+     * @param montant a formatter
+     * @return String la chaine de caractere representant le montant avec
+     *         les specifications mentionnees ci-dessus
+     */
     public static String formatRemboursement(double montant) {
 
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
