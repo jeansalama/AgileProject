@@ -64,7 +64,6 @@ public class Reclamation {
 
         int longueur = montantReclam.length();
         this.montantReclamationString = montantReclam;
-        contientDevise(montantReclam, longueur);
         verifierSiNegatif(montantReclam);
         setMontantReclamationDouble(montantReclam);
     }
@@ -92,21 +91,6 @@ public class Reclamation {
         if (montantReclam.contains("-")) {
             throw new ReclamationException("Le montant de la réclamation ne"
                     + " peut pas être négatif!");
-        }
-    }
-
-    /**
-     *
-     * @param montantReclam Un nombre décimal représentant un montant.
-     * @param longueur la longueur de la chaine de caractères du montant.
-     * @throws ReclamationException si la devise n'est pas '$'
-     */
-    private void contientDevise(String montantReclam, int longueur)
-            throws ReclamationException {
-
-        if (montantReclam.charAt(longueur - 1) != '$') {
-            throw new ReclamationException("La devise doit etre en '$' "
-                    + "et placee apres le montant.");
         }
     }
 
