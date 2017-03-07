@@ -61,8 +61,6 @@ public class Reclamation {
 
     public void setMontantReclamation(String montantReclam)
             throws ReclamationException {
-
-        int longueur = montantReclam.length();
         this.montantReclamationString = montantReclam;
         verifierSiNegatif(montantReclam);
         setMontantReclamationDouble(montantReclam);
@@ -71,14 +69,7 @@ public class Reclamation {
     private void setMontantReclamationDouble(String montantReclam)
             throws ReclamationException {
 
-        try {
-            this.montantReclamationDouble
-                    = Double.parseDouble(montantReclam.substring(0,
-                            montantReclam.length() - 1));
-        } catch (NumberFormatException e) {
-            throw new ReclamationException("Montant de réclamation ne peut être"
-                    + " transformé en double.");
-        }
+        MontantFormat.analyserReclamation(montantReclam);
     }
 
     /**
