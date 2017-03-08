@@ -14,20 +14,18 @@ import static java.lang.Integer.parseInt;
  */
 public class Date {
 
-    public final static String MSG_DATE_EXCEPTION = "Donnees date invalide !";
+    public final static String MSG_DATE_EXCEPTION = "Donnees date erronees. "
+            + "Format date valide: aaaa-mm-jj.";
     private String date;
     private String annee;
     private String mois;
     private String jour;
 
-
     /**
-     * Ce constructeur avec un parametre cree un Objet date
-     *
      * @param date est un String incluant soit annee-mois soit annee-mois-jour
      * @throws DateException si date n'est pas valide
      */
-    public Date(String date) throws DateException{
+    public Date(String date) throws DateException {
         setDate(date);
     }
 
@@ -47,37 +45,14 @@ public class Date {
         return date;
     }
 
-    /**
-     * Initialise date appel methodes: validation longueur et si numerique apres
-     * divise de la date sans separateur dependamment des longueurs acceptees
-     *
-     * @param date String
-     * @throws DateException si pas valide
-     */
     public final void setDate(String date) throws DateException {
-        String[] tab;
         if (date == null) {
             throw new DateException(MSG_DATE_EXCEPTION);
         }
-        if (validerLongueurDate(date)) {
-            tab = SeparerDateTableauString(date);
-            setAnnee(tab[0]);
-            setMois(tab[1]);
-            if (tab.length == 3) {
-                setJour(tab[2]);
-            }
-        } else {
-            throw new DateException(MSG_DATE_EXCEPTION);
-        }
+        validerFormatDate(date);
         this.date = date;
     }
 
-    /**
-     * Initialise annee appel methode: validation longueur
-     *
-     * @param annee String
-     * @throws DateException si pas valide
-     */
     public void setAnnee(String annee) throws DateException {
         if (!validerAnnee(annee)) {
             throw new DateException(MSG_DATE_EXCEPTION);
@@ -85,12 +60,6 @@ public class Date {
         this.annee = annee;
     }
 
-    /**
-     * Initialise mois appel methode: validation longueur
-     *
-     * @param mois String
-     * @throws DateException si pas valide
-     */
     public void setMois(String mois) throws DateException {
         if (!validerMois(mois)) {
             throw new DateException(MSG_DATE_EXCEPTION);
@@ -98,12 +67,6 @@ public class Date {
         this.mois = mois;
     }
 
-    /**
-     * Initialise jour appel methode: validation longueur
-     *
-     * @param jour String
-     * @throws DateException si pas valide
-     */
     public final void setJour(String jour) throws DateException {
         if (!validerJour(mois, jour, annee)) {
             throw new DateException(MSG_DATE_EXCEPTION);
@@ -115,12 +78,20 @@ public class Date {
         return date.length() == 10;
     }
 
-    /**
-     * Methode qui valide la longueur de la date retourne true si valide false
-     * si non valide (changer nom pour validerDateLongueur)
-     *
-     * @param date String
-     */
+    private void validerFormatDate(String date) throws DateException {
+        String[] tab;
+        if (validerLongueurDate(date)) {
+            tab = SeparerDateTableauString(date);
+            setAnnee(tab[0]);
+            setMois(tab[1]);
+            if (tab.length == 3) {
+                setJour(tab[2]);
+            }
+        } else {
+            throw new DateException(MSG_DATE_EXCEPTION);
+        }
+    }
+
     private boolean validerLongueurDate(String date) {
         boolean estLongueur = true;
         if (!(date.length() == 7 || date.length() == 10)) {
@@ -130,13 +101,7 @@ public class Date {
     }
 
     /**
-     * Methode qui separe la date dans un tableau de String retourne un tableau
-     * de String en separant date en 3 ou 2 cases les separateurs '-' sont
-     * enleves et valides
-     *
-     * @param date String
      * @throws DateException si les separateurs ne correspondent pas a '-'
-     *
      */
     private static String[] SeparerDateTableauString(String date)
             throws DateException {
@@ -145,18 +110,11 @@ public class Date {
         if ((date.indexOf('-') == -1)) {
             throw new DateException(MSG_DATE_EXCEPTION);
         }
-
         String separateurs = "[-]";
         tabDateEstSeparee = date.split(separateurs);
         return tabDateEstSeparee;
     }
 
-    /**
-     * methode qui valide la longueur l'annee return true si valide
-     *
-     * @param annee String
-     * @throws DateException si longueur annee n'est pas valide
-     */
     private boolean validerAnnee(String annee) throws DateException {
         boolean anneeValide = true;
         try {
@@ -169,12 +127,6 @@ public class Date {
         return anneeValide;
     }
 
-    /**
-     * methode qui valide la longueur du mois et si entre 1 <-> 12
-     *
-     * @param mois String
-     * @throws DateException si mois n'est pas valide
-     */
     private boolean validerMois(String mois) throws DateException {
         boolean moisValide = true;
         try {
@@ -188,14 +140,6 @@ public class Date {
         return moisValide;
     }
 
-    /**
-     * methode qui valide la longueur du jour et si entre 1 <-> 31 si mois 02
-     * verifie si annee est bissextile appel a la methode: estAnneeBissextile et
-     * valide le jour return true si jour est valide
-     *
-     * @param jour String
-     * @throws DateException si jour n'est pas valide
-     */
     private boolean validerJour(String mois, String jour, String annee)
             throws DateException {
         boolean jourValide = false;
@@ -204,40 +148,42 @@ public class Date {
                     || (parseInt(jour) > 31))) {
                 throw new DateException(MSG_DATE_EXCEPTION);
             }
-
-            int moisInt = parseInt(mois);
-            int jourInt = parseInt(jour);
-
-            if (moisInt == 4 || moisInt == 6 || moisInt == 9 || moisInt == 11
-                    && jourInt >= 1 && jourInt <= 30) {
-                jourValide = true;
-            } else if (moisInt == 2) {
-                if (estAnneeBissextile(annee) && (jourInt >= 1 && jourInt <= 29)) {
-                    jourValide = true;
-                } else {
-                    if (jourInt >= 1 && jourInt <= 28) {
-                        jourValide = true;
-                    }
-                }
-            } else {
-                jourValide = true;
-            }
+            jourValide = validerJourParMois(parseInt(jour), parseInt(mois),
+                    parseInt(annee), jourValide);
 
         } catch (NumberFormatException e) {
-            throw new DateException("La date doit avoir le format suivant: aaaa-mm-jj.");
+            throw new DateException(MSG_DATE_EXCEPTION);
         }
         return jourValide;
     }
 
-    /**
-     * methode qui valide si annee est bissextile return true si est bissextile
-     *
-     * @param annee String
-     */
-    private boolean estAnneeBissextile(String annee) {
-        boolean estBissextile = true;
-        int anneeInt = parseInt(annee);
+    private boolean validerJourParMois(int jourInt, int moisInt,
+            int anneeInt, boolean jourValide) {
+        if (moisInt == 4 || moisInt == 6 || moisInt == 9 || moisInt == 11
+                && jourInt >= 1 && jourInt <= 30) {
+            jourValide = true;
+        } else if (moisInt == 2) {
+            jourValide = validerJourParAnnee(anneeInt, jourInt, jourValide);
+        } else {
+            jourValide = true;
+        }
+        return jourValide;
+    }
 
+    private boolean validerJourParAnnee(int anneeInt, int jourInt,
+            boolean jourValide) {
+        if (estAnneeBissextile(anneeInt) && (jourInt >= 1 && jourInt <= 29)) {
+            jourValide = true;
+        } else {
+            if (jourInt >= 1 && jourInt <= 28) {
+                jourValide = true;
+            }
+        }
+        return jourValide;
+    }
+
+    private boolean estAnneeBissextile(int anneeInt) {
+        boolean estBissextile = true;
         if (!((anneeInt % 4 == 0) && (anneeInt % 100 != 0)
                 || (anneeInt % 400 == 0))) {
             estBissextile = false;
