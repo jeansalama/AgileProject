@@ -11,7 +11,8 @@ import net.sf.json.JSONSerializer;
  */
 public class CalculRemboursements {
 
-    private static final JSONObject REGLES_REMBOURSEMENT = chargerReglesRemboursement();
+    private static final JSONObject REGLES_REMBOURSEMENT 
+            = chargerReglesRemboursement();
 
     private static JSONObject chargerReglesRemboursement() {
         String stringJson;
@@ -27,7 +28,7 @@ public class CalculRemboursements {
         return regles;
     }
 
-    public static String calculRemboursement(Reclamation reclam,
+    public static double calculRemboursement(Reclamation reclam,
             Contrat contrat) {
         double remboursement;
         double montantReclamation = reclam.getMontantReclamationDouble();
@@ -47,7 +48,7 @@ public class CalculRemboursements {
             remboursement = regle.getDouble("max");
         }
 
-        return MontantFormat.formatRemboursement(remboursement);
+        return remboursement;
     }
 
 }

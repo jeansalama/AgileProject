@@ -8,6 +8,7 @@ package refund;
 import java.io.IOException;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import static refund.MontantFormat.formatRemboursement;
 
 /**
  *
@@ -35,21 +36,27 @@ public class Sortie {
         
     }
     private void ecrireReclamation(){
-        ajoutReclamation();       
+        String total = formatRemboursement(ajoutReclamation());       
         infoClient.accumulate("remboursement", liste);
+        infoClient.accumulate("total", total);
         
     }
     
-    private void ajoutReclamation(){
+    private double ajoutReclamation(){
         JSONObject temp = new JSONObject();
+        double total = 0;
+        double montant;
         for (Reclamation reclam : entree.getReclamation()) {
             temp.accumulate("soin", reclam.getSoin());
             temp.accumulate("date", reclam.getDate().toString());
+            montant = 
+                    entree.getDossier().getContrat().calculRemboursement(reclam);
             temp.accumulate("montant", 
-                    entree.getDossier().getContrat().calculRemboursement(reclam));
+                    formatRemboursement(montant));
             liste.add(temp);
             temp.clear();
         }
+        return total;
     }
     private void sortirFichier(){
          try {

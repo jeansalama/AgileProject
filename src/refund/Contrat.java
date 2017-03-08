@@ -31,13 +31,11 @@ public class Contrat {
     }
 
     /**
-     * Cette methode calcule le remboursement etant donne une reclamation
-     *
      * @param reclam une reclamation valide
      * @return String le montant de remboursement en dollars a deux decimales
      * pres
      */
-    public String calculRemboursement(Reclamation reclam) {
+    public double calculRemboursement(Reclamation reclam) {
         return CalculRemboursements.calculRemboursement(reclam, this);
     }
 
