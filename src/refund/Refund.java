@@ -59,7 +59,8 @@ public class Refund {
         try {
             Utf8File.saveStringIntoFile(fichier, erreur.toString(2));
         } catch (IOException e) {
-            System.out.println("Erreur avec le fichier de sortie : " + e.getLocalizedMessage());
+            System.out.println("Erreur avec le fichier de sortie : " 
+                    + e.getLocalizedMessage());
         }
     }
 

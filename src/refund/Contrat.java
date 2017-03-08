@@ -35,9 +35,10 @@ public class Contrat {
      * @return String le montant de remboursement en dollars a deux decimales
      * pres
      */
+    /*
     public double calculRemboursement(Reclamation reclam) {
-        return CalculRemboursements.calculRemboursement(reclam, this);
-    }
+        return CalculRemboursements.calculerRemboursement(reclam, this);
+    }*/
 
     @Override
     public String toString() {

@@ -11,7 +11,7 @@ import net.sf.json.JSONSerializer;
  */
 public class CalculRemboursements {
 
-    private static final JSONObject REGLES_REMBOURSEMENT 
+    private static final JSONObject REGLES_REMBOURSEMENT
             = chargerReglesRemboursement();
 
     private static JSONObject chargerReglesRemboursement() {
@@ -28,27 +28,56 @@ public class CalculRemboursements {
         return regles;
     }
 
-    public static double calculRemboursement(Reclamation reclam,
+    public static double calculerRemboursement(Reclamation reclam,
+            Dossier dossier) {
+
+        Contrat contrat = dossier.getContrat();
+
+        return calculerRemboursement(reclam, contrat);
+
+    }
+
+    public static double calculerRemboursement(Reclamation reclam,
             Contrat contrat) {
         double remboursement;
         double montantReclamation = reclam.getMontantReclamationDouble();
-        String soin = reclam.getSoin() + "";
 
-        if (reclam.getSoin() >= 300 && reclam.getSoin() < 400) {
-            soin = "300";
-        }
-
-        JSONObject regle
-                = REGLES_REMBOURSEMENT.getJSONObject(soin).getJSONObject(contrat.getType());
-        double tauxRemb = regle.getDouble("taux");
+        double tauxRemb = obtenirTauxRemboursement(reclam, contrat);
 
         remboursement = montantReclamation * tauxRemb;
 
+        JSONObject regle = extraireUneRegle(reclam, contrat);
         if (regle.has("max") && remboursement > regle.getDouble("max")) {
             remboursement = regle.getDouble("max");
         }
 
         return remboursement;
+    }
+
+    private static double obtenirTauxRemboursement(Reclamation reclam,
+            Contrat contrat) {
+
+        JSONObject regle = extraireUneRegle(reclam, contrat);
+        double tauxRemb = regle.getDouble("taux");
+
+        return tauxRemb;
+    }
+
+    private static JSONObject extraireUneRegle(Reclamation reclam,
+            Contrat contrat) {
+        String soin = obtenirSoin(reclam);
+        JSONObject regle
+                = REGLES_REMBOURSEMENT.getJSONObject(soin).getJSONObject(contrat.getType());
+        return regle;
+    }
+
+    private static String obtenirSoin(Reclamation reclam) {
+        String soin = reclam.getSoin() + "";
+
+        if (reclam.getSoin() >= 300 && reclam.getSoin() < 400) {
+            soin = "300";
+        }
+        return soin;
     }
 
 }
