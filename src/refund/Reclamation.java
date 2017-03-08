@@ -69,7 +69,8 @@ public class Reclamation {
     private void setMontantReclamationDouble(String montantReclam)
             throws ReclamationException {
 
-        MontantFormat.analyserReclamation(montantReclam);
+        this.montantReclamationDouble 
+                = MontantFormat.analyserReclamation(montantReclam);
     }
 
     /**
