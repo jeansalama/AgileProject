@@ -8,7 +8,6 @@ import static jdk.nashorn.internal.runtime.JSType.isNumber;
 public class Dossier {
 
     private String dossier;
-    private String type;
     private Date date;
     private Contrat contrat;
      
@@ -39,10 +38,7 @@ public class Dossier {
         return date;
     }
     
-    public String getType(){
-        return type;
-    }
-    
+      
    
     /**
      * Valide si la String a seulement 6 characteres de long et qu'il s'agit 
@@ -57,11 +53,12 @@ public class Dossier {
         }
         try{
             Integer.parseInt(dossier.substring(1));
-        } catch(NumberFormatException nfe){
+            contrat = new Contrat(dossier.substring(0, 1));
+        } catch(NumberFormatException | ContratException nfe){
             throw new DossierException("Dossier du client invalide");
         }
         this.dossier = dossier;
-        type = dossier.substring(0, 1);
+        
     }
 
     public final void setDate(Date date){

@@ -12,18 +12,16 @@ public class Entree {
 
     private ArrayList<Reclamation> reclamations = new ArrayList<>(0);
     private JSONObject infoClient;
-    private Date mois;
     private Dossier client;
-    private Contrat contrat;
-
+   
     public Entree(String fichierEntree) throws DateException, DossierException,
             ContratException, ReclamationException {
 
         infoClient = (JSONObject)JSONSerializer.toJSON(readFile(fichierEntree));
-        mois = new Date(infoClient.getString("mois"));
-        client = new Dossier(infoClient.getString("dossier"), mois);
-        contrat = new Contrat(client.getType());
-        if (mois.contientUnJour()) {
+        
+        client = new Dossier(infoClient.getString("dossier"), 
+        new Date(infoClient.getString("mois")));
+        if (client.getDate().contientUnJour()) {
             throw new ReclamationException();
         }
         setListeReclamation();
@@ -37,14 +35,6 @@ public class Entree {
         return client;
     }
     
-    public Date getMois(){
-        return mois;
-    }
-    
-    public Contrat getContrat(){
-        return contrat;
-    }
-
     public void setListeReclamation()
             throws DateException, ReclamationException {
         JSONArray tableau = infoClient.getJSONArray("reclamations");
@@ -59,8 +49,8 @@ public class Entree {
     }
 
     private void validationBonMois(Date date) throws ReclamationException {
-        if (!mois.getMois().equals(date.getMois())
-                || !mois.getAnnee().equals(date.getAnnee())) {
+        if (!client.getDate().getMois().equals(date.getMois())
+                || !client.getDate().getAnnee().equals(date.getAnnee())) {
             throw new ReclamationException("Les reclamations doivent "
                     + "etre du meme mois");
         }

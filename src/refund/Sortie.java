@@ -30,8 +30,8 @@ public class Sortie {
     
     private void ecrireDebut(){
         
-        infoClient.accumulate("dossier", entree.getDossier());
-        infoClient.accumulate("mois", entree.getMois().toString());
+        infoClient.accumulate("dossier", entree.getDossier().getDossier());
+        infoClient.accumulate("mois", entree.getDossier().getDate().toString());
         
     }
     private void ecrireReclamation(){
@@ -45,7 +45,8 @@ public class Sortie {
         for (Reclamation reclam : entree.getReclamation()) {
             temp.accumulate("soin", reclam.getSoin());
             temp.accumulate("date", reclam.getDate().toString());
-            temp.accumulate("montant", entree.getContrat().calculRemboursement(reclam));
+            temp.accumulate("montant", 
+                    entree.getDossier().getContrat().calculRemboursement(reclam));
             liste.add(temp);
             temp.clear();
         }
