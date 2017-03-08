@@ -19,10 +19,10 @@ public class Entree {
     public Entree(String fichierEntree) throws DateException, DossierException,
             ContratException, ReclamationException {
 
-        infoClient = (JSONObject) JSONSerializer.toJSON(fichierEntree);
-        Dossier client = new Dossier(infoClient.getString("dossier"),
-                new Date(infoClient.getString("mois")));
-        Contrat contrat = new Contrat(client.getType());
+        infoClient = (JSONObject)JSONSerializer.toJSON(readFile(fichierEntree));
+        mois = new Date(infoClient.getString("mois"));
+        client = new Dossier(infoClient.getString("dossier"), mois);
+        contrat = new Contrat(client.getType());
         if (mois.contientUnJour()) {
             throw new ReclamationException();
         }
@@ -39,6 +39,10 @@ public class Entree {
     
     public Date getMois(){
         return mois;
+    }
+    
+    public Contrat getContrat(){
+        return contrat;
     }
 
     public void setListeReclamation()

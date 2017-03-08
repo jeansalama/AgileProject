@@ -64,17 +64,13 @@ public class Dossier {
         type = dossier.substring(0, 1);
     }
 
-    public final void setContrat(Contrat contrat) throws DossierException {
-        this.contrat = contrat;
-    }
-    
-    public final void setDate(Date date) throws DossierException {
+    public final void setDate(Date date){
         this.date = date;
     }
 
     @Override
     public String toString() {
-        return "Dossier de client: " + dossier + "\nMois: " + date;
+        return "dossier: " + dossier + "\nMois: " + date;
     }
 
 }
