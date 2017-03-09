@@ -5,14 +5,10 @@ import java.io.IOException;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
-/**
- *
- * @author Maxime
- */
 public class Refund {
 
     /**
-     * @param args the command line arguments
+     * @param args le noms des fichiers utilises
      */
     public static void main(String[] args) {
         if (args.length != 2) {
@@ -34,7 +30,11 @@ public class Refund {
 
         }
     }
-
+    /**
+     * 
+     * @param e une exception qui a ete lancee
+     * @param fichier le nom du fichier de sortie
+     */
     private static void erreurDonnees(Exception e, String fichier) {
         JSONObject erreur = new JSONObject();
         erreur.accumulate("message", e.getMessage());
@@ -45,7 +45,11 @@ public class Refund {
                     + ect.getLocalizedMessage());
         }
     }
-
+    /**
+     * 
+     * @param e une exception qui a ete lancee
+     * @param fichier le nom du fichier de sortie
+     */
     private static void erreurJson(JSONException e, String fichier) {
         JSONObject erreur = new JSONObject();
         erreur.accumulate("message",
@@ -57,7 +61,11 @@ public class Refund {
                     + ioe.getLocalizedMessage());
         }
     }
-
+    /**
+     * 
+     * @param msgJsonException le message d'exception 
+     * @return le message pour la propriete Json appropriee
+     */
     private static String retourProprieteManquantes(String msgJsonException) {
 
         int debutChainePropriete = msgJsonException.indexOf("\"") + 1;
@@ -73,7 +81,11 @@ public class Refund {
         }
         return msg;
     }
-
+    /**
+     * 
+     * @param msgJsonException
+     * @return vrai si la propriete Json existe 
+     */
     private static boolean proprieteInexistante(String msgJsonException) {
 
         int debutChainePropriete = msgJsonException.indexOf("\"") + 1;

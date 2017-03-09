@@ -16,6 +16,14 @@ public class Entree {
     private JSONObject infoClient;
     private Dossier client;
 
+    /**
+     *
+     * @param fichierEntree Le nom du fichier detenant les donnees
+     * @throws DateException
+     * @throws DossierException
+     * @throws ContratException
+     * @throws ReclamationException
+     */
     public Entree(String fichierEntree) throws DateException, DossierException,
             ContratException, ReclamationException {
         infoClient = (JSONObject) JSONSerializer.toJSON(
@@ -42,11 +50,17 @@ public class Entree {
         JSONArray tableauReclamations = infoClient.getJSONArray("reclamations");
         for (int i = 0; i < tableauReclamations.size(); i++) {
 
-            JSONObject reclamation = tableauReclamations.getJSONObject(i);            
+            JSONObject reclamation = tableauReclamations.getJSONObject(i);
             ajouterUneReclamation(reclamation);
         }
     }
 
+    /**
+     *
+     * @param reclamation Un object Json representant une reclamation
+     * @throws DateException
+     * @throws ReclamationException
+     */
     private void ajouterUneReclamation(JSONObject reclamation)
             throws DateException, ReclamationException {
         int soin = obtenirSoin(reclamation);
@@ -56,6 +70,12 @@ public class Entree {
         listeReclamations.add(new Reclamation(soin, date, montant));
     }
 
+    /**
+     *
+     * @param reclam Un object Json representant une reclamation
+     * @return le numero du soin de la reclamation prise en parametre
+     * @throws ReclamationException
+     */
     private int obtenirSoin(JSONObject reclam) throws ReclamationException {
         int soin;
         if (reclam.containsKey("soin")) {
@@ -70,6 +90,12 @@ public class Entree {
         return soin;
     }
 
+    /**
+     *
+     * @param date Une date formatter
+     * @throws ReclamationException si la date de la reclamation prise en
+     * paramètre n'a pas le même mois que celle du client
+     */
     private void validationBonMois(Date date) throws ReclamationException {
         if (!client.getDate().getMois().equals(date.getMois())
                 || !client.getDate().getAnnee().equals(date.getAnnee())) {
