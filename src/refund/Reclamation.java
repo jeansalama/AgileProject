@@ -7,6 +7,9 @@ package refund;
  */
 public class Reclamation {
 
+    public final static String MSG_DATE_INCOMPLETE_EXCEPTION = "Date incomplete. "
+            + "Format d'une date valide: aaaa-mm-jj.";
+    
     private int soin;
     private Date date;
     private String montantReclamationString;
@@ -25,7 +28,7 @@ public class Reclamation {
 
         setSoin(soin);
         if (!date.contientUnJour()) {
-            throw new ReclamationException();
+            throw new ReclamationException(MSG_DATE_INCOMPLETE_EXCEPTION);
         }
         this.date = date;
         setMontantReclamation(montantReclamation);

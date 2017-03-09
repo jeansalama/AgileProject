@@ -10,42 +10,52 @@ import net.sf.json.JSONSerializer;
 
 public class Entree {
 
-    private ArrayList<Reclamation> reclamations = new ArrayList<>(0);
+    public final static String MSG_MOIS_EXCEPTION = "Mois invalide. "
+            + "Format d'un mois valide: aaaa-mm.";
+    
+    private ArrayList<Reclamation> listeReclamations = new ArrayList<>(0);
     private JSONObject infoClient;
     private Dossier client;
    
     public Entree(String fichierEntree) throws DateException, DossierException,
             ContratException, ReclamationException {
 
-        infoClient = (JSONObject)JSONSerializer.toJSON(readFile(fichierEntree));
+        infoClient = (JSONObject)JSONSerializer.toJSON(lireFichier(fichierEntree));
         
         client = new Dossier(infoClient.getString("dossier"), 
         new Date(infoClient.getString("mois")));
         if (client.getDate().contientUnJour()) {
-            throw new ReclamationException();
+            throw new ReclamationException(MSG_MOIS_EXCEPTION);
         }
-        setListeReclamation();
+        setListeReclamations();
     }
 
-    public ArrayList<Reclamation> getReclamation() {
-        return reclamations;
+    public ArrayList<Reclamation> getListeReclamations() {
+        return listeReclamations;
     }
 
     public Dossier getDossier() {
         return client;
     }
     
-    public void setListeReclamation()
+    public void setListeReclamations()
             throws DateException, ReclamationException {
-        JSONArray tableau = infoClient.getJSONArray("reclamations");
-        for (int i = 0; i < tableau.size(); i++) {
+        JSONArray tableauReclamations = infoClient.getJSONArray("reclamations");
+        for (int i = 0; i < tableauReclamations.size(); i++) {
 
-            JSONObject item = tableau.getJSONObject(i);
-            Date date = new Date(item.getString("date"));
+            JSONObject reclamation = tableauReclamations.getJSONObject(i);
+            Date date = new Date(reclamation.getString("date"));
             validationBonMois(date);
-            reclamations.add(new Reclamation(item.getInt("soin"),
-                    date, item.getString("montant")));
+            ajouterUneReclamation(reclamation, date);
         }
+    }
+
+    private void ajouterUneReclamation(JSONObject reclamation, Date date) 
+            throws ReclamationException {
+        int soin = reclamation.getInt("soin");
+        String montant = reclamation.getString("montant");
+        
+        listeReclamations.add(new Reclamation(soin, date, montant));
     }
 
     private void validationBonMois(Date date) throws ReclamationException {
@@ -62,7 +72,7 @@ public class Entree {
      * @param fileName fichier avec les infos
      * @return retourne un String en format .JSON
      */
-    public static String readFile(String fileName) {
+    public static String lireFichier(String fileName) {
         String jsonTxt = null;
         try {
             jsonTxt = Utf8File.loadFileIntoString(fileName);

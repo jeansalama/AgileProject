@@ -47,7 +47,7 @@ public class Sortie {
         
         double total = 0;
         double montant;
-        for (Reclamation reclam : entree.getReclamation()) {
+        for (Reclamation reclam : entree.getListeReclamations()) {
             montant = ajouterUneReclamation(reclam);
             total = total + montant; 
         }
