@@ -10,4 +10,4 @@
 * Les variables locales sont déclarées au début des méthodes.
 * La nomenclature des méthodes est *verbeComplement* (Exemple: afficherTableau() ou estValide()).
   * La nomenclature doit reflété de façon évidente la fonctionnalité de la méthode
-* Seuls les @params, @return et @throws sont utilisés en JavaDoc pour commenter les méthodes, mais les "getters" et "setters" n'ont jamais de JavaDoc.
+* Seuls les @params, @return et @throws sont utilisés en JavaDoc pour commenter les méthodes, mais les "getters", les "setters" ainsi que la méthode toString() n'ont jamais de JavaDoc.
