@@ -16,14 +16,10 @@ public class MontantFormat {
             + " 0.00$ ou 0,00$";
 
     /**
-     * Cette methode formatte un montant en double en une chaine de caractere
-     * representant ce montant en dollars a deux decimales pres avec le
-     * caractere '.' comme separateur decimal : 123.451 sera transformee en
-     * "123.45$"
-     *
      * @param montant a formatter
-     * @return String la chaine de caractere representant le montant avec les
-     * specifications mentionnees ci-dessus
+     * @return String la chaine de caractere representant le montant en dollars
+     * a deux decimales pres avec le caractere '.' ou ',' comme separateur
+     * decimal : 123.451 sera transformee en "123.45$"
      */
     public static String formatRemboursement(double montant) {
 
@@ -35,6 +31,16 @@ public class MontantFormat {
         return df.format(montant);
     }
 
+    /**
+     *
+     * @param montantReclamation un String representant un montant en dollars
+     * @return double, la valeur de montanReclamation
+     * @throws ReclamationException si dans montantReclamation une de ces
+     * conditions n'est pas respectee : il n'y a pas de separateur decimal ('.'
+     * ou ','). La devise '$' n'est pas le dernier caractere. Il n'y a pas de
+     * decimale avant le separateur (partie entiere). Il n'y a pas exactement
+     * deux decimales apres le separateur (partie fractionnaire)
+     */
     public static double analyserReclamation(String montantReclamation)
             throws ReclamationException {
 
@@ -51,32 +57,50 @@ public class MontantFormat {
         return montant;
     }
 
-    private static DecimalFormat obtenirBonAnalyseur(String montantReclamation) {
+    /**
+     * @param montant un String representant un montant en dollars
+     * @return DecimalFormat, un analyseur permettant la conversion du String
+     * montant en sa valeur en double (en tenant compte de son separateur
+     * decimal)
+     */
+    private static DecimalFormat obtenirBonAnalyseur(String montant) {
 
         DecimalFormatSymbols symboles = new DecimalFormatSymbols();
 
         symboles.setDecimalSeparator('.');
         DecimalFormat analyseur = new DecimalFormat("0.00$", symboles);
 
-        if (montantReclamation.contains(",")) {
+        if (montant.contains(",")) {
             symboles.setDecimalSeparator(',');
             analyseur = new DecimalFormat("0.00$", symboles);
         }
         return analyseur;
     }
 
+    /**
+     * @param montantReclam un String representant un montant en dollars
+     * @throws ReclamationException si dans montantReclam une de ces conditions
+     * n'est pas respectee : il n'y a pas de separateur decimal ('.' ou ','). La
+     * devise '$' n'est pas le dernier caractere. Il n'y a pas de decimale avant
+     * le separateur (partie entiere). Il n'y a pas exactement deux decimales
+     * apres le separateur (partie fractionnaire)
+     */
     private static void verifierFormatMontant(String montantReclam)
             throws ReclamationException {
 
         if (!contientSeparateurDecimal(montantReclam)
                 || !validerIndiceDevise(montantReclam)
                 || taillePartieEntiere(montantReclam) < 1
-                || taillePartieDecimale(montantReclam) != 2) {
+                || taillePartieFractionnaire(montantReclam) != 2) {
 
             throw new ReclamationException(MSG_ERREUR_FORMAT);
         }
     }
 
+    /**
+     * @param montantReclam un String representant un montant en dollars
+     * @return int, l'indice du separateur decimal de montantReclam
+     */
     private static int indiceSeparateurDecimal(String montantReclam) {
         int indice;
 
@@ -89,11 +113,20 @@ public class MontantFormat {
         return indice;
     }
 
+    /**
+     * @param montantReclam un String representant un montant en dollars
+     * @return boolean, vrai montantReclam contient un separateur decimal ('.'
+     * ou ','), false sinon
+     */
     private static boolean contientSeparateurDecimal(String montantReclam) {
 
         return indiceSeparateurDecimal(montantReclam) != -1;
     }
 
+    /**
+     * @param montantReclam un String representant un montant en dollars
+     * @return int, le nombre de decimales avant la "virgule"
+     */
     private static int taillePartieEntiere(String montantReclam) {
 
         int indice = indiceSeparateurDecimal(montantReclam);
@@ -103,21 +136,34 @@ public class MontantFormat {
         return partieEntiere.length();
     }
 
-    private static int taillePartieDecimale(String montantReclam) {
+    /**
+     * @param montantReclam un String representant un montant en dollars
+     * @return int, le nombre de decimales apres la "virgule"
+     */
+    private static int taillePartieFractionnaire(String montantReclam) {
 
         int indiceSeparateur = indiceSeparateurDecimal(montantReclam);
         int indiceDevise = indiceDevise(montantReclam);
 
-        String partieDecimale = montantReclam.substring(indiceSeparateur + 1,
-                indiceDevise);
+        String partieDecimale
+                = montantReclam.substring(indiceSeparateur + 1, indiceDevise);
 
         return partieDecimale.length();
     }
 
+    /**
+     * @param montantReclam un String representant un montant en dollars
+     * @return int l'indice de la devise ('$') dans montantReclam
+     */
     private static int indiceDevise(String montantReclam) {
         return montantReclam.indexOf("$");
     }
 
+    /**
+     * @param montantReclam un String representant un montant en dollars
+     * @return boolean, vrai si la devise '$' est le dernier caractere de
+     * montantReclam, false sinon
+     */
     private static boolean validerIndiceDevise(String montantReclam) {
         return indiceDevise(montantReclam) == montantReclam.length() - 1;
     }
