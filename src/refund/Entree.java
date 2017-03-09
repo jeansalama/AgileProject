@@ -4,6 +4,7 @@ package refund;
 import java.io.IOException;
 import java.util.ArrayList;
 import net.sf.json.JSONArray;
+import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
@@ -52,9 +53,21 @@ public class Entree {
 
     private void ajouterUneReclamation(JSONObject reclamation, Date date) 
             throws ReclamationException {
-        int soin = reclamation.getInt("soin");
-        String montant = reclamation.getString("montant");
+        int soin;
+        String msg;
         
+        if(reclamation.containsKey("soin")){
+            try{
+                soin = reclamation.getInt("soin");
+            } catch(JSONException e){
+                msg = e.getMessage();
+                throw new ReclamationException("La donnee soin est invalide !" + msg);
+            }
+        } else {
+            throw new ReclamationException("La propriete soin est manquante!!!");
+        }
+        
+        String montant = reclamation.getString("montant");
         listeReclamations.add(new Reclamation(soin, date, montant));
     }
 

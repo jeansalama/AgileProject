@@ -14,8 +14,8 @@ import static java.lang.Integer.parseInt;
  */
 public class Date {
 
-    public final static String MSG_DATE_EXCEPTION = "Donnees date erronees. "
-            + "Format date valide: aaaa-mm-jj ou aaa-mm-jj.";
+    public final static String MSG_DATE_EXCEPTION = "Donnees date invalides. "
+            + "Le Format de date valide est : aaaa-mm-jj ou aaa-mm-jj.";
     private String date;
     private String annee;
     private String mois;

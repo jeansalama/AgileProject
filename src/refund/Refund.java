@@ -31,7 +31,8 @@ public class Refund {
             Entree entree = new Entree(args[0]);
             Sortie sortie = new Sortie(entree, args[1]);
 
-        } catch (ContratException | DateException | DossierException | ReclamationException e) {
+        } catch (ContratException | DateException | DossierException 
+                | ReclamationException e) {
             erreurDonnees(e, args[1]);
 
         } catch (JSONException j) {
@@ -76,11 +77,12 @@ public class Refund {
                 || j.substring(0, 8).equals("Expected")
                 || j.substring(0, 7).equals("Missing")
                 || j.substring(0, 12).equals("Unterminated")) {
-            return "Erreur dans le fichier d'entree.";
+            return "Erreur dans le fichier d'entree." + j;
         } else {
             return "La propriete "
                     + j.substring(debutChainePropriete, finChainePropriete)
-                    + " est manquante.";
+                    + " est manquante."
+                    + " " + j;
         }
     }
 
