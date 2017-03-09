@@ -53,7 +53,7 @@ public class Reclamation {
     public void setSoin(int soin) throws ReclamationException {
 
         if (!validerSoin(soin)) {
-            throw new ReclamationException("Donnee soin invalide !");
+            throw new ReclamationException("La donnee soin est invalide !");
         }
         this.soin = soin;
     }
@@ -99,11 +99,7 @@ public class Reclamation {
                 || soin == 600 || soin == 700 || soin == 150 || soin == 175;
     }
 
-    /**
-     *
-     * @return une représentation sous forme de chaîne de caractère du montant
-     * de réclamation.
-     */
+
     @Override
     public String toString() {
         return montantReclamationString;
