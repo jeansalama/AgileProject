@@ -14,6 +14,9 @@ public class CalculRemboursements {
     private static final JSONObject REGLES_REMBOURSEMENT
             = chargerReglesRemboursement();
 
+    /**
+     * @return JSONObject, "modelisant" les regles du contrat
+     */
     private static JSONObject chargerReglesRemboursement() {
         String stringJson;
         JSONObject regles = new JSONObject();
@@ -28,6 +31,11 @@ public class CalculRemboursements {
         return regles;
     }
 
+    /**
+     * @param reclam une reclamation du dossier client
+     * @param dossier le dossier du client
+     * @return double, le remboursement de cette reclamation
+     */
     public static double calculerRemboursement(Reclamation reclam,
             Dossier dossier) {
         Contrat contrat = dossier.getContrat();
@@ -35,6 +43,11 @@ public class CalculRemboursements {
         return calculerRemboursement(reclam, contrat);
     }
 
+    /**
+     * @param reclam une reclamation du dossier client
+     * @param contrat le contrat du client
+     * @return double, le remboursement (maximal) de cette reclamation
+     */
     public static double calculerRemboursement(Reclamation reclam,
             Contrat contrat) {
 
@@ -47,6 +60,12 @@ public class CalculRemboursements {
         return remboursement;
     }
 
+    /**
+     * @param regle une regle de remboursement specifique
+     * @param montantReclamation
+     * @return double, le remboursement maximal etant donne le montant de
+     * reclamation fourni et la regle de rembourssement
+     */
     private static double obtenirRemboursementMaximal(JSONObject regle,
             double montantReclamation) {
         double tauxRemb = obtenirTauxRemboursement(regle);
@@ -58,10 +77,20 @@ public class CalculRemboursements {
         return remboursement;
     }
 
+    /**
+     * @param regle une regle de remboursement specifique
+     * @return double, le taux de remboursement selon cette regle
+     */
     private static double obtenirTauxRemboursement(JSONObject regle) {
         return regle.getDouble("taux");
     }
 
+    /**
+     * @param reclam une reclamation du dossier client
+     * @param contrat le contrat du client
+     * @return JSONObject, une regle specifique au type de contrat et de la
+     * reclamtion donnee
+     */
     private static JSONObject extraireUneRegle(Reclamation reclam,
             Contrat contrat) {
         String soin = obtenirSoin(reclam);
@@ -72,6 +101,10 @@ public class CalculRemboursements {
         return regle;
     }
 
+    /**
+     * @param reclam une reclamation du dossier client
+     * @return String, le type de soin de la reclamation
+     */
     private static String obtenirSoin(Reclamation reclam) {
         String soin = reclam.getSoin() + "";
 
