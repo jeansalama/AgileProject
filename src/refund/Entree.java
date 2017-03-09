@@ -1,4 +1,3 @@
-
 package refund;
 
 import java.io.IOException;
@@ -8,23 +7,22 @@ import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
-
 public class Entree {
 
     public final static String MSG_MOIS_EXCEPTION = "Mois invalide. "
             + "Format d'un mois valide: aaaa-mm.";
-    
+
     private ArrayList<Reclamation> listeReclamations = new ArrayList<>(0);
     private JSONObject infoClient;
     private Dossier client;
-   
+
     public Entree(String fichierEntree) throws DateException, DossierException,
             ContratException, ReclamationException {
+        infoClient = (JSONObject) JSONSerializer.toJSON(
+                lireFichier(fichierEntree));
 
-        infoClient = (JSONObject)JSONSerializer.toJSON(lireFichier(fichierEntree));
-        
-        client = new Dossier(infoClient.getString("dossier"), 
-        new Date(infoClient.getString("mois")));
+        client = new Dossier(infoClient.getString("dossier"),
+                new Date(infoClient.getString("mois")));
         if (client.getDate().contientUnJour()) {
             throw new ReclamationException(MSG_MOIS_EXCEPTION);
         }
@@ -38,7 +36,7 @@ public class Entree {
     public Dossier getDossier() {
         return client;
     }
-    
+
     public void setListeReclamations()
             throws DateException, ReclamationException {
         JSONArray tableauReclamations = infoClient.getJSONArray("reclamations");
@@ -51,24 +49,26 @@ public class Entree {
         }
     }
 
-    private void ajouterUneReclamation(JSONObject reclamation, Date date) 
+    private void ajouterUneReclamation(JSONObject reclamation, Date date)
             throws ReclamationException {
-        int soin;
-        String msg;
-        
-        if(reclamation.containsKey("soin")){
-            try{
-                soin = reclamation.getInt("soin");
-            } catch(JSONException e){
-                msg = e.getMessage();
-                throw new ReclamationException("La donnee soin est invalide !" + msg);
-            }
-        } else {
-            throw new ReclamationException("La propriete soin est manquante!!!");
-        }
-        
+        int soin = obtenirSoin(reclamation);
+
         String montant = reclamation.getString("montant");
         listeReclamations.add(new Reclamation(soin, date, montant));
+    }
+
+    private int obtenirSoin(JSONObject reclam) throws ReclamationException {
+        int soin;
+        if (reclam.containsKey("soin")) {
+            try {
+                soin = reclam.getInt("soin");
+            } catch (JSONException e) {
+                throw new ReclamationException("La donnee soin est invalide !");
+            }
+        } else {
+            throw new ReclamationException("La propriete soin est manquante.");
+        }
+        return soin;
     }
 
     private void validationBonMois(Date date) throws ReclamationException {
@@ -89,7 +89,6 @@ public class Entree {
         String jsonTxt = null;
         try {
             jsonTxt = Utf8File.loadFileIntoString(fileName);
-
         } catch (IOException ex) {
             System.out.println("Erreur lors de la lecture du fichier JSON. "
                     + ex.getLocalizedMessage());

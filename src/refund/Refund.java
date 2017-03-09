@@ -1,15 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package refund;
 
 import java.io.IOException;
 
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
-
 
 /**
  *
@@ -43,7 +37,7 @@ public class Refund {
 
     private static void erreurDonnees(Exception e, String fichier) {
         JSONObject erreur = new JSONObject();
-            erreur.accumulate("message", e.getMessage());
+        erreur.accumulate("message", e.getMessage());
         try {
             Utf8File.saveStringIntoFile(fichier, erreur.toString(2));
         } catch (IOException ect) {
@@ -52,34 +46,41 @@ public class Refund {
         }
     }
 
-    private static void erreurJson(Exception j, String fichier) {
+    private static void erreurJson(JSONException e, String fichier) {
         JSONObject erreur = new JSONObject();
         erreur.accumulate("message",
-                retourProprieteManquantes(j.getMessage()));
+                retourProprieteManquantes(e.getMessage()));
         try {
             Utf8File.saveStringIntoFile(fichier, erreur.toString(2));
-        } catch (IOException e) {
+        } catch (IOException ioe) {
             System.out.println("Erreur avec le fichier de sortie : "
-                    + e.getLocalizedMessage());
+                    + ioe.getLocalizedMessage());
         }
     }
 
-    private static String retourProprieteManquantes(String j) {
+    private static String retourProprieteManquantes(String msgJsonException) {
 
-        int debutChainePropriete = j.indexOf("\"") + 1;
-        int finChainePropriete = j.lastIndexOf("\"");
-
-        if (debutChainePropriete == -1 || finChainePropriete == -1
-                || j.substring(0, 8).equals("Expected")
-                || j.substring(0, 7).equals("Missing")
-                || j.substring(0, 12).equals("Unterminated")) {
-            return "Erreur dans le fichier d'entree." + j;
+        int debutChainePropriete = msgJsonException.indexOf("\"") + 1;
+        int finChainePropriete = msgJsonException.lastIndexOf("\"");
+        
+        String propriete = msgJsonException.substring(debutChainePropriete,
+                finChainePropriete);
+        if (syntaxeJsonNonValide(msgJsonException)) {
+            return "Erreur dans le fichier d'entree.";
         } else {
-            return "La propriete "
-                    + j.substring(debutChainePropriete, finChainePropriete)
-                    + " est manquante."
-                    + " " + j;
+            return "La propriete " + propriete + " est manquante.";
         }
+    }
+
+    private static boolean syntaxeJsonNonValide(String msgJsonException) {
+
+        int debutChainePropriete = msgJsonException.indexOf("\"") + 1;
+        int finChainePropriete = msgJsonException.lastIndexOf("\"");
+
+        return debutChainePropriete == -1 || finChainePropriete == -1
+                || msgJsonException.substring(0, 8).equals("Expected")
+                || msgJsonException.substring(0, 7).equals("Missing")
+                || msgJsonException.substring(0, 12).equals("Unterminated");
     }
 
 }
