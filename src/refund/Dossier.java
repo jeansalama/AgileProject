@@ -12,8 +12,6 @@ public class Dossier {
     private Contrat contrat;
 
     /**
-     * Ce constructeur cree un objet Client avec tous les infos de celui ci
-     *
      * @param idDossier Un String d'une lettre (type du contrat) 
      * suivie de 6 chiffres
      * @param date Une Date de format AAAA-MM
@@ -38,9 +36,6 @@ public class Dossier {
     }
 
     /**
-     * Valide si la String a seulement 6 characteres de long et qu'il s'agit que
-     * de numeros sinon lance une exception
-     *
      * @param idDossier Un String d'une lettre (type du contrat) 
      * suivie de 6 chiffres
      * @throws DossierException si le format du idDossier est invalide

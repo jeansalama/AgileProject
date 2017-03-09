@@ -7,11 +7,9 @@ package refund;
  */
 public class Contrat {
 
-    private String type; // type du contrat
+    private String type;
 
     /**
-     * Ce constructeur cree un contrat avec son type
-     *
      * @param type un String d'un caractere parmi 'A', 'B', 'C', 'D', 'E'.
      * @throws ContratException si le type du contrat n'est pas valide
      */
@@ -36,11 +34,9 @@ public class Contrat {
     }
 
     /**
-     * Cette methode indique si le type de contrat est valide ou non : cad si
-     * c'est un String d'un caractere parmi 'A','B','C', 'D'ou 'E'.
-     *
      * @param type un String representant le type d'un contrat
-     * @return boolean true si le type est valide, false sinon
+     * @return boolean true si le type est valide (cad si c'est un String 
+     * d'un caractere parmi 'A','B','C', 'D'ou 'E'), false sinon
      */
     private boolean estTypeValide(String type) {
         return type != null && type.length() == 1
