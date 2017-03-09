@@ -6,6 +6,9 @@ package refund;
  * @author Max
  */
 public class Dossier {
+    
+    public static final String MSG_DOSSIER_EXCEPTION 
+            = "Le dossier du client est invalide";
 
     private String idDossier;
     private Date date;
@@ -43,13 +46,13 @@ public class Dossier {
     public final void setIdDossier(String idDossier) throws DossierException {
 
         if (idDossier.length() != 7) {
-            throw new DossierException("Dossier du client invalide");
+            throw new DossierException(MSG_DOSSIER_EXCEPTION);
         }
         try {
             Integer.parseInt(idDossier.substring(1));
             contrat = new Contrat(idDossier.substring(0, 1));
         } catch (NumberFormatException | ContratException nfe) {
-            throw new DossierException("Dossier du client invalide");
+            throw new DossierException(MSG_DOSSIER_EXCEPTION);
         }
         this.idDossier = idDossier;
 

@@ -7,6 +7,9 @@ package refund;
  */
 public class Contrat {
 
+    public static final String MSG_CONTRAT_EXCEPTION 
+            = "Le contrat du client est invalide";
+    
     private String type;
 
     /**
@@ -23,7 +26,7 @@ public class Contrat {
 
     public void setType(String type) throws ContratException {
         if (!estTypeValide(type)) {
-            throw new ContratException("Donnees contrat invalide !");
+            throw new ContratException(MSG_CONTRAT_EXCEPTION);
         }
         this.type = type;
     }

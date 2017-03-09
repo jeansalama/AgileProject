@@ -9,8 +9,8 @@ import net.sf.json.JSONSerializer;
 
 public class Entree {
 
-    public final static String MSG_MOIS_EXCEPTION = "Mois invalide. "
-            + "Format d'un mois valide: aaaa-mm.";
+    public final static String MSG_MOIS_EXCEPTION = "Le mois est invalide. "
+            + "Le format d'un mois accepte est aaaa-mm.";
 
     private ArrayList<Reclamation> listeReclamations = new ArrayList<>(0);
     private JSONObject infoClient;
