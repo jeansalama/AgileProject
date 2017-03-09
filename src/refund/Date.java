@@ -74,10 +74,19 @@ public class Date {
         this.jour = jour;
     }
 
+    /**
+     * 
+     * @return vrai si la longueur de la date est de 10 caracteres sinon faux
+     */
     public boolean contientUnJour() {
         return date.length() == 10;
     }
 
+    /**
+     *
+     * @param date
+     * @throws DateException si date pas numerique ou mauvaise longueuer
+     */
     private void validerFormatDate(String date) throws DateException {
         String[] tab;
         if (validerLongueurDate(date)) {
@@ -92,6 +101,11 @@ public class Date {
         }
     }
 
+    /**
+     *
+     * @param date
+     * @return vrai si longueur est valide sinon faux
+     */
     private boolean validerLongueurDate(String date) {
         boolean estLongueur = true;
         if (!(date.length() == 7 || date.length() == 10)) {
@@ -100,8 +114,11 @@ public class Date {
         return estLongueur;
     }
 
-    /**
-     * @throws DateException si les separateurs ne correspondent pas a '-'
+  /**
+   * 
+   * @param date
+   * @return la date separee dans un tableau de chaine de caracteres
+   * @throws DateException si les separateurs ne correspondent pas a '-'
      */
     private static String[] SeparerDateTableauString(String date)
             throws DateException {
@@ -115,6 +132,12 @@ public class Date {
         return tabDateEstSeparee;
     }
 
+    /**
+     *
+     * @param annee
+     * @return
+     * @throws DateException si annee pas numerique ou mauvaise longueuer
+     */
     private boolean validerAnnee(String annee) throws DateException {
         boolean anneeValide = true;
         try {
@@ -127,6 +150,12 @@ public class Date {
         return anneeValide;
     }
 
+    /**
+     * 
+     * @param mois
+     * @return
+     * @throws DateException si mois pas numerique ou mauvaise longueuer
+     */
     private boolean validerMois(String mois) throws DateException {
         boolean moisValide = true;
         try {
@@ -140,6 +169,14 @@ public class Date {
         return moisValide;
     }
 
+    /**
+     *
+     * @param mois
+     * @param jour
+     * @param annee
+     * @return
+     * @throws DateException si jour pas numerique ou mauvaise longueuer
+     */
     private boolean validerJour(String mois, String jour, String annee)
             throws DateException {
         boolean jourValide = false;
@@ -157,6 +194,14 @@ public class Date {
         return jourValide;
     }
 
+    /**
+     *
+     * @param jourInt
+     * @param moisInt
+     * @param anneeInt
+     * @param jourValide
+     * @return vrai si jour valide par rapport au mois sinon faux
+     */
     private boolean validerJourParMois(int jourInt, int moisInt,
             int anneeInt, boolean jourValide) {
         if (moisInt == 4 || moisInt == 6 || moisInt == 9 || moisInt == 11
@@ -170,6 +215,13 @@ public class Date {
         return jourValide;
     }
 
+    /**
+     *
+     * @param anneeInt
+     * @param jourInt
+     * @param jourValide
+     * @return vrai si jour valide par rapport a l'annee sinon faux
+     */
     private boolean validerJourParAnnee(int anneeInt, int jourInt,
             boolean jourValide) {
         if (estAnneeBissextile(anneeInt) && (jourInt >= 1 && jourInt <= 29)) {
@@ -182,6 +234,11 @@ public class Date {
         return jourValide;
     }
 
+    /**
+     *
+     * @param anneeInt
+     * @return vrai si c'est une annee bissextile sinon faux
+     */
     private boolean estAnneeBissextile(int anneeInt) {
         boolean estBissextile = true;
         if (!((anneeInt % 4 == 0) && (anneeInt % 100 != 0)
