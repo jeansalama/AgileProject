@@ -1,33 +1,32 @@
-
 package refund;
-import static jdk.nashorn.internal.runtime.JSType.isNumber;
+
 /**
  * Class pour gerer l'infos d'un client
+ *
  * @author Max
  */
 public class Dossier {
 
-    private String dossier;
+    private String idDossier;
     private Date date;
     private Contrat contrat;
-     
+
     /**
      * Ce constructeur cree un objet Client avec tous les infos de celui ci
-     * @param dossier Un String de max 6 chiffres
-     * @param contrat Un String de une lettre
-     * @param date Un String d'une date AAAA-MM
-     * @throws Exception Si une des valeurs est invalide 
+     *
+     * @param idDossier Un String d'une lettre (type du contrat) 
+     * suivie de 6 chiffres
+     * @param date Une Date de format AAAA-MM
+     * @throws DossierException Si une des valeurs est invalide
      */
-    public Dossier(String dossier, Date date) throws DossierException {
-
-        setDossier(dossier);
-        setDate(date);
+    public Dossier(String idDossier, Date date) throws DossierException {
         
-       
+        setIdDossier(idDossier);
+        setDate(date);
     }
 
-    public String getDossier() {
-        return dossier;
+    public String getIdDossier() {
+        return idDossier;
     }
 
     public Contrat getContrat() {
@@ -37,44 +36,47 @@ public class Dossier {
     public Date getDate() {
         return date;
     }
-    
-      
-   
+
     /**
-     * Valide si la String a seulement 6 characteres de long et qu'il s'agit 
-     * que de numeros sinon lance une exception
-     * @param numero
-     * @throws DossierException
+     * Valide si la String a seulement 6 characteres de long et qu'il s'agit que
+     * de numeros sinon lance une exception
+     *
+     * @param idDossier Un String d'une lettre (type du contrat) 
+     * suivie de 6 chiffres
+     * @throws DossierException si le format du idDossier est invalide
      */
-    public final void setDossier(String dossier) throws DossierException {
-            
-        if (dossier.length() != 7) {
+    public final void setIdDossier(String idDossier) throws DossierException {
+
+        if (idDossier.length() != 7) {
             throw new DossierException("Dossier du client invalide");
         }
-        try{
-            Integer.parseInt(dossier.substring(1));
-            contrat = new Contrat(dossier.substring(0, 1));
-        } catch(NumberFormatException | ContratException nfe){
+        try {
+            Integer.parseInt(idDossier.substring(1));
+            contrat = new Contrat(idDossier.substring(0, 1));
+        } catch (NumberFormatException | ContratException nfe) {
             throw new DossierException("Dossier du client invalide");
         }
-        this.dossier = dossier;
-        
+        this.idDossier = idDossier;
+
     }
 
-    public final void setDate(Date date){
+    public final void setDate(Date date) {
         this.date = date;
     }
 
     @Override
     public String toString() {
-        return "dossier: " + dossier + "\nMois: " + date;
+        return "dossier: " + idDossier + "\nMois: " + date;
     }
 
 }
+
 class DossierException extends Exception {
-        public DossierException(){}
-    
-        public DossierException(String msg){
-            super(msg);
-        }
+
+    public DossierException() {
     }
+
+    public DossierException(String msg) {
+        super(msg);
+    }
+}

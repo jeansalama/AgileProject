@@ -8,8 +8,8 @@ package refund;
 import java.io.IOException;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import static refund.CalculRemboursements.calculerRemboursement;
 import static refund.MontantFormat.formatRemboursement;
+import static refund.CalculRemboursements.calculerRemboursement;
 
 /**
  *
@@ -31,9 +31,9 @@ public class Sortie {
     }
     
     private void ecrireDebut(){
-        
-        infoClient.accumulate("dossier", entree.getDossier().getDossier());
-        infoClient.accumulate("mois", entree.getDossier().getDate().toString());
+        Dossier dossier = entree.getDossier();
+        infoClient.accumulate("dossier", dossier.getIdDossier());
+        infoClient.accumulate("mois", dossier.getDate().toString());
         
     }
     private void ecrireReclamations(){
