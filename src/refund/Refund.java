@@ -42,11 +42,7 @@ public class Refund {
 
     private static void erreurDonnees(Exception e, String fichier) {
         JSONObject erreur = new JSONObject();
-        if (e.getMessage() == null) {
-            erreur.accumulate("message", refund.Date.MSG_DATE_EXCEPTION);
-        } else {
             erreur.accumulate("message", e.getMessage());
-        }
         try {
             Utf8File.saveStringIntoFile(fichier, erreur.toString(2));
         } catch (IOException ect) {
