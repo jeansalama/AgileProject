@@ -10,6 +10,7 @@ import java.io.IOException;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
+
 /**
  *
  * @author Maxime
@@ -29,21 +30,23 @@ public class Refund {
 
             Entree entree = new Entree(args[0]);
             Sortie sortie = new Sortie(entree, args[1]);
-       
 
-        } catch (ContratException | DateException | DossierException
-                | ReclamationException e) {
+        } catch (ContratException | DateException | DossierException | ReclamationException e) {
             erreurDonnees(e, args[1]);
-            
+
         } catch (JSONException j) {
             erreurJson(j, args[1]);
-           
+
         }
     }
 
     private static void erreurDonnees(Exception e, String fichier) {
         JSONObject erreur = new JSONObject();
-        erreur.accumulate("message", e.getMessage());
+        if (e.getMessage() == null) {
+            erreur.accumulate("message", refund.Date.MSG_DATE_EXCEPTION);
+        } else {
+            erreur.accumulate("message", e.getMessage());
+        }
         try {
             Utf8File.saveStringIntoFile(fichier, erreur.toString(2));
         } catch (IOException ect) {
@@ -59,7 +62,7 @@ public class Refund {
         try {
             Utf8File.saveStringIntoFile(fichier, erreur.toString(2));
         } catch (IOException e) {
-            System.out.println("Erreur avec le fichier de sortie : " 
+            System.out.println("Erreur avec le fichier de sortie : "
                     + e.getLocalizedMessage());
         }
     }
