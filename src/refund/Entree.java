@@ -42,17 +42,16 @@ public class Entree {
         JSONArray tableauReclamations = infoClient.getJSONArray("reclamations");
         for (int i = 0; i < tableauReclamations.size(); i++) {
 
-            JSONObject reclamation = tableauReclamations.getJSONObject(i);
-            Date date = new Date(reclamation.getString("date"));
-            validationBonMois(date);
-            ajouterUneReclamation(reclamation, date);
+            JSONObject reclamation = tableauReclamations.getJSONObject(i);            
+            ajouterUneReclamation(reclamation);
         }
     }
 
-    private void ajouterUneReclamation(JSONObject reclamation, Date date)
-            throws ReclamationException {
+    private void ajouterUneReclamation(JSONObject reclamation)
+            throws DateException, ReclamationException {
         int soin = obtenirSoin(reclamation);
-
+        Date date = new Date(reclamation.getString("date"));
+        validationBonMois(date);
         String montant = reclamation.getString("montant");
         listeReclamations.add(new Reclamation(soin, date, montant));
     }

@@ -62,17 +62,19 @@ public class Refund {
 
         int debutChainePropriete = msgJsonException.indexOf("\"") + 1;
         int finChainePropriete = msgJsonException.lastIndexOf("\"");
-        
-        String propriete = msgJsonException.substring(debutChainePropriete,
-                finChainePropriete);
-        if (syntaxeJsonNonValide(msgJsonException)) {
-            return "Erreur dans le fichier d'entree.";
+        String msg;
+        String propriete;
+        if (proprieteInexistante(msgJsonException)) {
+            msg = "Erreur dans le fichier d'entree.";
         } else {
-            return "La propriete " + propriete + " est manquante.";
+            propriete = msgJsonException.substring(debutChainePropriete,
+                finChainePropriete);
+            msg = "La propriete " + propriete + " est manquante.";
         }
+        return msg;
     }
 
-    private static boolean syntaxeJsonNonValide(String msgJsonException) {
+    private static boolean proprieteInexistante(String msgJsonException) {
 
         int debutChainePropriete = msgJsonException.indexOf("\"") + 1;
         int finChainePropriete = msgJsonException.lastIndexOf("\"");
