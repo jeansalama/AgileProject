@@ -8,6 +8,6 @@
   * Sauf en ce qui concerne les "getters", "setters", la méthode toString() et la classe Utf8File.
 * Les attributs et variables de classes déclarés au début de celle-ci.
 * Les variables locales sont déclarées au début des méthodes.
-* La nomenclature des méthodes est *verbeComplement* (Exemple: afficherTableau() ou estValide()).
+* La nomenclature des méthodes est *verbeComplement* ou *nomComplement* (Exemple: afficherTableau() ou methodeValide()).
   * La nomenclature doit reflété de façon évidente la fonctionnalité de la méthode
 * Seuls les @params, @return et @throws sont utilisés en JavaDoc pour commenter les méthodes, mais les "getters", les "setters" ainsi que la méthode toString() n'ont jamais de JavaDoc.
