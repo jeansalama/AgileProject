@@ -143,6 +143,9 @@ public class Entree {
 
     public static void ajoutSoinStats(int soin) {
         JSONObject temp = stats.getJSONObject("Soins");
+        if(soin >= 300 && soin < 400){
+            soin = 300;
+        }
         String type = soin + "";
         int total = temp.getInt(type);
         total++;
