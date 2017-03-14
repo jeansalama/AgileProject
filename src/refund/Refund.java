@@ -41,9 +41,6 @@ public class Refund {
             System.out.println(Entree.stats.toString(2));
         } else if (args[0].equals("-SR")) {
             Entree.viderStats();
-            //Entree.stats.getJSONObject("Reclamations");
-            //Entree.stats.getJSONObject("Soins").clear();
-            Sortie.sauverStats();
         }
 
     }

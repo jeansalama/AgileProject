@@ -24,6 +24,7 @@ public class Sortie {
         this.fichierSortie = fichierSortie;
         ecrireDebut();
         ecrireReclamations();
+        Entree.reclamValide();
         sortirFichier();
     }
 
@@ -51,7 +52,6 @@ public class Sortie {
         for (Reclamation reclam : entree.getListeReclamations()) {
             montant = ajouterUneReclamation(reclam);
             total = total + montant;
-            Entree.reclamValide();
         }
         return total;
     }

@@ -164,6 +164,6 @@ public class Entree {
         for (String element : listeSoin) {
             stats.getJSONObject("Soins").put(element, 0);
         }
-
+        Sortie.sauverStats();
     }
 }
