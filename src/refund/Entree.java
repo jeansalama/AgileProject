@@ -14,6 +14,9 @@ public class Entree {
 
     private ArrayList<Reclamation> listeReclamations = new ArrayList<>(0);
     private JSONObject infoClient;
+    public static JSONObject stats = (JSONObject) JSONSerializer.toJSON(
+            lireFichier("Statistiques.json"));
+    ;
     private Dossier client;
 
     /**
@@ -120,5 +123,44 @@ public class Entree {
             System.exit(1);
         }
         return jsonTxt;
+    }
+
+    public static void reclamRejete() {
+        JSONObject temp = stats.getJSONObject("Reclamations");
+        int total = temp.getInt("rejetees");
+        total++;
+        temp.put("rejetess", total);
+        Sortie.sauverStats();
+    }
+
+    public static void reclamValide() {
+        JSONObject temp = stats.getJSONObject("Reclamations");
+        int total = temp.getInt("traitees");
+        total++;
+        temp.put("traitees", total);
+        Sortie.sauverStats();
+    }
+
+    public static void ajoutSoinStats(int soin) {
+        JSONObject temp = stats.getJSONObject("Soins");
+        String type = soin + "";
+        int total = temp.getInt(type);
+        total++;
+        temp.put(type, total);
+        Sortie.sauverStats();
+    }
+
+    public static void viderStats() {
+        String[] listeReclam = {"traitees", "rejetees"};
+        String[] listeSoin = {"0", "100", "200", "300", "400", "500", "600",
+            "700"};
+
+        for (String element : listeReclam) {
+            stats.getJSONObject("Reclamations").put(element, 0);
+        }
+        for (String element : listeSoin) {
+            stats.getJSONObject("Soins").put(element, 0);
+        }
+
     }
 }

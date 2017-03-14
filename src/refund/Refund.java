@@ -11,27 +11,45 @@ public class Refund {
      * @param args le noms des fichiers utilises
      */
     public static void main(String[] args) {
-        if (args.length != 2) {
+        if (args.length < 1) {
             System.out.println("Saisie invalide");
-            System.exit(2);
+        } else if (args.length == 1) {
+            entreeConsole(args);
+
+        } else {
+            try {
+
+                Entree entree = new Entree(args[0]);
+                Sortie sortie = new Sortie(entree, args[1]);
+
+            } catch (ContratException | DateException | DossierException
+                    | ReclamationException e) {
+                Entree.reclamRejete();
+                erreurDonnees(e, args[1]);
+
+            } catch (JSONException j) {
+                erreurJson(j, args[1]);
+
+            }
         }
 
-        try {
-
-            Entree entree = new Entree(args[0]);
-            Sortie sortie = new Sortie(entree, args[1]);
-
-        } catch (ContratException | DateException | DossierException 
-                | ReclamationException e) {
-            erreurDonnees(e, args[1]);
-
-        } catch (JSONException j) {
-            erreurJson(j, args[1]);
-
-        }
     }
+
+    private static void entreeConsole(String[] args) {
+
+        if (args[0].equals("-S")) {
+            System.out.println(Entree.stats.toString(2));
+        } else if (args[0].equals("-SR")) {
+            Entree.viderStats();
+            //Entree.stats.getJSONObject("Reclamations");
+            //Entree.stats.getJSONObject("Soins").clear();
+            Sortie.sauverStats();
+        }
+
+    }
+
     /**
-     * 
+     *
      * @param e une exception qui a ete lancee
      * @param fichier le nom du fichier de sortie
      */
@@ -45,8 +63,9 @@ public class Refund {
                     + ect.getLocalizedMessage());
         }
     }
+
     /**
-     * 
+     *
      * @param e une exception qui a ete lancee
      * @param fichier le nom du fichier de sortie
      */
@@ -61,9 +80,10 @@ public class Refund {
                     + ioe.getLocalizedMessage());
         }
     }
+
     /**
-     * 
-     * @param msgJsonException le message d'exception 
+     *
+     * @param msgJsonException le message d'exception
      * @return le message pour la propriete Json appropriee
      */
     private static String retourProprieteManquantes(String msgJsonException) {
@@ -76,15 +96,16 @@ public class Refund {
             msg = "Erreur dans le fichier d'entree.";
         } else {
             propriete = msgJsonException.substring(debutChainePropriete,
-                finChainePropriete);
+                    finChainePropriete);
             msg = "La propriete " + propriete + " est manquante.";
         }
         return msg;
     }
+
     /**
-     * 
+     *
      * @param msgJsonException
-     * @return vrai si la propriete Json existe 
+     * @return vrai si la propriete Json existe
      */
     private static boolean proprieteInexistante(String msgJsonException) {
 

@@ -14,7 +14,7 @@ public class Reclamation {
     private Date date;
     private String montantReclamationString;
     private double montantReclamationDouble;
-
+    
     /**
      * @param soin une nombre entier représentant la catégorie de soin pour
      * lequelle un montant est réclamé.
@@ -25,7 +25,7 @@ public class Reclamation {
      */
     public Reclamation(int soin, Date date, String montantReclamation)
             throws ReclamationException {
-
+        
         setSoin(soin);
         if (!date.contientUnJour()) {
             throw new ReclamationException(MSG_DATE_INCOMPLETE_EXCEPTION);
