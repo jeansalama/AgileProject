@@ -25,7 +25,11 @@ public class Stats {
         return "Statistiques: \n Réclamations traitées: " 
                 + reclamations.getInt("traitees") + "\n Réclamations rejetées: " 
                 + reclamations.getInt("rejetees") + "\nSoins déclarés: "
-                + "\n Massothérapie: "+soins.getInt("0") 
+                + afficherSoins();
+        
+    }
+    private String afficherSoins(){
+        return "\n Massothérapie: "+soins.getInt("0") 
                 + "\n Ostéopathie: "+soins.getInt("100")
                 + "\n Psychologie individuelle: "+soins.getInt("200")
                 + "\n Soins dentaires: "+soins.getInt("300")
@@ -33,6 +37,5 @@ public class Stats {
                 + "\n Chiropratie: "+soins.getInt("500")
                 + "\n Physiothérapie: "+soins.getInt("600")
                 + "\n Orthophonie, ergothérapie: "+soins.getInt("700");
-        
     }
 }
