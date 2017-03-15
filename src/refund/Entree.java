@@ -129,7 +129,7 @@ public class Entree {
         JSONObject temp = stats.getJSONObject("Reclamations");
         int total = temp.getInt("rejetees");
         total++;
-        temp.put("rejetess", total);
+        temp.put("rejetees", total);
         Sortie.sauverStats();
     }
 
