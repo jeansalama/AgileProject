@@ -38,7 +38,7 @@ public class Refund {
     private static void entreeConsole(String[] args) {
 
         if (args[0].equals("-S")) {
-            System.out.println(Entree.stats.toString(2));
+            System.out.println(new Stats());
         } else if (args[0].equals("-SR")) {
             Entree.viderStats();
         }
