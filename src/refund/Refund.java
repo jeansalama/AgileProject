@@ -11,7 +11,7 @@ public class Refund {
      * @param args le noms des fichiers utilises
      */
     public static void main(String[] args) {
-        if (args.length < 1) {
+        if (args.length < 1 || args.length > 2) {
             System.out.println("Saisie invalide");
         } else if (args.length == 1) {
             entreeConsole(args);
@@ -28,6 +28,7 @@ public class Refund {
                 erreurDonnees(e, args[1]);
 
             } catch (JSONException j) {
+                Entree.reclamRejete();
                 erreurJson(j, args[1]);
 
             }
