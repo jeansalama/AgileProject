@@ -166,27 +166,33 @@ public class Entree {
         Sortie.sauverStats();
     }
     
-    private static JSONObject initStats(){
+    private static JSONObject initialiserStats(){
         
         JSONObject stats = new JSONObject();
-        JSONObject reclamations = new JSONObject();
+        
+        initialiserStatsReclamations(stats);
+        initialiserStatsSoins(stats);
+        
+        return stats;
+    }
+
+    private static void initialiserStatsSoins(JSONObject stats) {
         JSONObject soins = new JSONObject();
-        
-        String[] listeReclam = {"traitees", "rejetees"};
-        String[] listeSoin = {"0", "100", "150", "175", "200", "300", "400", 
+        String[] listeSoin = {"0", "100", "150", "175", "200", "300", "400",
             "500", "600", "700"};
-        
-        for (String element : listeReclam) {
-            reclamations.accumulate(element, 0);
-        }
         for (String element : listeSoin) {
             soins.accumulate(element, 0);
         }
-        
-        stats.accumulate("Reclamations", reclamations);
         stats.accumulate("Soins", soins);
-        
-        return stats;
+    }
+
+    private static void initialiserStatsReclamations(JSONObject stats) {
+        JSONObject reclamations = new JSONObject();
+        String[] listeReclam = {"traitees", "rejetees"};
+        for (String element : listeReclam) {
+            reclamations.accumulate(element, 0);
+        }
+        stats.accumulate("Reclamations", reclamations);
     }
     
     private static JSONObject chargerStats(){
@@ -196,7 +202,7 @@ public class Entree {
             contenu = Utf8File.loadFileIntoString("Statistiques.json");
             stats = (JSONObject) JSONSerializer.toJSON(contenu);
         } catch (FileNotFoundException fnfe) {
-            stats = initStats();
+            stats = initialiserStats();
         } catch (IOException ioe) {
             System.out.println(ioe.getMessage());
         }
