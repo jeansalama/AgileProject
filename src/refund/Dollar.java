@@ -23,7 +23,7 @@ public class Dollar implements Comparable {
     }
 
     public Dollar(double montant) {
-        cents = (int) (montant * 100);
+        cents = (long) (montant * 100);
     }
 
     public long getCents() {
