@@ -31,6 +31,8 @@ public class Stats {
     private String afficherSoins(){
         return "\n Massothérapie: "+soins.getInt("0") 
                 + "\n Ostéopathie: "+soins.getInt("100")
+                + "\n Kinésithérapie: " + soins.getInt("150")
+                + "\n Médecin généraliste privé: " + soins.getInt("175")
                 + "\n Psychologie individuelle: "+soins.getInt("200")
                 + "\n Soins dentaires: "+soins.getInt("300")
                 + "\n Naturopathie, acuponcture: "+soins.getInt("400")

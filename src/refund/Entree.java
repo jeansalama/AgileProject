@@ -1,5 +1,6 @@
 package refund;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import net.sf.json.JSONArray;
@@ -14,9 +15,8 @@ public class Entree {
 
     private ArrayList<Reclamation> listeReclamations = new ArrayList<>(0);
     private JSONObject infoClient;
-    public static JSONObject stats = (JSONObject) JSONSerializer.toJSON(
-            lireFichier("Statistiques.json"));
-    ;
+    public static JSONObject stats = chargerStats();
+    
     private Dossier client;
 
     /**
@@ -120,7 +120,6 @@ public class Entree {
         } catch (IOException ex) {
             System.out.println("Erreur lors de la lecture du fichier JSON. "
                     + ex.getLocalizedMessage());
-            System.exit(1);
         }
         return jsonTxt;
     }
@@ -155,8 +154,8 @@ public class Entree {
 
     public static void viderStats() {
         String[] listeReclam = {"traitees", "rejetees"};
-        String[] listeSoin = {"0", "100", "200", "300", "400", "500", "600",
-            "700"};
+        String[] listeSoin = {"0", "100", "150", "175", "200", "300", "400", 
+            "500", "600", "700"};
 
         for (String element : listeReclam) {
             stats.getJSONObject("Reclamations").put(element, 0);
@@ -165,5 +164,42 @@ public class Entree {
             stats.getJSONObject("Soins").put(element, 0);
         }
         Sortie.sauverStats();
+    }
+    
+    private static JSONObject initStats(){
+        
+        JSONObject stats = new JSONObject();
+        JSONObject reclamations = new JSONObject();
+        JSONObject soins = new JSONObject();
+        
+        String[] listeReclam = {"traitees", "rejetees"};
+        String[] listeSoin = {"0", "100", "150", "175", "200", "300", "400", 
+            "500", "600", "700"};
+        
+        for (String element : listeReclam) {
+            reclamations.accumulate(element, 0);
+        }
+        for (String element : listeSoin) {
+            soins.accumulate(element, 0);
+        }
+        
+        stats.accumulate("Reclamations", reclamations);
+        stats.accumulate("Soins", soins);
+        
+        return stats;
+    }
+    
+    private static JSONObject chargerStats(){
+        String contenu;
+        JSONObject stats = new JSONObject();
+        try {
+            contenu = Utf8File.loadFileIntoString("Statistiques.json");
+            stats = (JSONObject) JSONSerializer.toJSON(contenu);
+        } catch (FileNotFoundException fnfe) {
+            stats = initStats();
+        } catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+        }
+        return stats;
     }
 }
