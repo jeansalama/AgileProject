@@ -9,7 +9,7 @@ package refund;
  *
  * @author Billy
  */
-public class Dollar {
+public class Dollar implements Comparable {
 
     private final long cents;
 
@@ -17,11 +17,65 @@ public class Dollar {
         cents = 0;
     }
 
-    public Dollar(long cents){
-        
+    public Dollar(long cents) {
+
         this.cents = cents;
     }
+
+    public Dollar(double montant) {
+        cents = (int) (montant * 100);
+    }
+
+    public long getCents() {
+        return cents;
+    }
+
+    public Dollar plus(Dollar montant) {
+        long totalCents = cents + montant.getCents();
+        return new Dollar(totalCents);
+    }
+
+    public Dollar moins(Dollar montant) {
+        long totalCents = cents - montant.getCents();
+        return new Dollar(totalCents);
+    }
+
+    public Dollar fois(Dollar montant) {
+        long produit = cents * montant.getCents();
+        return new Dollar(produit);
+    }
+
+    public Dollar pourcentage(double taux) {
+        long resultat = Math.round(cents * taux);
+        return new Dollar(resultat);
+    }
     
+    public boolean estSuperieurA(Dollar montant){
+        return cents > montant.cents;
+    }
+
+    @Override
+    public String toString() {
+        long partieEntiere = cents / 100;
+        long partieFractionnaire = cents % 100;
+        return partieEntiere + "." + partieFractionnaire + "$";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        return this == obj
+                || (obj != null
+                && this.getClass().equals(obj.getClass())
+                && this.cents == ((Dollar) obj).cents);
+    }
+
+    @Override
+    public int compareTo(Object t) {
+        long difference = cents - ((Dollar) t).cents;
+        return (int)difference;
+    }
+
     
-    
+
 }
