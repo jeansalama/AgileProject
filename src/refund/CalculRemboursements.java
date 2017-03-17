@@ -46,15 +46,16 @@ public class CalculRemboursements {
     /**
      * @param reclam une reclamation du dossier client
      * @param contrat le contrat du client
-     * @return double, le remboursement (maximal) de cette reclamation
+     * @return Dollar, le remboursement (maximal) de cette reclamation
      */
-    public static double calculerRemboursement(Reclamation reclam,
+    public static Dollar calculerRemboursement(Reclamation reclam,
             Contrat contrat) {
 
-        double montantReclamation = reclam.getMontantReclamationDouble();
+        double montant = reclam.getMontantReclamationDouble();
+        Dollar montantReclamation = new Dollar(montant);
         JSONObject regle = extraireUneRegle(reclam, contrat);
 
-        double remboursement
+        Dollar remboursement
                 = obtenirRemboursementMaximal(regle, montantReclamation);
 
         return remboursement;
