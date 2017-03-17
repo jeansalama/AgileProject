@@ -36,9 +36,9 @@ public class Sortie {
     }
 
     private void ecrireReclamations() {
-        String total = formatRemboursement(ajouterReclamations());
+        Dollar total = ajouterReclamations();
         infoClient.accumulate("remboursement", liste);
-        infoClient.accumulate("total", total);
+        infoClient.accumulate("total", total.toString());
 
     }
     /**
@@ -60,13 +60,13 @@ public class Sortie {
      * @param reclam reclamation a ajouter
      * @return le montant de la reclamation a ajouter
      */
-    private double ajouterUneReclamation(Reclamation reclam) {
+    private Dollar ajouterUneReclamation(Reclamation reclam) {
         JSONObject temp = new JSONObject();
-        double montant = calculerRemboursement(reclam, entree.getDossier());
+        Dollar montant = calculerRemboursement(reclam, entree.getDossier());
 
         temp.accumulate("soin", reclam.getSoin());
         temp.accumulate("date", reclam.getDate().toString());
-        temp.accumulate("montant", formatRemboursement(montant));
+        temp.accumulate("montant", montant.toString());
         Entree.ajoutSoinStats(reclam.getSoin());
         liste.add(temp);
         temp.clear();
