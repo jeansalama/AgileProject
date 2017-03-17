@@ -57,7 +57,6 @@ public class Dollar implements Comparable {
         return cents < 0;
     }
 
-    //(remboursement <= montantMaxMensuel) {
     public boolean estInferieur(Dollar montant){
         return cents < montant.cents;
     }
