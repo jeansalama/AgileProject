@@ -5,6 +5,7 @@ import java.io.IOException;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 import static refund.Sortie.montantMaxMensuel;
+import static refund.Dollar.*;
 
 /**
  *
@@ -68,28 +69,55 @@ public class CalculRemboursements {
      * @return double, le remboursement maximal etant donne le montant de
      * reclamation fourni et la regle de rembourssement
      */
-    public static double obtenirRemboursementMaximal(JSONObject regle,
-            double montantReclamation) {
-        double tauxRemb = obtenirTauxRemboursement(regle);
-        double remboursement = montantReclamation * tauxRemb;
+    /*   public static double obtenirRemboursementMaximal(JSONObject regle,
+     double montantReclamation) {
+     double tauxRemb = obtenirTauxRemboursement(regle);
+     double remboursement = montantReclamation * tauxRemb;
 
-        if (regle.has("max") && remboursement > regle.getDouble("max")) {
-            remboursement = regle.getDouble("max");
+     if (regle.has("max") && remboursement > regle.getDouble("max")) {
+     remboursement = regle.getDouble("max");
+     }
+     remboursement = calculerRemboursementMaximalMensuel(regle, remboursement);
+     return remboursement;
+     }
+     */
+    public static Dollar obtenirRemboursementMaximal(JSONObject regle,
+            Dollar montantReclamation) {
+        double tauxRemb = obtenirTauxRemboursement(regle);
+        Dollar remboursement = montantReclamation.pourcentage(tauxRemb);
+        Dollar maximunDoubleRemb = new Dollar(regle.getDouble("max"));
+
+        if (regle.has("max") && remboursement.estSuperieurA(maximunDoubleRemb)) {
+            remboursement = maximunDoubleRemb;
         }
         remboursement = calculerRemboursementMaximalMensuel(regle, remboursement);
         return remboursement;
     }
 
-    public static double calculerRemboursementMaximalMensuel
-        (JSONObject regle, double remboursement) {
-            
-        if (regle.has("maxMensuel")) {
-            montantMaxMensuel = regle.getDouble("maxMensuel");
+    /*
+     public static double calculerRemboursementMaximalMensuel(JSONObject regle, double remboursement) {
 
-            if (remboursement <= montantMaxMensuel) {
-                montantMaxMensuel = montantMaxMensuel - remboursement;
+     if (regle.has("maxMensuel")) {
+     montantMaxMensuel = regle.getDouble("maxMensuel");
+
+     if (remboursement <= montantMaxMensuel) {
+     montantMaxMensuel = montantMaxMensuel - remboursement;
+     } else {
+     remboursement = remboursement - montantMaxMensuel;
+     }
+     }
+     return remboursement;
+     }
+     */
+    public static Dollar calculerRemboursementMaximalMensuel(JSONObject regle, Dollar remboursement) {
+
+        if (regle.has("maxMensuel")) {
+            Dollar montantMaxMensuelDollar = new Dollar(montantMaxMensuel = regle.getDouble("maxMensuel"));
+
+            if (remboursement.estInferieur(montantMaxMensuelDollar) && remboursement.equals(montantMaxMensuelDollar)) {
+                montantMaxMensuelDollar = montantMaxMensuelDollar.moins(remboursement);
             } else {
-                remboursement = remboursement - montantMaxMensuel;
+                remboursement = remboursement.moins(montantMaxMensuelDollar);
             }
         }
         return remboursement;
