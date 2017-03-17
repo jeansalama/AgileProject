@@ -18,7 +18,7 @@ public class CalculRemboursements {
     /**
      * @return JSONObject, "modelisant" les regles du contrat
      */
-    private static JSONObject chargerReglesRemboursement() {
+    public static JSONObject chargerReglesRemboursement() {
         String stringJson;
         JSONObject regles = new JSONObject();
         try {
@@ -68,7 +68,7 @@ public class CalculRemboursements {
      * @return double, le remboursement maximal etant donne le montant de
      * reclamation fourni et la regle de rembourssement
      */
-    private static double obtenirRemboursementMaximal(JSONObject regle,
+    public static double obtenirRemboursementMaximal(JSONObject regle,
             double montantReclamation) {
         double tauxRemb = obtenirTauxRemboursement(regle);
         double remboursement = montantReclamation * tauxRemb;
@@ -80,7 +80,7 @@ public class CalculRemboursements {
         return remboursement;
     }
 
-    private static double calculerRemboursementMaximalMensuel
+    public static double calculerRemboursementMaximalMensuel
         (JSONObject regle, double remboursement) {
             
         if (regle.has("maxMensuel")) {
@@ -99,7 +99,7 @@ public class CalculRemboursements {
      * @param regle une regle de remboursement specifique
      * @return double, le taux de remboursement selon cette regle
      */
-    private static double obtenirTauxRemboursement(JSONObject regle) {
+    public static double obtenirTauxRemboursement(JSONObject regle) {
         return regle.getDouble("taux");
     }
 
@@ -109,7 +109,7 @@ public class CalculRemboursements {
      * @return JSONObject, une regle specifique au type de contrat et de la
      * reclamtion donnee
      */
-    private static JSONObject extraireUneRegle(Reclamation reclam,
+    public static JSONObject extraireUneRegle(Reclamation reclam,
             Contrat contrat) {
         String soin = obtenirSoin(reclam);
         JSONObject reglesParSoin = REGLES_REMBOURSEMENT.getJSONObject(soin);
@@ -123,7 +123,7 @@ public class CalculRemboursements {
      * @param reclam une reclamation du dossier client
      * @return String, le type de soin de la reclamation
      */
-    private static String obtenirSoin(Reclamation reclam) {
+    public static String obtenirSoin(Reclamation reclam) {
         String soin = reclam.getSoin() + "";
 
         if (reclam.getSoin() >= 300 && reclam.getSoin() < 400) {
