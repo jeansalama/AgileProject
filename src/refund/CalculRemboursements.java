@@ -37,7 +37,7 @@ public class CalculRemboursements {
      * @param dossier le dossier du client
      * @return double, le remboursement de cette reclamation
      */
-    public static double calculerRemboursement(Reclamation reclam,
+    public static Dollar calculerRemboursement(Reclamation reclam,
             Dossier dossier) {
         Contrat contrat = dossier.getContrat();
 

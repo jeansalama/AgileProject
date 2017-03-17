@@ -57,5 +57,11 @@ public class DollarTest {
         Dollar montant = new Dollar(07.00);
         assertEquals("7.00$", montant.toString());
     }
+    
+    @Test
+    public void testToString6() {
+        Dollar montant = new Dollar(07.01);
+        assertEquals("7.01$", montant.toString());
+    }
 
 }
