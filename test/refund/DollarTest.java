@@ -63,5 +63,54 @@ public class DollarTest {
         Dollar montant = new Dollar(07.01);
         assertEquals("7.01$", montant.toString());
     }
+    
+    
+    @Test
+    public void testPlusMontantsRonds(){
+        Dollar montantUn = new Dollar (40.00);
+        Dollar montantDeux = new Dollar (40.00);
+        Dollar montantTotal = new Dollar(80.00);
+        assertEquals(montantTotal, montantUn.plus(montantDeux));
+    }
+    @Test
+    public void testPlusMontantsDecimaux(){
+        Dollar montantUn = new Dollar (40.34);
+        Dollar montantDeux = new Dollar (40.27);
+        Dollar montantTotal = new Dollar(80.61);
+        assertEquals(montantTotal, montantUn.plus(montantDeux));
+    }
+        @Test(expected = Exception.class)
+    public void testPlusMontantsNégatifs(){
+        Dollar montantUn = new Dollar (-40.00);
+        Dollar montantDeux = new Dollar (10.00);
+        montantUn.plus(montantDeux);
+    }
+    @Test(expected = Exception.class)
+    public void testPlusValeursLimites1(){
+        Dollar montantUn = new Dollar (Double.MAX_VALUE);
+        Dollar montantDeux = new Dollar (1.00);
+        montantUn.plus(montantDeux);
+    }
+    @Test
+    public void testPlusValeursLimites2(){
+        Dollar montantUn = new Dollar (Double.MAX_VALUE- 1.00);
+        Dollar montantDeux = new Dollar (1.00);
+        Dollar montantTotal = new Dollar(Double.MAX_VALUE);
+        assertEquals(montantTotal, montantUn.plus(montantDeux));
+    }
+    @Test
+        public void testPlusGrosMontants(){
+        Dollar montantUn = new Dollar (464836.88);
+        Dollar montantDeux = new Dollar (364839.53);
+        Dollar montantTotal = new Dollar(829676.41);
+        assertEquals(montantTotal, montantUn.plus(montantDeux));
+    }
+        @Test
+        public void testPlusMontantDebutantAvecZero(){
+        Dollar montantUn = new Dollar (050.00);
+        Dollar montantDeux = new Dollar (03.00);
+        Dollar montantTotal = new Dollar(53.00);
+        assertEquals(montantTotal, montantUn.plus(montantDeux));
+    }
 
 }
