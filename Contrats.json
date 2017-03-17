@@ -20,21 +20,26 @@
 	},
     "100":{
 		    "A":{
-		        	"taux": 0.35
+		        	"taux": 0.35,
+                                "maxMensuel": 250
 		        },
 		    "B":{
 				"taux": 0.50,
-				"max": 50
+				"max": 50,
+                                "maxMensuel": 250
 		        },
 		    "C":{
-		        	"taux": 0.95
+		        	"taux": 0.95,
+                                "maxMensuel": 250
 		        },
 		    "D":{
 				"taux": 1,
-				"max": 75
+				"max": 75,
+                                "maxMensuel": 250
 		        },
 		    "E":{
-				"taux": 0.25
+				"taux": 0.25,
+                                "maxMensuel": 250
 		        }
 	},
     "150":{
@@ -58,38 +63,48 @@
 	},
     "175":{
 		    "A":{
-		        	"taux": 0.50
+		        	"taux": 0.50,
+                                "maxMensuel": 200
 		        },
 		    "B":{
-				"taux": 0.75
+				"taux": 0.75,
+                                "maxMensuel": 200
 		        },
 		    "C":{
-		        	"taux": 0.90
+		        	"taux": 0.90,
+                                "maxMensuel": 200
 		        },
 		    "D":{
-				"taux": 0.95
+				"taux": 0.95,
+                                "maxMensuel": 200
 		        },
 		    "E":{
 				"taux": 0.25,
-				"max": 20
+				"max": 20,
+                                "maxMensuel": 200
 		        }
 	},
     "200":{
 		    "A":{
-		        	"taux": 0.25
+		        	"taux": 0.25,
+                                "maxMensuel": 250
 		        },
 		    "B":{
-				"taux": 1
+				"taux": 1,
+                                "maxMensuel": 250
 		        },
 		    "C":{
-		        	"taux": 0.90
+		        	"taux": 0.90,
+                                "maxMensuel": 250
 		        },
 		    "D":{
 				"taux": 1,
-				"max": 100
+				"max": 100,
+                                "maxMensuel": 250
 		        },
 		    "E":{
-				"taux": 0.12
+				"taux": 0.12,
+                                "maxMensuel": 250
 		        }
 	},
     "300":{
@@ -130,39 +145,49 @@
 	},
     "500":{
 		    "A":{
-		        	"taux": 0.25
+		        	"taux": 0.25,
+                                "maxMensuel": 150
 		        },
 		    "B":{
 				"taux": 0.50,
-				"max": 50
+				"max": 50,
+                                "maxMensuel": 150
 		        },
 		    "C":{
-		        	"taux": 0.90
+		        	"taux": 0.90,
+                                "maxMensuel": 150
 		        },
 		    "D":{
-				"taux": 1
+				"taux": 1,
+                                "maxMensuel": 150
 		        },
 		    "E":{
 				"taux": 0.30,
-				"max": 20
+				"max": 20,
+                                "maxMensuel": 150
 		        }
 	},
     "600":{
 		    "A":{
-		        	"taux": 0.40
+		        	"taux": 0.40,
+                                "maxMensuel": 300
 		        },
 		    "B":{
-				"taux": 1
+				"taux": 1,
+                                "maxMensuel": 300
 		        },
 		    "C":{
-		        	"taux": 0.75
+		        	"taux": 0.75,
+                                "maxMensuel": 300
 		        },
 		    "D":{
 				"taux": 1,
-				"max": 100
+				"max": 100,
+                                "maxMensuel": 300
 		        },
 		    "E":{
-				"taux": 0.15
+				"taux": 0.15,
+                                "maxMensuel": 300
 		        }
 	},
     "700":{

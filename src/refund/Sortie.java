@@ -13,6 +13,7 @@ public class Sortie {
     private String fichierSortie;
     private JSONObject infoClient = new JSONObject();
     JSONArray liste = new JSONArray();
+    static double montantMaxMensuel;
 
     /**
      * 
