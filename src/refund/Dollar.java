@@ -53,6 +53,10 @@ public class Dollar implements Comparable {
     public boolean estSuperieurA(Dollar montant){
         return cents > montant.cents;
     }
+    
+    public boolean estNegatif(){
+        return cents < 0;
+    }
 
     @Override
     public String toString() {
