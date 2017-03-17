@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
+import static refund.Sortie.montantMaxMensuel;
 
 /**
  *
@@ -74,6 +75,22 @@ public class CalculRemboursements {
 
         if (regle.has("max") && remboursement > regle.getDouble("max")) {
             remboursement = regle.getDouble("max");
+        }
+        remboursement = calculerRemboursementMaximalMensuel(regle, remboursement);
+        return remboursement;
+    }
+
+    private static double calculerRemboursementMaximalMensuel
+        (JSONObject regle, double remboursement) {
+            
+        if (regle.has("maxMensuel")) {
+            montantMaxMensuel = regle.getDouble("maxMensuel");
+
+            if (remboursement <= montantMaxMensuel) {
+                montantMaxMensuel = montantMaxMensuel - remboursement;
+            } else {
+                remboursement = remboursement - montantMaxMensuel;
+            }
         }
         return remboursement;
     }
