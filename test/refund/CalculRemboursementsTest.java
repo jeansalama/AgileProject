@@ -19,6 +19,17 @@ public class CalculRemboursementsTest {
     }
 
     @Test
+    public void testCalculerRemboursement() throws ContratException, 
+            DateException, ReclamationException{
+        Contrat contrat = new Contrat("B");
+        Date date = new Date("2017-04-23");
+        Reclamation reclam = new Reclamation(0, date, "100.00$");
+        Dollar remboursement 
+                =  CalculRemboursements.calculerRemboursement(reclam, contrat);
+        assertEquals("40.00$", remboursement.toString());
+    }
+
+    @Test
     public void testObtenirRemboursementMaximal() {
         Dollar montant = new Dollar(100.00);
         JSONObject regle = new JSONObject();
