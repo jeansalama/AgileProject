@@ -18,7 +18,6 @@ public class Dollar implements Comparable {
     }
 
     public Dollar(long cents) {
-
         this.cents = cents;
     }
 
@@ -58,6 +57,11 @@ public class Dollar implements Comparable {
         return cents < 0;
     }
 
+    //(remboursement <= montantMaxMensuel) {
+    public boolean estInferieur(Dollar montant){
+        return cents < montant.cents;
+    }
+    
     @Override
     public String toString() {
         String partieEntiere = "" + cents / 100;
