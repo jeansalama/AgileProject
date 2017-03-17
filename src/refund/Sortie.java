@@ -1,4 +1,3 @@
-
 package refund;
 
 import java.io.IOException;
@@ -16,7 +15,7 @@ public class Sortie {
     static double montantMaxMensuel;
 
     /**
-     * 
+     *
      * @param entree l'object avec l'info a sortir
      * @param fichierSortie le fichier de sortie
      */
@@ -42,22 +41,22 @@ public class Sortie {
         infoClient.accumulate("total", total.toString());
 
     }
+
     /**
-     * 
+     *
      * @return le montant total ajouter avec celui de la reclamation
      */
-    private double ajouterReclamations() {
-
-        double total = 0;
-        double montant;
+    private Dollar ajouterReclamations() {
+        Dollar total = new Dollar();
         for (Reclamation reclam : entree.getListeReclamations()) {
-            montant = ajouterUneReclamation(reclam);
-            total = total + montant;
+            Dollar montant = ajouterUneReclamation(reclam);
+            total.plus(montant);
         }
         return total;
     }
+
     /**
-     * 
+     *
      * @param reclam reclamation a ajouter
      * @return le montant de la reclamation a ajouter
      */
@@ -83,10 +82,11 @@ public class Sortie {
                     + e.getLocalizedMessage());
         }
     }
+
     public static void sauverStats() {
         try {
-            Utf8File.saveStringIntoFile("Statistiques.json", 
-                            Entree.stats.toString(2));
+            Utf8File.saveStringIntoFile("Statistiques.json",
+                    Entree.stats.toString(2));
         } catch (IOException e) {
             System.out.println("Erreur avec le fichier de sortie : "
                     + e.getLocalizedMessage());
