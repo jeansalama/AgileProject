@@ -32,12 +32,30 @@ public class DollarTest {
 
     @Test
     public void testToString1() {
-        assertEquals("12.75", montant1);
+        assertEquals("12.25$", montant1.toString());
     }
 
     @Test
     public void testToString2() {
-        assertEquals("7.25", montant2);
+        assertEquals("7.75$", montant2.toString());
+    }
+    
+    @Test
+    public void testToString3() {
+        Dollar montant = new Dollar(7.20);
+        assertEquals("7.20$", montant.toString());
+    }
+    
+    @Test
+    public void testToString4() {
+        Dollar montant = new Dollar(7.00);
+        assertEquals("7.00$", montant.toString());
+    }
+    
+    @Test
+    public void testToString5() {
+        Dollar montant = new Dollar(07.00);
+        assertEquals("7.00$", montant.toString());
     }
 
 }

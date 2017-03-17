@@ -56,8 +56,11 @@ public class Dollar implements Comparable {
 
     @Override
     public String toString() {
-        long partieEntiere = cents / 100;
-        long partieFractionnaire = cents % 100;
+        String partieEntiere = "" + cents / 100;
+        String partieFractionnaire = "" + cents % 100;
+        if(partieFractionnaire.length() == 1){
+            partieFractionnaire = "0" + partieFractionnaire;
+        }
         return partieEntiere + "." + partieFractionnaire + "$";
     }
 
