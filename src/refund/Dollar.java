@@ -57,7 +57,7 @@ public class Dollar implements Comparable {
         return cents < 0;
     }
 
-    public boolean estInferieur(Dollar montant){
+    public boolean estInferieurA(Dollar montant){
         return cents < montant.cents;
     }
     
