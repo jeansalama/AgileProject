@@ -24,6 +24,10 @@ public class Dollar implements Comparable {
     public Dollar(double montant) {
         cents = (long) (montant * 100);
     }
+    
+    public Dollar(String montant) throws ReclamationException{
+        this(MontantFormat.analyserReclamation(montant));
+    }
 
     public long getCents() {
         return cents;
