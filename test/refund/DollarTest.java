@@ -80,11 +80,12 @@ public class DollarTest {
         assertEquals(montantTotal, montantUn.plus(montantDeux));
     }
 
-    @Test(expected = Exception.class)
+    @Test
     public void testPlusMontantsNégatifs() {
         Dollar montantUn = new Dollar(-40.00);
         Dollar montantDeux = new Dollar(10.00);
-        montantUn.plus(montantDeux);
+        Dollar montantTotal = new Dollar(-30.00);
+        assertEquals(montantTotal, montantUn.plus(montantDeux));
     }
 
     @Test(expected = Exception.class)
@@ -117,9 +118,85 @@ public class DollarTest {
         Dollar montantTotal = new Dollar(53.00);
         assertEquals(montantTotal, montantUn.plus(montantDeux));
     }
-
+     @Test
+    public void testPlusMontantAvecDevise() throws ReclamationException {
+        Dollar montantUn = new Dollar("50.00$");
+        Dollar montantDeux = new Dollar("03.00$");
+        Dollar montantTotal = new Dollar(53.00);
+        assertEquals(montantTotal, montantUn.plus(montantDeux));
+    }
     
+        @Test
+    public void testMoinsMontantsRonds() {
+        Dollar montantUn = new Dollar(40.00);
+        Dollar montantDeux = new Dollar(40.00);
+        Dollar montantTotal = new Dollar(0.00);
+        assertEquals(montantTotal, montantUn.moins(montantDeux));
+    }
 
+    @Test
+    public void testMoinsMontantsDecimaux() {
+        Dollar montantUn = new Dollar(84.34);
+        Dollar montantDeux = new Dollar(40.27);
+        Dollar montantTotal = new Dollar(44.07);
+        assertEquals(montantTotal, montantUn.moins(montantDeux));
+    }
+
+    @Test
+    public void testMoinsMontantsNégatifs1() {
+        Dollar montantUn = new Dollar(-40.00);
+        Dollar montantDeux = new Dollar(10.00);
+        Dollar montantTotal = new Dollar(-50.00);
+        assertEquals(montantTotal, montantUn.moins(montantDeux));
+    }
+
+    @Test
+    public void testMoinsMontantsNégatifs2() {
+        Dollar montantUn = new Dollar(-40.00);
+        Dollar montantDeux = new Dollar(-10.00);
+        Dollar montantTotal = new Dollar(-30.00);
+        assertEquals(montantTotal, montantUn.moins(montantDeux));
+    }    
+
+    @Test(expected = Exception.class)
+    public void testMoinsValeursLimites1() {
+        Dollar montantUn = new Dollar(-Double.MAX_VALUE);
+        Dollar montantDeux = new Dollar(1.00);
+        montantUn.moins(montantDeux);
+    }
+
+    @Test
+    public void testMoinsValeursLimites2() {
+        Dollar montantUn = new Dollar((-Double.MAX_VALUE) + 1.00);
+        Dollar montantDeux = new Dollar(1.00);
+        Dollar montantTotal = new Dollar(-Double.MAX_VALUE);
+        assertEquals(montantTotal, montantUn.moins(montantDeux));
+    }
+
+    @Test
+    public void testMoinsGrosMontants() {
+        Dollar montantUn = new Dollar(464836.88);
+        Dollar montantDeux = new Dollar(364839.53);
+        Dollar montantTotal = new Dollar(99997.35);
+        assertEquals(montantTotal, montantUn.moins(montantDeux));
+    }
+
+    @Test
+    public void testMoinsMontantDebutantAvecZero() {
+        Dollar montantUn = new Dollar(050.00);
+        Dollar montantDeux = new Dollar(03.00);
+        Dollar montantTotal = new Dollar(47.00);
+        assertEquals(montantTotal, montantUn.moins(montantDeux));
+    }
+
+         @Test
+    public void testMoinsMontantAvecDevise() throws ReclamationException {
+        Dollar montantUn = new Dollar("50.00$");
+        Dollar montantDeux = new Dollar("03.00$");
+        Dollar montantTotal = new Dollar(47.00);
+        assertEquals(montantTotal, montantUn.moins(montantDeux));
+    }
+    
     @Test
     public void testEstCent() {
         Dollar cents = new Dollar();
