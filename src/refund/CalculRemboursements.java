@@ -105,7 +105,7 @@ public class CalculRemboursements {
         if (regle.has("maxMensuel")) {
             montantMaxMensuel = new Dollar(regle.getDouble("maxMensuel"));
             if (remboursement.estSuperieurA(montantMaxMensuel)) {
-                remboursement = remboursement.moins(montantMaxMensuel);
+                remboursement = montantMaxMensuel;
             }
             montantMaxMensuel = montantMaxMensuel.moins(remboursement);
             regle.put("maxMensuel", montantMaxMensuel.convertirEnDouble());
