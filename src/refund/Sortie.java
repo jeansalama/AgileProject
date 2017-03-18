@@ -3,7 +3,6 @@ package refund;
 import java.io.IOException;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import static refund.MontantFormat.formatRemboursement;
 import static refund.CalculRemboursements.calculerRemboursement;
 
 public class Sortie {
