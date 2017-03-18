@@ -13,7 +13,7 @@ public class Reclamation {
     private int soin;
     private Date date;
     private String montantReclamationString;
-    private double montantReclamationDouble;
+    private Dollar montantReclamation;
     
     /**
      * @param soin une nombre entier représentant la catégorie de soin pour
@@ -42,12 +42,8 @@ public class Reclamation {
         return date;
     }
 
-    public String getMontantReclamation() {
-        return montantReclamationString;
-    }
-
-    public double getMontantReclamationDouble() {
-        return montantReclamationDouble;
+    public Dollar getMontantReclamation() {
+        return montantReclamation;
     }
 
     public void setSoin(int soin) throws ReclamationException {
@@ -64,17 +60,11 @@ public class Reclamation {
 
     public void setMontantReclamation(String montantReclam)
             throws ReclamationException {
-        this.montantReclamationString = montantReclam;
-        setMontantReclamationDouble(montantReclam);
+        this.montantReclamationString =  montantReclam;
+        this.montantReclamation = new Dollar (montantReclam);
         verifierSiNegatif(montantReclam);
     }
 
-    private void setMontantReclamationDouble(String montantReclam)
-            throws ReclamationException {
-
-        this.montantReclamationDouble 
-                = MontantFormat.analyserReclamation(montantReclam);
-    }
 
     /**
      * @param montantReclam Un nombre décimal représentant un montant.
