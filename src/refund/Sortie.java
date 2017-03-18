@@ -49,7 +49,7 @@ public class Sortie {
         Dollar total = new Dollar();
         for (Reclamation reclam : entree.getListeReclamations()) {
             Dollar montant = ajouterUneReclamation(reclam);
-            total.plus(montant);
+            total = total.plus(montant);
         }
         return total;
     }
