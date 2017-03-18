@@ -50,6 +50,52 @@ public class CalculRemboursementsTest {
                 = CalculRemboursements.obtenirRemboursementMaximal(regle, montant);
         assertEquals("75.00$", remboursementMax.toString());
     }
+    
+    @Test
+    public void testCalculerRemboursementMaximalMensuelUneReclam(){
+        Dollar remboursement = new Dollar(100.00);
+        JSONObject regle = new JSONObject();
+        regle.accumulate("maxMensuel", 250);
+        Dollar remboursementMax
+                = CalculRemboursements.calculerRemboursementMaximalMensuel(regle, remboursement);
+        assertEquals("100.00$", remboursementMax.toString());
+    }
+    
+    @Test
+    public void testCalculerRemboursementMaximalMensuelDeuxReclams(){
+        Dollar remboursement = new Dollar(100.00);
+        JSONObject regle = new JSONObject();
+        regle.accumulate("maxMensuel", 250);
+        CalculRemboursements.calculerRemboursementMaximalMensuel(regle, remboursement);
+        Dollar remboursementMax
+                = CalculRemboursements.calculerRemboursementMaximalMensuel(regle, remboursement);
+        assertEquals("100.00$", remboursementMax.toString());
+    }
+    
+    @Test
+    public void testCalculerRemboursementMaximalMensuelTroisReclams(){
+        Dollar remboursement = new Dollar(100.00);
+        JSONObject regle = new JSONObject();
+        regle.accumulate("maxMensuel", 250);
+        CalculRemboursements.calculerRemboursementMaximalMensuel(regle, remboursement);
+        CalculRemboursements.calculerRemboursementMaximalMensuel(regle, remboursement);
+        Dollar remboursementMax
+                = CalculRemboursements.calculerRemboursementMaximalMensuel(regle, remboursement);
+        assertEquals("50.00$", remboursementMax.toString());
+    }
+    
+    @Test
+    public void testCalculerRemboursementMaximalMensuelQuatreReclams(){
+        Dollar remboursement = new Dollar(100.00);
+        JSONObject regle = new JSONObject();
+        regle.accumulate("maxMensuel", 250);
+        CalculRemboursements.calculerRemboursementMaximalMensuel(regle, remboursement);
+        CalculRemboursements.calculerRemboursementMaximalMensuel(regle, remboursement);
+        CalculRemboursements.calculerRemboursementMaximalMensuel(regle, remboursement);
+        Dollar remboursementMax
+                = CalculRemboursements.calculerRemboursementMaximalMensuel(regle, remboursement);
+        assertEquals("0.00$", remboursementMax.toString());
+    }
 
     @Test
     public void testObtenirTauxRemboursement() {
