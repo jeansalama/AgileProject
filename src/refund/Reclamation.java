@@ -12,7 +12,6 @@ public class Reclamation {
     
     private int soin;
     private Date date;
-    private String montantReclamationString;
     private Dollar montantReclamation;
     
     /**
@@ -60,9 +59,8 @@ public class Reclamation {
 
     public void setMontantReclamation(String montantReclam)
             throws ReclamationException {
-        this.montantReclamationString =  montantReclam;
         this.montantReclamation = new Dollar (montantReclam);
-        verifierSiNegatif(montantReclam);
+        verifierSiNegatif(montantReclamation);
     }
 
 
@@ -70,14 +68,14 @@ public class Reclamation {
      * @param montantReclam Un nombre décimal représentant un montant.
      * @throws ReclamationException si le montant passé en paramètre est négatif
      */
-    private void verifierSiNegatif(String montantReclam)
+    private void verifierSiNegatif(Dollar montantReclam)
             throws ReclamationException {
 
-        if (montantReclam.contains("-")) {
+        if (montantReclam.estNegatif()) {
             throw new ReclamationException("Le montant de la réclamation ne"
                     + " peut pas être négatif!");
         }
-    }
+}
 
     /**
      * @param soin un nombre entier représentant un numéro de soin.
@@ -92,7 +90,7 @@ public class Reclamation {
 
     @Override
     public String toString() {
-        return montantReclamationString;
+        return montantReclamation.toString();
     }
 
 }

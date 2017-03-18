@@ -52,8 +52,7 @@ public class CalculRemboursements {
     public static Dollar calculerRemboursement(Reclamation reclam,
             Contrat contrat) {
 
-        double montant = reclam.getMontantReclamation().convertirEnDouble();
-        Dollar montantReclamation = new Dollar(montant);
+        Dollar montantReclamation = reclam.getMontantReclamation();
         JSONObject regle = extraireUneRegle(reclam, contrat);
 
         Dollar remboursement
