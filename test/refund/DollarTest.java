@@ -118,15 +118,16 @@ public class DollarTest {
         Dollar montantTotal = new Dollar(53.00);
         assertEquals(montantTotal, montantUn.plus(montantDeux));
     }
-     @Test
+
+    @Test
     public void testPlusMontantAvecDevise() throws ReclamationException {
         Dollar montantUn = new Dollar("50.00$");
         Dollar montantDeux = new Dollar("03.00$");
         Dollar montantTotal = new Dollar(53.00);
         assertEquals(montantTotal, montantUn.plus(montantDeux));
     }
-    
-        @Test
+
+    @Test
     public void testMoinsMontantsRonds() {
         Dollar montantUn = new Dollar(40.00);
         Dollar montantDeux = new Dollar(40.00);
@@ -156,11 +157,12 @@ public class DollarTest {
         Dollar montantDeux = new Dollar(-10.00);
         Dollar montantTotal = new Dollar(-30.00);
         assertEquals(montantTotal, montantUn.moins(montantDeux));
-    }    
+    }
 
     @Test(expected = Exception.class)
     public void testMoinsValeursLimites1() {
         Dollar montantUn = new Dollar(-Double.MAX_VALUE);
+        System.out.println("-Double.MAX_VALUE " + -Double.MAX_VALUE);
         Dollar montantDeux = new Dollar(1.00);
         montantUn.moins(montantDeux);
     }
@@ -189,14 +191,14 @@ public class DollarTest {
         assertEquals(montantTotal, montantUn.moins(montantDeux));
     }
 
-         @Test
+    @Test
     public void testMoinsMontantAvecDevise() throws ReclamationException {
         Dollar montantUn = new Dollar("50.00$");
         Dollar montantDeux = new Dollar("03.00$");
         Dollar montantTotal = new Dollar(47.00);
         assertEquals(montantTotal, montantUn.moins(montantDeux));
     }
-    
+
     @Test
     public void testEstCent() {
         Dollar cents = new Dollar();
@@ -215,12 +217,44 @@ public class DollarTest {
         Dollar m1 = new Dollar(9023);
         assertTrue(m1.estSuperieurA(cents));
     }
-    
+
     @Test
     public void testEstInferieurA() {
         Dollar cents = new Dollar(123);
         Dollar m2 = new Dollar(100);
         assertTrue(m2.estInferieurA(cents));
+    }
+
+    @Test(expected = ReclamationException.class)
+    public void testDollarStringMontantFormatAnalyserReclamation1() throws ReclamationException {
+        Dollar strMontant = new Dollar("5-645");
+    }
+
+    @Test(expected = ReclamationException.class)
+    public void testDollarStringMontantSansSeparateur() throws ReclamationException {
+        Dollar strMontant = new Dollar("5645");
+    }
+
+    @Test(expected = ReclamationException.class)
+    public void testDollarStringMontantSymboleDollarPasDenier() throws ReclamationException {
+        Dollar strMontant = new Dollar("564.$5");
+    }
+
+    @Test(expected = ReclamationException.class)
+    public void testDollarStringMontantSansDecimalAvantSeparateur() throws ReclamationException {
+        Dollar strMontant = new Dollar(",5645");
+    }
+
+    @Test(expected = ReclamationException.class)
+    public void testDollarStringMontantAvecPlusDeDeuxDecimal() throws ReclamationException {
+        Dollar strMontant = new Dollar("2,5645");
+    }
+
+    @Test
+    public void testDollarStringMontantFormatAnalyserReclamation5() throws ReclamationException {
+        Dollar strMontant = new Dollar("5.64$");
+        Dollar strMontant2 = new Dollar("5,64$");
+        assertEquals(strMontant, strMontant2);
     }
 
 }
