@@ -76,7 +76,7 @@ public class CalculRemboursements {
 
         if (regle.has("max")) {
             max = new Dollar(regle.getDouble("max"));
-            if(remboursement.estSuperieurA(max)){
+            if (remboursement.estSuperieurA(max)) {
                 remboursement = max;
             }
         }
@@ -104,10 +104,9 @@ public class CalculRemboursements {
         Dollar montantMaxMensuel;
         if (regle.has("maxMensuel")) {
             montantMaxMensuel = new Dollar(regle.getDouble("maxMensuel"));
-
-            if (remboursement.estInferieurA(montantMaxMensuel) 
+            if (remboursement.estInferieurA(montantMaxMensuel)
                     || remboursement.equals(montantMaxMensuel)) {
-                montantMaxMensuel = montantMaxMensuel.moins(remboursement);
+                remboursement = montantMaxMensuel = montantMaxMensuel.moins(remboursement);
             } else {
                 remboursement = remboursement.moins(montantMaxMensuel);
             }
