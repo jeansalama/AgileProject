@@ -12,7 +12,7 @@ import static refund.Sortie.montantMaxMensuel;
  */
 public class CalculRemboursements {
 
-    private static final JSONObject REGLES_REMBOURSEMENT
+    private static JSONObject reglesRemboursement
             = chargerReglesRemboursement();
 
     /**
@@ -108,6 +108,7 @@ public class CalculRemboursements {
                 remboursement = remboursement.moins(montantMaxMensuel);
             }
             montantMaxMensuel = montantMaxMensuel.moins(remboursement);
+            regle.put("maxMensuel", montantMaxMensuel.convertirEnDouble());
         }
         return remboursement;
     }
@@ -129,7 +130,7 @@ public class CalculRemboursements {
     public static JSONObject extraireUneRegle(Reclamation reclam,
             Contrat contrat) {
         String soin = obtenirSoin(reclam);
-        JSONObject reglesParSoin = REGLES_REMBOURSEMENT.getJSONObject(soin);
+        JSONObject reglesParSoin = reglesRemboursement.getJSONObject(soin);
 
         JSONObject regle = reglesParSoin.getJSONObject(contrat.getType());
 

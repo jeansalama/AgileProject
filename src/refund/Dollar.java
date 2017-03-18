@@ -28,6 +28,10 @@ public class Dollar implements Comparable {
     public long getCents() {
         return cents;
     }
+    
+    public double convertirEnDouble(){
+        return cents/100.00;
+    }
 
     public Dollar plus(Dollar montant) {
         long totalCents = cents + montant.getCents();
