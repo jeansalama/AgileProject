@@ -198,8 +198,8 @@ public class DollarTest {
         Dollar montantTotal = new Dollar(47.00);
         assertEquals(montantTotal, montantUn.moins(montantDeux));
     }
-    
-       @Test
+
+    @Test
     public void testfoisMontantsRonds() {
         Dollar montantUn = new Dollar(40.00);
         Dollar montantDeux = new Dollar(40.00);
@@ -232,7 +232,7 @@ public class DollarTest {
 
     @Test
     public void testfoisValeursLimites2() {
-        Dollar montantUn = new Dollar(Double.MAX_VALUE / 2 );
+        Dollar montantUn = new Dollar(Double.MAX_VALUE / 2);
         Dollar montantDeux = new Dollar(2.00);
         Dollar montantTotal = new Dollar(Double.MAX_VALUE);
         assertEquals(montantTotal, montantUn.fois(montantDeux));
@@ -244,6 +244,7 @@ public class DollarTest {
         Dollar montantDeux = new Dollar(36439.53);
         Dollar montantTotal = new Dollar(1706713893.87);
         assertEquals(montantTotal, montantUn.fois(montantDeux));
+
     }
 
     @Test
@@ -254,7 +255,76 @@ public class DollarTest {
         assertEquals(montantTotal, montantUn.fois(montantDeux));
     }
 
+    @Test
+    public void testPourcentageTauxRond1() {
+        Dollar montantUn = new Dollar(60.00);
+        Dollar montantTotal = new Dollar(20.00);
+        assertEquals(montantTotal, montantUn.pourcentage(0.25));
+    }
+
+    @Test
+    public void testPourcentageTauxRond2() {
+        Dollar montantUn = new Dollar(60.77);
+        Dollar montantTotal = new Dollar(15.19);
+        assertEquals(montantTotal, montantUn.pourcentage(0.25));
+    }
+
+    @Test
+    public void testPourcentageTauxDecimal1() {
+        Dollar montantUn = new Dollar(60.00);
+        Dollar montantTotal = new Dollar(15.34);
+        assertEquals(montantTotal, montantUn.pourcentage(0.2557));
+    }
+
+    @Test
+    public void testPourcentageTauxDecimal2() {
+        Dollar montantUn = new Dollar(60.99);
+        Dollar montantTotal = new Dollar(15.60);
+        assertEquals(montantTotal, montantUn.pourcentage(0.2557));
+    }
+
+    @Test
+    public void testPourcentageTauxSuperieurAUn() {
+        Dollar montantUn = new Dollar(60.00);
+        Dollar montantTotal = new Dollar(60.00);
+        assertEquals(montantTotal, montantUn.pourcentage(1.00));
+    }
+
+    @Test
+    public void testPourcentageTauxSuperieurAUnDecimal() {
+        Dollar montantUn = new Dollar(60.00);
+        Dollar montantTotal = new Dollar(139.80);
+        assertEquals(montantTotal, montantUn.pourcentage(2.33));
+    }
     
+        @Test
+    public void testPourcentageMontantNul() {
+        Dollar montantUn = new Dollar();
+        Dollar montantTotal = new Dollar(0.00);
+        assertEquals(montantTotal, montantUn.pourcentage(0.50));
+    }
+    
+            @Test
+    public void testPourcentageTauxNul() {
+        Dollar montantUn = new Dollar(60.00);
+        Dollar montantTotal = new Dollar(0.00);
+        assertEquals(montantTotal, montantUn.pourcentage(0.00));
+    }
+    
+            @Test
+    public void testPourcentageMontantNegatif() {
+        Dollar montantUn = new Dollar(-60.00);
+        Dollar montantTotal = new Dollar(-24.00);
+        assertEquals(montantTotal, montantUn.pourcentage(0.40));
+    }
+    
+    @Test
+    public void testPourcentageTauxNegatif() {
+        Dollar montantUn = new Dollar(60.00);
+        Dollar montantTotal = new Dollar(-139.80);
+        assertEquals(montantTotal, montantUn.pourcentage(-2.33));
+    }
+
     @Test
     public void testEstCent() {
         Dollar cents = new Dollar();
