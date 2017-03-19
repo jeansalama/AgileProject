@@ -18,8 +18,20 @@ public class CalculRemboursementsTest {
     public CalculRemboursementsTest() {
     }
 
+    
     @Test
-    public void testCalculerRemboursement() throws ContratException, 
+    public void testCalculerRemboursement1() throws DossierException, 
+            DateException, ReclamationException{
+        Date date = new Date("2017-04-23");
+        Dossier dossier = new Dossier("B123456", date);
+        Reclamation reclam = new Reclamation(0, date, "100.00$");
+        Dollar remboursement 
+                =  CalculRemboursements.calculerRemboursement(reclam, dossier);
+        assertEquals("40.00$", remboursement.toString());
+    }
+    
+    @Test
+    public void testCalculerRemboursement2() throws ContratException, 
             DateException, ReclamationException{
         Contrat contrat = new Contrat("B");
         Date date = new Date("2017-04-23");
@@ -38,6 +50,17 @@ public class CalculRemboursementsTest {
         Dollar remboursementMax
                 = CalculRemboursements.obtenirRemboursementMaximal(regle, montant);
         assertEquals("65.00$", remboursementMax.toString());
+    }
+    
+    @Test
+    public void testObtenirRemboursementMaximal2() {
+        Dollar montant = new Dollar(100.00);
+        JSONObject regle = new JSONObject();
+        regle.accumulate("taux", 0.25);
+        regle.accumulate("max", 65);
+        Dollar remboursementMax
+                = CalculRemboursements.obtenirRemboursementMaximal(regle, montant);
+        assertEquals("25.00$", remboursementMax.toString());
     }
 
     @Test
@@ -126,6 +149,14 @@ public class CalculRemboursementsTest {
         Reclamation reclam = new Reclamation(200, date, "100.00$");
 
         assertEquals("200", CalculRemboursements.obtenirSoin(reclam));
+    }
+    
+    @Test
+    public void testObtenirSoin2() throws DateException, ReclamationException {
+        Date date = new Date("2017-04-23");
+        Reclamation reclam = new Reclamation(345, date, "100.00$");
+
+        assertEquals("300", CalculRemboursements.obtenirSoin(reclam));
     }
 
     @Test(expected = NullPointerException.class)
