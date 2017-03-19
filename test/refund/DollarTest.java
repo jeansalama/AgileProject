@@ -30,7 +30,7 @@ public class DollarTest {
     }
 
     @Test
-    public void testEquales() {
+    public void testEquals1() {
         Dollar m1 = new Dollar(1.0);
         Dollar m2 = new Dollar(100);
         assertTrue(m1.equals(m2));
@@ -519,5 +519,40 @@ public class DollarTest {
         Dollar strMontant2 = new Dollar("5,64$");
         assertEquals(strMontant, strMontant2);
     }
+    
+    @Test
+    public void testConstructeurSansArguments(){
+        Dollar montantUn = new Dollar();
+        assertEquals(0, montantUn.getCents());
+    }
+    
+    @Test
+    public void testConstructeurArgumentLongMontantRond(){
+        Dollar montantUn = new Dollar(3000);
+        assertEquals(3000, montantUn.getCents());
+    }
+    
+    @Test
+    public void testConstructeurArgumentLongGrosMontant(){
+        Dollar montantUn = new Dollar(999999);
+        assertEquals(999999, montantUn.getCents());
+    }
+    
+    @Test
+    public void testConstructeurArgumentLongMontantDecimal(){
+        Dollar montantUn = new Dollar(3333);
+        assertEquals(3333, montantUn.getCents());
+    }
+    @Test
+    public void testConstructeurArgumentLongMontantNegatif(){
+        Dollar montantUn = new Dollar(-3333);
+        assertEquals(-3333, montantUn.getCents());
+    }
+    @Test
+    public void testConstructeurArgumentLongValeurMaximales(){
+        Dollar montantUn = new Dollar(Long.MAX_VALUE);
+        assertEquals(Long.MAX_VALUE, montantUn.getCents());
+    }
+    
 
 }
