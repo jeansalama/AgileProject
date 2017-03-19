@@ -198,7 +198,63 @@ public class DollarTest {
         Dollar montantTotal = new Dollar(47.00);
         assertEquals(montantTotal, montantUn.moins(montantDeux));
     }
+    
+       @Test
+    public void testfoisMontantsRonds() {
+        Dollar montantUn = new Dollar(40.00);
+        Dollar montantDeux = new Dollar(40.00);
+        Dollar montantTotal = new Dollar(1600.00);
+        assertEquals(montantTotal, montantUn.fois(montantDeux));
+    }
 
+    @Test
+    public void testfoisMontantsDecimaux() {
+        Dollar montantUn = new Dollar(40.34);
+        Dollar montantDeux = new Dollar(40.27);
+        Dollar montantTotal = new Dollar(1624.49);
+        assertEquals(montantTotal, montantUn.fois(montantDeux));
+    }
+
+    @Test
+    public void testfoisMontantsNégatifs() {
+        Dollar montantUn = new Dollar(-40.00);
+        Dollar montantDeux = new Dollar(10.00);
+        Dollar montantTotal = new Dollar(-400.00);
+        assertEquals(montantTotal, montantUn.fois(montantDeux));
+    }
+
+    @Test(expected = Exception.class)
+    public void testfoisValeursLimites1() {
+        Dollar montantUn = new Dollar(Double.MAX_VALUE / 2 + 1);
+        Dollar montantDeux = new Dollar(2.00);
+        montantUn.fois(montantDeux);
+    }
+
+    @Test
+    public void testfoisValeursLimites2() {
+        Dollar montantUn = new Dollar(Double.MAX_VALUE / 2 );
+        Dollar montantDeux = new Dollar(2.00);
+        Dollar montantTotal = new Dollar(Double.MAX_VALUE);
+        assertEquals(montantTotal, montantUn.fois(montantDeux));
+    }
+
+    @Test
+    public void testfoisGrosMontants() {
+        Dollar montantUn = new Dollar(46836.88);
+        Dollar montantDeux = new Dollar(36439.53);
+        Dollar montantTotal = new Dollar(1706713893.87);
+        assertEquals(montantTotal, montantUn.fois(montantDeux));
+    }
+
+    @Test
+    public void testfoisMontantDebutantAvecZero() {
+        Dollar montantUn = new Dollar(050.00);
+        Dollar montantDeux = new Dollar(03.00);
+        Dollar montantTotal = new Dollar(150.00);
+        assertEquals(montantTotal, montantUn.fois(montantDeux));
+    }
+
+    
     @Test
     public void testEstCent() {
         Dollar cents = new Dollar();
