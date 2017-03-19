@@ -464,6 +464,14 @@ public class DollarTest {
         Dollar strMontant = new Dollar("5-645");
     }
 
+    @Test
+    public void testDollarStringMontantFormatAnalyserReclamation2()
+            throws ReclamationException {
+        Dollar strMontant = new Dollar("5.64$");
+        Dollar strMontant2 = new Dollar("5,64$");
+        assertEquals(strMontant, strMontant2);
+    }
+
     @Test(expected = ReclamationException.class)
     public void testDollarStringMontantSansSeparateur()
             throws ReclamationException {
@@ -513,93 +521,89 @@ public class DollarTest {
     }
 
     @Test
-    public void testDollarStringMontantFormatAnalyserReclamation5()
-            throws ReclamationException {
-        Dollar strMontant = new Dollar("5.64$");
-        Dollar strMontant2 = new Dollar("5,64$");
-        assertEquals(strMontant, strMontant2);
-    }
-    @Test
     public void testDollarStringMontantRond()
             throws ReclamationException {
         Dollar strMontant = new Dollar("50.00$");
         assertEquals(5000, strMontant.getCents());
     }
-    
+
     @Test
     public void testDollarStringMontantDecimal()
             throws ReclamationException {
         Dollar strMontant = new Dollar("55.64$");
         assertEquals(5564, strMontant.getCents());
     }
-    
+
     @Test
     public void testDollarStringGrosMontant()
             throws ReclamationException {
         Dollar strMontant = new Dollar("99999.99$");
         assertEquals(9999999, strMontant.getCents());
     }
-    
+
     @Test
     public void testDollarStringMontantNegatif()
             throws ReclamationException {
         Dollar strMontant = new Dollar("-55.64$");
         assertEquals(-5564, strMontant.getCents());
     }
-    
-    
-    
+
     @Test
-    public void testConstructeurSansArguments(){
+    public void testConstructeurSansArguments() {
         Dollar montantUn = new Dollar();
         assertEquals(0, montantUn.getCents());
     }
-    
+
     @Test
-    public void testConstructeurArgumentLongMontantRond(){
+    public void testConstructeurArgumentLongMontantRond() {
         Dollar montantUn = new Dollar(3000);
         assertEquals(3000, montantUn.getCents());
     }
-    
+
     @Test
-    public void testConstructeurArgumentLongGrosMontant(){
+    public void testConstructeurArgumentLongGrosMontant() {
         Dollar montantUn = new Dollar(999999);
         assertEquals(999999, montantUn.getCents());
     }
-    
+
     @Test
-    public void testConstructeurArgumentLongMontantDecimal(){
+    public void testConstructeurArgumentLongMontantDecimal() {
         Dollar montantUn = new Dollar(3333);
         assertEquals(3333, montantUn.getCents());
     }
+
     @Test
-    public void testConstructeurArgumentLongMontantNegatif(){
+    public void testConstructeurArgumentLongMontantNegatif() {
         Dollar montantUn = new Dollar(-3333);
         assertEquals(-3333, montantUn.getCents());
     }
+
     @Test
-    public void testConstructeurArgumentLongValeursMaximales(){
+    public void testConstructeurArgumentLongValeursMaximales() {
         Dollar montantUn = new Dollar(Long.MAX_VALUE);
         assertEquals(Long.MAX_VALUE, montantUn.getCents());
     }
-    
+
     @Test
-    public void testConstructeurArgumentDoubleMontantRond(){
+    public void testConstructeurArgumentDoubleMontantRond() {
         Dollar montantUn = new Dollar(55.00);
         assertEquals(5500, montantUn.getCents());
     }
+
     @Test
-    public void testConstructeurArgumentDoubleGrosMontant(){
+    public void testConstructeurArgumentDoubleGrosMontant() {
         Dollar montantUn = new Dollar(99999.00);
         assertEquals(9999900, montantUn.getCents());
     }
+
     @Test
-    public void testConstructeurArgumentDoubleMontantDecimal(){
+    public void testConstructeurArgumentDoubleMontantDecimal() {
         Dollar montantUn = new Dollar(99999.77);
         assertEquals(9999977, montantUn.getCents());
     }
+
     @Test
-    public void testConstructeurArgumentDoubleMontantNegatif(){
+    public void testConstructeurArgumentDoubleMontantNegatif() {
         Dollar montantUn = new Dollar(-99999.77);
         assertEquals(-9999977, montantUn.getCents());
     }
