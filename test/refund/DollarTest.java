@@ -28,33 +28,51 @@ public class DollarTest {
         montant1 = null;
         montant2 = null;
     }
-    
+
     @Test
-    public void testEquales(){
+    public void testEquales() {
         Dollar m1 = new Dollar(1.0);
         Dollar m2 = new Dollar(100);
         assertTrue(m1.equals(m2));
     }
-    
+
     @Test
-    public void testEquals2() throws ReclamationException{
+    public void testEquals2() throws ReclamationException {
         Dollar m1 = new Dollar(1.0);
         Dollar m2 = new Dollar("1.00$");
         assertTrue(m1.equals(m2));
     }
-    
+
     @Test
-    public void testNotEquals(){
+    public void testEquals3() throws ReclamationException {
+        Dollar m1 = new Dollar(1.0);
+        assertTrue(m1.equals(m1));
+    }
+
+    @Test
+    public void testNotEquals() {
         Dollar m1 = new Dollar(2.0);
         Dollar m2 = new Dollar(100);
         assertFalse(m1.equals(m2));
     }
-    
+
     @Test
-    public void testNotEquals2() throws ReclamationException{
+    public void testNotEquals2() throws ReclamationException {
         Dollar m1 = new Dollar(2.0);
         Dollar m2 = new Dollar("1.00$");
         assertFalse(m1.equals(m2));
+    }
+
+    @Test
+    public void testNotEquals3() throws ReclamationException {
+        Dollar m1 = new Dollar(1.0);
+        assertFalse(m1.equals(null));
+    }
+
+    @Test
+    public void testNotEquals4() throws ReclamationException {
+        Dollar m1 = new Dollar(1.0);
+        assertFalse(m1.equals(1.0));
     }
 
     @Test
@@ -428,6 +446,18 @@ public class DollarTest {
         assertFalse(m1.estInferieurA(m2));
     }
 
+    @Test
+    public void testEstNegatif() {
+        Dollar m = new Dollar(-1);
+        assertTrue(m.estNegatif());
+    }
+
+    @Test
+    public void testEstNegatif2() {
+        Dollar m = new Dollar(1);
+        assertFalse(m.estNegatif());
+    }
+
     @Test(expected = ReclamationException.class)
     public void testDollarStringMontantFormatAnalyserReclamation1()
             throws ReclamationException {
@@ -441,49 +471,49 @@ public class DollarTest {
     }
 
     @Test(expected = ReclamationException.class)
-    public void testDollarStringMontantSansDevise() 
+    public void testDollarStringMontantSansDevise()
             throws ReclamationException {
         Dollar strMontant = new Dollar("56.45");
     }
 
     @Test(expected = ReclamationException.class)
-    public void testDollarStringMontantMauvaiseDevise() 
+    public void testDollarStringMontantMauvaiseDevise()
             throws ReclamationException {
         Dollar strMontant = new Dollar("56.45£");
     }
 
     @Test(expected = ReclamationException.class)
-    public void testDollarStringMontantSymboleDollarPasDernier() 
+    public void testDollarStringMontantSymboleDollarPasDernier()
             throws ReclamationException {
         Dollar strMontant = new Dollar("564.$5");
     }
 
     @Test(expected = ReclamationException.class)
-    public void testDollarStringMontantSansDecimalAvantSeparateur() 
+    public void testDollarStringMontantSansDecimalAvantSeparateur()
             throws ReclamationException {
         Dollar strMontant = new Dollar(",56$");
     }
 
     @Test(expected = ReclamationException.class)
-    public void testDollarStringMontantSansDecimalApresSeparateur() 
+    public void testDollarStringMontantSansDecimalApresSeparateur()
             throws ReclamationException {
         Dollar strMontant = new Dollar("56,$");
     }
 
     @Test(expected = ReclamationException.class)
-    public void testDollarStringMontantAvecPlusDeDeuxDecimal() 
+    public void testDollarStringMontantAvecPlusDeDeuxDecimal()
             throws ReclamationException {
         Dollar strMontant = new Dollar("2,5645$");
     }
 
     @Test(expected = ReclamationException.class)
-    public void testDollarStringMontantAvecMoinsDeDeuxDecimal() 
+    public void testDollarStringMontantAvecMoinsDeDeuxDecimal()
             throws ReclamationException {
         Dollar strMontant = new Dollar("2,5$");
     }
 
     @Test
-    public void testDollarStringMontantFormatAnalyserReclamation5() 
+    public void testDollarStringMontantFormatAnalyserReclamation5()
             throws ReclamationException {
         Dollar strMontant = new Dollar("5.64$");
         Dollar strMontant2 = new Dollar("5,64$");
