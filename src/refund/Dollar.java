@@ -48,7 +48,7 @@ public class Dollar implements Comparable {
     }
 
     public Dollar fois(Dollar montant) {
-        long produit = cents * montant.getCents();
+        long produit = Math.round(cents * montant.convertirEnDouble());
         return new Dollar(produit);
     }
 
@@ -71,6 +71,15 @@ public class Dollar implements Comparable {
     
     @Override
     public String toString() {
+        String montantDollar = toString2(cents);
+        
+        if(cents < 0){
+            montantDollar = "-" + toString2(-cents);
+        }
+        return montantDollar;
+    }
+
+    public String toString2(long cents) {
         String partieEntiere = "" + cents / 100;
         String partieFractionnaire = "" + cents % 100;
         if(partieFractionnaire.length() == 1){

@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
-import refund.Dollar.*;
 
 /**
  *
@@ -62,6 +61,42 @@ public class DollarTest {
     public void testToString6() {
         Dollar montant = new Dollar(07.01);
         assertEquals("7.01$", montant.toString());
+    }
+
+    @Test
+    public void testToStringNegatif() {
+        Dollar montant = new Dollar(-7.00);
+        assertEquals("-7.00$", montant.toString());
+    }
+
+    @Test
+    public void testToStringNegatif2() {
+        Dollar montant = new Dollar(-7.03);
+        assertEquals("-7.03$", montant.toString());
+    }
+
+    @Test
+    public void testToStringNegatif3() {
+        Dollar montant = new Dollar(-7.53);
+        assertEquals("-7.53$", montant.toString());
+    }
+
+    @Test
+    public void testToStringNegatif4() {
+        Dollar montant = new Dollar(-27.03);
+        assertEquals("-27.03$", montant.toString());
+    }
+
+    @Test
+    public void testToStringNegatif5() {
+        Dollar montant = new Dollar(-00027.03);
+        assertEquals("-27.03$", montant.toString());
+    }
+
+    @Test
+    public void testToStringNegatif6() {
+        Dollar montant = new Dollar(-2703);
+        assertEquals("-27.03$", montant.toString());
     }
 
     @Test
@@ -258,7 +293,7 @@ public class DollarTest {
     @Test
     public void testPourcentageTauxRond1() {
         Dollar montantUn = new Dollar(60.00);
-        Dollar montantTotal = new Dollar(20.00);
+        Dollar montantTotal = new Dollar(15.00);
         assertEquals(montantTotal, montantUn.pourcentage(0.25));
     }
 
@@ -296,28 +331,28 @@ public class DollarTest {
         Dollar montantTotal = new Dollar(139.80);
         assertEquals(montantTotal, montantUn.pourcentage(2.33));
     }
-    
-        @Test
+
+    @Test
     public void testPourcentageMontantNul() {
         Dollar montantUn = new Dollar();
         Dollar montantTotal = new Dollar(0.00);
         assertEquals(montantTotal, montantUn.pourcentage(0.50));
     }
-    
-            @Test
+
+    @Test
     public void testPourcentageTauxNul() {
         Dollar montantUn = new Dollar(60.00);
         Dollar montantTotal = new Dollar(0.00);
         assertEquals(montantTotal, montantUn.pourcentage(0.00));
     }
-    
-            @Test
+
+    @Test
     public void testPourcentageMontantNegatif() {
         Dollar montantUn = new Dollar(-60.00);
         Dollar montantTotal = new Dollar(-24.00);
         assertEquals(montantTotal, montantUn.pourcentage(0.40));
     }
-    
+
     @Test
     public void testPourcentageTauxNegatif() {
         Dollar montantUn = new Dollar(60.00);
@@ -352,7 +387,7 @@ public class DollarTest {
     }
 
     @Test(expected = ReclamationException.class)
-    public void testDollarStringMontantFormatAnalyserReclamation1() throws ReclamationException {
+    public void testDollarStringMontantFormatAnaly000serReclamation1() throws ReclamationException {
         Dollar strMontant = new Dollar("5-645");
     }
 
