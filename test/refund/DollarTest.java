@@ -519,6 +519,35 @@ public class DollarTest {
         Dollar strMontant2 = new Dollar("5,64$");
         assertEquals(strMontant, strMontant2);
     }
+    @Test
+    public void testDollarStringMontantRond()
+            throws ReclamationException {
+        Dollar strMontant = new Dollar("50.00$");
+        assertEquals(5000, strMontant.getCents());
+    }
+    
+    @Test
+    public void testDollarStringMontantDecimal()
+            throws ReclamationException {
+        Dollar strMontant = new Dollar("55.64$");
+        assertEquals(5564, strMontant.getCents());
+    }
+    
+    @Test
+    public void testDollarStringGrosMontant()
+            throws ReclamationException {
+        Dollar strMontant = new Dollar("99999.99$");
+        assertEquals(9999999, strMontant.getCents());
+    }
+    
+    @Test
+    public void testDollarStringMontantNegatif()
+            throws ReclamationException {
+        Dollar strMontant = new Dollar("-55.64$");
+        assertEquals(-5564, strMontant.getCents());
+    }
+    
+    
     
     @Test
     public void testConstructeurSansArguments(){
