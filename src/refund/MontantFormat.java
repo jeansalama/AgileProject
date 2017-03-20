@@ -89,12 +89,9 @@ public class MontantFormat {
             throws ReclamationException {
 
         if (!contientSeparateurDecimal(montantReclam)
-                ||(indiceSeparateurDecimal(montantReclam) + 1 < 0
-                || indiceSeparateurDecimal(montantReclam) + 1 > 9)
                 || !validerIndiceDevise(montantReclam)
                 || taillePartieEntiere(montantReclam) < 1
-                || taillePartieFractionnaire(montantReclam) != 2
-               ) {
+                || taillePartieFractionnaire(montantReclam) != 2) {
 
             throw new ReclamationException(MSG_ERREUR_FORMAT);
         }
