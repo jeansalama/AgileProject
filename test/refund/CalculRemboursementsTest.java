@@ -31,6 +31,17 @@ public class CalculRemboursementsTest {
     }
     
     @Test
+    public void testCalculerRemboursementDossierSeparateurVirgule() throws DossierException, 
+            DateException, ReclamationException{
+        Date date = new Date("2017-04-23");
+        Dossier dossier = new Dossier("B123456", date);
+        Reclamation reclam = new Reclamation(0, date, "100,00$");
+        Dollar remboursement 
+                =  CalculRemboursements.calculerRemboursement(reclam, dossier);
+        assertEquals("40.00$", remboursement.toString());
+    }
+    
+    @Test
     public void testCalculerRemboursementDossierASoin0() throws DossierException, 
             DateException, ReclamationException{
         Date date = new Date("2017-04-23");
@@ -201,14 +212,36 @@ public class CalculRemboursementsTest {
     }
     
     @Test
-    public void testObtenirRemboursementMaximal3(){
-        Dollar montant = new Dollar(100.00);
+    public void testObtenirRemboursementMaximalGrosMontant(){
+        Dollar montant = new Dollar(99999.00);
         JSONObject regle = new JSONObject();
         regle.accumulate("taux", 0.75);
         regle.accumulate("max", 65);
         Dollar remboursementMax
                 = CalculRemboursements.obtenirRemboursementMaximal(regle, montant);
         assertEquals("65.00$", remboursementMax.toString());
+    }
+    
+    @Test
+    public void testObtenirRemboursementMaximalMontantDecimal(){
+        Dollar montant = new Dollar(99.27);
+        JSONObject regle = new JSONObject();
+        regle.accumulate("taux", 0.75);
+        regle.accumulate("max", 65);
+        Dollar remboursementMax
+                = CalculRemboursements.obtenirRemboursementMaximal(regle, montant);
+        assertEquals("65.00$", remboursementMax.toString());
+    }
+    
+    @Test
+    public void testObtenirRemboursementMaximalGrosMontantPetitMaximum(){
+        Dollar montant = new Dollar(99999.99);
+        JSONObject regle = new JSONObject();
+        regle.accumulate("taux", 0.75);
+        regle.accumulate("max", 25);
+        Dollar remboursementMax
+                = CalculRemboursements.obtenirRemboursementMaximal(regle, montant);
+        assertEquals("25.00$", remboursementMax.toString());
     }
     
     @Test
@@ -294,6 +327,45 @@ public class CalculRemboursementsTest {
         Reclamation reclam = new Reclamation(345, date, "100.00$");
 
         assertEquals("300", CalculRemboursements.obtenirSoin(reclam));
+    }
+    
+    @Test
+    public void testObtenirSoinLimite1() throws DateException, ReclamationException {
+        Date date = new Date("2017-04-23");
+        Reclamation reclam = new Reclamation(399, date, "100.00$");
+
+        assertEquals("300", CalculRemboursements.obtenirSoin(reclam));
+    }
+    
+    @Test
+    public void testObtenirSoinLimite2() throws DateException, ReclamationException {
+        Date date = new Date("2017-04-23");
+        Reclamation reclam = new Reclamation(300, date, "100.00$");
+
+        assertEquals("300", CalculRemboursements.obtenirSoin(reclam));
+    }
+    
+    @Test
+    public void testObtenirSoinLimite3() throws DateException, ReclamationException {
+        Date date = new Date("2017-04-23");
+        Reclamation reclam = new Reclamation(400, date, "100.00$");
+
+        assertEquals("400", CalculRemboursements.obtenirSoin(reclam));
+    }
+    
+    @Test(expected = DateException.class)
+    public void testObtenirSoinDateInvalideLettre() throws DateException, ReclamationException {
+        Date date = new Date("201A-04-23");
+        Reclamation reclam = new Reclamation(400, date, "100.00$");
+
+        assertEquals("400", CalculRemboursements.obtenirSoin(reclam));
+    }
+    @Test(expected = DateException.class)
+    public void testObtenirSoinDateInvalideSeparateur() throws DateException, ReclamationException {
+        Date date = new Date("2017*04-23");
+        Reclamation reclam = new Reclamation(400, date, "100.00$");
+
+        assertEquals("400", CalculRemboursements.obtenirSoin(reclam));
     }
 
     @Test(expected = NullPointerException.class)
