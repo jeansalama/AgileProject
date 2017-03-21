@@ -169,6 +169,133 @@ public class CalculRemboursementsTest {
         assertEquals("0.00$", remboursement.toString());
     }
     @Test
+    public void testCalculerRemboursementDossierBSoin0() throws DossierException, 
+            DateException, ReclamationException{
+        Date date = new Date("2017-04-23");
+        Dossier dossier = new Dossier("B123456", date);
+        Reclamation reclam = new Reclamation(0, date, "100.00$");
+        Dollar remboursement 
+                =  CalculRemboursements.calculerRemboursement(reclam, dossier);
+        assertEquals("40.00$", remboursement.toString());
+    }
+    
+    @Test
+    public void testCalculerRemboursementDossierBSoin100() throws DossierException, 
+            DateException, ReclamationException{
+        Date date = new Date("2017-04-23");
+        Dossier dossier = new Dossier("B123456", date);
+        Reclamation reclam = new Reclamation(100, date, "100.00$");
+        Dollar remboursement 
+                =  CalculRemboursements.calculerRemboursement(reclam, dossier);
+        assertEquals("50.00$", remboursement.toString());
+    }
+    
+    @Test
+    public void testCalculerRemboursementDossierBSoin150() throws DossierException, 
+            DateException, ReclamationException{
+        Date date = new Date("2017-04-23");
+        Dossier dossier = new Dossier("B123456", date);
+        Reclamation reclam = new Reclamation(150, date, "100.00$");
+        Dollar remboursement 
+                =  CalculRemboursements.calculerRemboursement(reclam, dossier);
+        assertEquals("0.00$", remboursement.toString());
+    }
+    
+    @Test
+    public void testCalculerRemboursementDossierBSoin175() throws DossierException, 
+            DateException, ReclamationException{
+        Date date = new Date("2017-04-23");
+        Dossier dossier = new Dossier("B123456", date);
+        Reclamation reclam = new Reclamation(175, date, "100.00$");
+        Dollar remboursement 
+                =  CalculRemboursements.calculerRemboursement(reclam, dossier);
+        assertEquals("75.00$", remboursement.toString());
+    }
+    
+    @Test
+    public void testCalculerRemboursementDossierBSoin200() throws DossierException, 
+            DateException, ReclamationException{
+        Date date = new Date("2017-04-23");
+        Dossier dossier = new Dossier("B123456", date);
+        Reclamation reclam = new Reclamation(200, date, "100.00$");
+        Dollar remboursement 
+                =  CalculRemboursements.calculerRemboursement(reclam, dossier);
+        assertEquals("100.00$", remboursement.toString());
+    }
+    @Test
+    public void testCalculerRemboursementDossierBSoin300() throws DossierException, 
+            DateException, ReclamationException{
+        Date date = new Date("2017-04-23");
+        Dossier dossier = new Dossier("B123456", date);
+        Reclamation reclam = new Reclamation(300, date, "100.00$");
+        Dollar remboursement 
+                =  CalculRemboursements.calculerRemboursement(reclam, dossier);
+        assertEquals("50.00$", remboursement.toString());
+    }
+    @Test
+    public void testCalculerRemboursementDossierBSoin301() throws DossierException, 
+            DateException, ReclamationException{
+        Date date = new Date("2017-04-23");
+        Dossier dossier = new Dossier("B123456", date);
+        Reclamation reclam = new Reclamation(301, date, "100.00$");
+        Dollar remboursement 
+                =  CalculRemboursements.calculerRemboursement(reclam, dossier);
+        assertEquals("50.00$", remboursement.toString());
+    }
+    @Test
+    public void testCalculerRemboursementDossierBSoin399() throws DossierException, 
+            DateException, ReclamationException{
+        Date date = new Date("2017-04-23");
+        Dossier dossier = new Dossier("B123456", date);
+        Reclamation reclam = new Reclamation(399, date, "100.00$");
+        Dollar remboursement 
+                =  CalculRemboursements.calculerRemboursement(reclam, dossier);
+        assertEquals("50.00$", remboursement.toString());
+    }
+    
+    @Test
+    public void testCalculerRemboursementDossierBSoin400() throws DossierException, 
+            DateException, ReclamationException{
+        Date date = new Date("2017-04-23");
+        Dossier dossier = new Dossier("B123456", date);
+        Reclamation reclam = new Reclamation(400, date, "100.00$");
+        Dollar remboursement 
+                =  CalculRemboursements.calculerRemboursement(reclam, dossier);
+        assertEquals("0.00$", remboursement.toString());
+    }
+    
+    @Test
+    public void testCalculerRemboursementDossierBSoin500() throws DossierException, 
+            DateException, ReclamationException{
+        Date date = new Date("2017-04-23");
+        Dossier dossier = new Dossier("B123456", date);
+        Reclamation reclam = new Reclamation(500, date, "100.00$");
+        Dollar remboursement 
+                =  CalculRemboursements.calculerRemboursement(reclam, dossier);
+        assertEquals("50.00$", remboursement.toString());
+    }
+    @Test
+    public void testCalculerRemboursementDossierBSoin600() throws DossierException, 
+            DateException, ReclamationException{
+        Date date = new Date("2017-04-23");
+        Dossier dossier = new Dossier("B123456", date);
+        Reclamation reclam = new Reclamation(600, date, "100.00$");
+        Dollar remboursement 
+                =  CalculRemboursements.calculerRemboursement(reclam, dossier);
+        assertEquals("100.00$", remboursement.toString());
+    }
+    
+    @Test
+    public void testCalculerRemboursementDossierBSoin700() throws DossierException, 
+            DateException, ReclamationException{
+        Date date = new Date("2017-04-23");
+        Dossier dossier = new Dossier("B123456", date);
+        Reclamation reclam = new Reclamation(700, date, "100.00$");
+        Dollar remboursement 
+                =  CalculRemboursements.calculerRemboursement(reclam, dossier);
+        assertEquals("70.00$", remboursement.toString());
+    }
+    @Test
     public void testCalculerRemboursementContrat1() throws ContratException, 
             DateException, ReclamationException{
         Contrat contrat = new Contrat("B");
