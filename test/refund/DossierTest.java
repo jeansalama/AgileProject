@@ -13,11 +13,11 @@ import static org.junit.Assert.*;
  * @author Billy
  */
 public class DossierTest {
-    
+
     public DossierTest() {
     }
 
-     @Test(expected = DossierException.class)
+    @Test(expected = DossierException.class)
     public void testContatTyeNonValideSetIdDossier1() throws DossierException, DateException {
         Date date = new Date("2017-02-03");
         Dossier d1 = new Dossier("A123456", date);
@@ -29,6 +29,30 @@ public class DossierTest {
         Date date = new Date("2017-02-03");
         Dossier d1 = new Dossier("A123456", date);
         d1.setIdDossier("-123456");
-    }  
+    }
+
+    @Test
+    public void testDossierGetDate() throws DateException, DossierException {
+        Dossier d3 = new Dossier("B654321", new Date("2017-02-07"));
+        Date date = d3.getDate();
+        assertEquals(date, d3.getDate());
+    }
+
+    @Test(expected = DossierException.class)
+    public void testSetIdDossierDifferentDeLongueurSept1() throws DateException, DossierException {
+        Dossier d4 = new Dossier("C333333", new Date("2017-12-17"));
+        d4.setIdDossier("C3333337");
+    }
+
+    @Test(expected = DossierException.class)
+    public void testSetIdDossierDifferentDeLongueurSept2() throws DateException, DossierException {
+        Dossier d4 = new Dossier("C3333337", new Date("2017-12-01"));
+        d4.setIdDossier("A1233");
+    }
     
+    @Test
+    public void testDossierToString() throws DossierException, DateException{
+       Dossier d5 = new Dossier("B456789", new Date("2017-08-08"));
+        assertEquals(("dossier: " + "B456789" + "\nMois: " + d5.getDate()),d5.toString());
+    }
 }
