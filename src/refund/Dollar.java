@@ -9,7 +9,7 @@ package refund;
  *
  * @author Billy
  */
-public class Dollar implements Comparable {
+public class Dollar      {   
 
     private final long cents;
 
@@ -97,11 +97,6 @@ public class Dollar implements Comparable {
                 && this.cents == ((Dollar) obj).cents);
     }
 
-    @Override
-    public int compareTo(Object t) {
-        long difference = cents - ((Dollar) t).cents;
-        return (int)difference;
-    }
 
     
 
