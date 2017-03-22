@@ -865,18 +865,42 @@ public class CalculRemboursementsTest {
     }
     
     @Test(expected = DateException.class)
-    public void testObtenirSoinDateInvalideLettre() throws DateException, ReclamationException {
+    public void testObtenirSoinDateInvalideLettre() 
+            throws DateException, ReclamationException {
         Date date = new Date("201A-04-23");
         Reclamation reclam = new Reclamation(400, date, "100.00$");
 
-        assertEquals("400", CalculRemboursements.obtenirSoin(reclam));
     }
     @Test(expected = DateException.class)
-    public void testObtenirSoinDateInvalideSeparateur() throws DateException, ReclamationException {
+    public void testObtenirSoinDateInvalideSeparateur() 
+            throws DateException, ReclamationException {
         Date date = new Date("2017*04-23");
         Reclamation reclam = new Reclamation(400, date, "100.00$");
-
-        assertEquals("400", CalculRemboursements.obtenirSoin(reclam));
+    }
+    
+    @Test(expected = DateException.class)
+    public void testObtenirSoinDateInvalideMois() 
+            throws DateException, ReclamationException {
+        Date date = new Date("2017-14-23");
+        Reclamation reclam = new Reclamation(400, date, "100.00$");
+    }
+    @Test(expected = DateException.class)
+    public void testObtenirSoinDateInvalideJour() 
+            throws DateException, ReclamationException {
+        Date date = new Date("2017-11-32");
+        Reclamation reclam = new Reclamation(400, date, "100.00$");
+    }
+    
+    @Test(expected = DateException.class)
+    public void testObtenirSoinDateInvalideAnnee() throws DateException, ReclamationException {
+        Date date = new Date("20177-11-32");
+        Reclamation reclam = new Reclamation(400, date, "100.00$");
+    }
+    
+    @Test(expected = ReclamationException.class)
+    public void testObtenirSoinDateInvalideSansJour() throws DateException, ReclamationException {
+        Date date = new Date("2017-11");
+        Reclamation reclam = new Reclamation(400, date, "100.00$");
     }
 
     @Test(expected = NullPointerException.class)
