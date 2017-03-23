@@ -63,7 +63,7 @@ public class MontantFormat {
      * montant en sa valeur en double (en tenant compte de son separateur
      * decimal)
      */
-    private static DecimalFormat obtenirBonAnalyseur(String montant) {
+    public static DecimalFormat obtenirBonAnalyseur(String montant) {
 
         DecimalFormatSymbols symboles = new DecimalFormatSymbols();
 
@@ -85,7 +85,7 @@ public class MontantFormat {
      * le separateur (partie entiere). Il n'y a pas exactement deux decimales
      * apres le separateur (partie fractionnaire)
      */
-    private static void verifierFormatMontant(String montantReclam)
+    public static void verifierFormatMontant(String montantReclam)
             throws ReclamationException {
 
         if (!contientSeparateurDecimal(montantReclam)
@@ -101,7 +101,7 @@ public class MontantFormat {
      * @param montantReclam un String representant un montant en dollars
      * @return int, l'indice du separateur decimal de montantReclam
      */
-    private static int indiceSeparateurDecimal(String montantReclam) {
+    public static int indiceSeparateurDecimal(String montantReclam) {
         int indice;
 
         if (montantReclam.contains(".")) {
@@ -118,7 +118,7 @@ public class MontantFormat {
      * @return boolean, vrai montantReclam contient un separateur decimal ('.'
      * ou ','), false sinon
      */
-    private static boolean contientSeparateurDecimal(String montantReclam) {
+    public static boolean contientSeparateurDecimal(String montantReclam) {
 
         return indiceSeparateurDecimal(montantReclam) != -1;
     }
@@ -127,7 +127,7 @@ public class MontantFormat {
      * @param montantReclam un String representant un montant en dollars
      * @return int, le nombre de decimales avant la "virgule"
      */
-    private static int taillePartieEntiere(String montantReclam) {
+    public static int taillePartieEntiere(String montantReclam) {
 
         int indice = indiceSeparateurDecimal(montantReclam);
 
@@ -140,22 +140,27 @@ public class MontantFormat {
      * @param montantReclam un String representant un montant en dollars
      * @return int, le nombre de decimales apres la "virgule"
      */
-    private static int taillePartieFractionnaire(String montantReclam) {
+    public static int taillePartieFractionnaire(String montantReclam) {
 
         int indiceSeparateur = indiceSeparateurDecimal(montantReclam);
         int indiceDevise = indiceDevise(montantReclam);
 
         String partieDecimale
                 = montantReclam.substring(indiceSeparateur + 1, indiceDevise);
+        
+        int taille = partieDecimale.length();
+        if(indiceSeparateur == -1){
+            taille = 0;
+        }
 
-        return partieDecimale.length();
+        return taille;
     }
 
     /**
      * @param montantReclam un String representant un montant en dollars
      * @return int l'indice de la devise ('$') dans montantReclam
      */
-    private static int indiceDevise(String montantReclam) {
+    public static int indiceDevise(String montantReclam) {
         return montantReclam.indexOf("$");
     }
 
@@ -164,7 +169,7 @@ public class MontantFormat {
      * @return boolean, vrai si la devise '$' est le dernier caractere de
      * montantReclam, false sinon
      */
-    private static boolean validerIndiceDevise(String montantReclam) {
+    public static boolean validerIndiceDevise(String montantReclam) {
         return indiceDevise(montantReclam) == montantReclam.length() - 1;
     }
 
