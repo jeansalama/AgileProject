@@ -16,22 +16,6 @@ public class MontantFormat {
             + " 0.00$ ou 0,00$";
 
     /**
-     * @param montant a formatter
-     * @return String la chaine de caractere representant le montant en dollars
-     * a deux decimales pres avec le caractere '.' ou ',' comme separateur
-     * decimal : 123.451 sera transformee en "123.45$"
-     */
-    public static String formatRemboursement(double montant) {
-
-        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-        symbols.setDecimalSeparator('.');
-
-        DecimalFormat df = new DecimalFormat("0.00$", symbols);
-
-        return df.format(montant);
-    }
-
-    /**
      *
      * @param montantReclamation un String representant un montant en dollars
      * @return double, la valeur de montanReclamation
@@ -41,7 +25,7 @@ public class MontantFormat {
      * decimale avant le separateur (partie entiere). Il n'y a pas exactement
      * deux decimales apres le separateur (partie fractionnaire)
      */
-    public static double analyserReclamation(String montantReclamation)
+    public static double analyserMontant(String montantReclamation)
             throws ReclamationException {
 
         double montant;
@@ -138,7 +122,7 @@ public class MontantFormat {
 
     /**
      * @param montantReclam un String representant un montant en dollars
-     * @return int, le nombre de decimales entre la "virgule" et la devise 
+     * @return int, le nombre de decimales entre la "virgule" et la devise
      */
     public static int taillePartieFractionnaire(String montantReclam) {
 
@@ -147,9 +131,9 @@ public class MontantFormat {
 
         String partieDecimale
                 = montantReclam.substring(indiceSeparateur + 1, indiceDevise);
-        
+
         int taille = partieDecimale.length();
-        if(indiceSeparateur == -1){
+        if (indiceSeparateur == -1) {
             taille = 0;
         }
 

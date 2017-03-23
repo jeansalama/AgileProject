@@ -26,7 +26,7 @@ public class Dollar      {
     }
     
     public Dollar(String montant) throws ReclamationException{
-        this(MontantFormat.analyserReclamation(montant));
+        this(MontantFormat.analyserMontant(montant));
     }
 
     public long getCents() {
