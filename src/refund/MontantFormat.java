@@ -138,7 +138,7 @@ public class MontantFormat {
 
     /**
      * @param montantReclam un String representant un montant en dollars
-     * @return int, le nombre de decimales apres la "virgule"
+     * @return int, le nombre de decimales entre la "virgule" et la devise 
      */
     public static int taillePartieFractionnaire(String montantReclam) {
 

@@ -18,6 +18,187 @@ public class MontantFormatTest {
     }
 
     
+    /****************************************************
+     * 
+     * void verifierFormatMontant(String montantReclam)
+            throws ReclamationException    
+     * 
+     *****************************************************/
+    
+    @Test
+    public void testVerifierFormatMontantValide() throws ReclamationException {
+        MontantFormat.verifierFormatMontant("1.25$");
+    }
+    
+    @Test
+    public void testVerifierFormatMontantValide2() throws ReclamationException {
+        MontantFormat.verifierFormatMontant("1,25$");
+    }
+    
+    @Test
+    public void testVerifierFormatMontantValide3() throws ReclamationException {
+        MontantFormat.verifierFormatMontant("1.00$");
+    }
+    
+    @Test
+    public void testVerifierFormatMontantValide4() throws ReclamationException {
+        MontantFormat.verifierFormatMontant("1,00$");
+    }
+    
+    @Test
+    public void testVerifierFormatMontantValide5() throws ReclamationException {
+        MontantFormat.verifierFormatMontant("0,00$");
+    }
+    
+    @Test
+    public void testVerifierFormatMontantValide6() throws ReclamationException {
+        MontantFormat.verifierFormatMontant("0000,00$");
+    }
+    
+    @Test(expected = ReclamationException.class)
+    public void testVerifierFormatMontantInvalideSansDevise() 
+            throws ReclamationException{
+        MontantFormat.verifierFormatMontant("2,58");
+    }
+    
+    @Test(expected = ReclamationException.class)
+    public void testVerifierFormatMontantInvalideAutreDevise() 
+            throws ReclamationException{
+        MontantFormat.verifierFormatMontant("2,58£");
+    }
+    
+    @Test(expected = ReclamationException.class)
+    public void testVerifierFormatMontantInvalideSansSeparateur() 
+            throws ReclamationException{
+        MontantFormat.verifierFormatMontant("258$");
+    }
+    
+    @Test(expected = ReclamationException.class)
+    public void testVerifierFormatMontantInvalideSansPartieEntiere() 
+            throws ReclamationException{
+        MontantFormat.verifierFormatMontant(",58$");
+    }
+    
+    @Test(expected = ReclamationException.class)
+    public void testVerifierFormatMontantInvalideSansPartieFractionnaire() 
+            throws ReclamationException{
+        MontantFormat.verifierFormatMontant("2.$");
+    }
+    
+    @Test(expected = ReclamationException.class)
+    public void testVerifierFormatMontantInvalidePartieFractionnaireCourte() 
+            throws ReclamationException{
+        MontantFormat.verifierFormatMontant("2.1$");
+    }
+    
+    @Test(expected = ReclamationException.class)
+    public void testVerifierFormatMontantInvalidePartieFractionnaireLongue() 
+            throws ReclamationException{
+        MontantFormat.verifierFormatMontant("2.123$");
+    }
+    
+    /****************************************************
+     * 
+     * int indiceSeparateurDecimal(String montantReclam)    
+     * 
+     *****************************************************/
+    
+    @Test
+    public void testIndiceSeparateurDecimalPoint(){
+        assertEquals(MontantFormat.indiceSeparateurDecimal("1.2$"), 1);
+    }
+    
+    @Test
+    public void testIndiceSeparateurDecimalPoint2(){
+        assertEquals(MontantFormat.indiceSeparateurDecimal("1569.2$"), 4);
+    }
+    
+    @Test
+    public void testIndiceSeparateurDecimalVirgule(){
+        assertEquals(MontantFormat.indiceSeparateurDecimal("159,2$"), 3);
+    }
+    
+    @Test
+    public void testIndiceSeparateurDecimalVirgule2(){
+        assertEquals(MontantFormat.indiceSeparateurDecimal("15,2$"), 2);
+    }
+    
+    @Test
+    public void testIndiceSeparateurDecimalInexistant(){
+        assertEquals(MontantFormat.indiceSeparateurDecimal("15692$"), -1);
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void testIndiceSeparateurDecimalArgumentNull(){
+        MontantFormat.indiceSeparateurDecimal(null);
+    }
+    
+    /****************************************************
+     * 
+     * boolean contientSeparateurDecimal(String montantReclam)
+     * 
+     *****************************************************/
+    
+    @Test
+    public void testContientSeparateurDecimalPoint(){
+        assertTrue(MontantFormat.contientSeparateurDecimal("1.2"));
+    }
+    
+    @Test
+    public void testContientSeparateurDecimalVirgule(){
+        assertTrue(MontantFormat.contientSeparateurDecimal("1,2"));
+    }
+    
+    @Test
+    public void testNeContientPasSeparateurDecimal(){
+        assertFalse(MontantFormat.contientSeparateurDecimal("12"));
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void testContientSeparateurDecimalArgumentNull(){
+        MontantFormat.contientSeparateurDecimal(null);
+    }
+    
+    /****************************************************
+     * 
+     * int taillePartieEntiere(String montantReclam)
+     * 
+     *****************************************************/
+    
+    @Test
+    public void testTaillePartieEntiere(){
+        assertEquals(MontantFormat.taillePartieEntiere("1.23$"), 1);
+    }
+    
+    @Test
+    public void testTaillePartieEntiere2(){
+        assertEquals(MontantFormat.taillePartieEntiere("10.23$"), 2);
+    }
+    
+    @Test
+    public void testTaillePartieEntiere3(){
+        assertEquals(MontantFormat.taillePartieEntiere("0010.23$"), 4);
+    }
+    
+    @Test
+    public void testTaillePartieEntiere4(){
+        assertEquals(MontantFormat.taillePartieEntiere("0.23$"), 1);
+    }
+    
+    @Test
+    public void testTaillePartieEntiere5(){
+        assertEquals(MontantFormat.taillePartieEntiere(".23$"), 0);
+    }
+    
+    @Test(expected = StringIndexOutOfBoundsException.class)
+    public void testTaillePartieEntiereIndexOutOfBoundsException(){
+        MontantFormat.taillePartieEntiere("25$");
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void testTaillePartieEntiereArgumentNull(){
+        MontantFormat.taillePartieEntiere(null);
+    }
     
     /****************************************************
      * 
@@ -51,7 +232,7 @@ public class MontantFormatTest {
     }
     
     @Test(expected = NullPointerException.class)
-    public void testTaillePartieFractionnaireNull(){
+    public void testTaillePartieFractionnaireArgumentNull(){
         MontantFormat.taillePartieFractionnaire(null);
     }
     
@@ -91,7 +272,7 @@ public class MontantFormatTest {
     }
     
     @Test(expected = NullPointerException.class)
-    public void testIndiceDeviseNull(){
+    public void testIndiceDeviseArgumentNull(){
         MontantFormat.indiceDevise(null);
     }
     
@@ -122,7 +303,7 @@ public class MontantFormatTest {
     }
     
     @Test(expected = NullPointerException.class)
-    public void testValiderIndiceDeviseNull() {
+    public void testValiderIndiceDeviseArgumentNull() {
         MontantFormat.validerIndiceDevise(null);
     }
     
