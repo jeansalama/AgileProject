@@ -169,21 +169,6 @@ public class DollarTest {
         assertEquals(montantTotal, montantUn.plus(montantDeux));
     }
 
-    @Test(expected = Exception.class)
-    public void testPlusValeursLimites1() {
-        Dollar montantUn = new Dollar(Double.MAX_VALUE);
-        Dollar montantDeux = new Dollar(1.00);
-        montantUn.plus(montantDeux);
-    }
-
-    @Test
-    public void testPlusValeursLimites2() {
-        Dollar montantUn = new Dollar(Double.MAX_VALUE - 1.00);
-        Dollar montantDeux = new Dollar(1.00);
-        Dollar montantTotal = new Dollar(Double.MAX_VALUE);
-        assertEquals(montantTotal, montantUn.plus(montantDeux));
-    }
-
     @Test
     public void testPlusGrosMontants() {
         Dollar montantUn = new Dollar(464836.88);
@@ -240,22 +225,6 @@ public class DollarTest {
         assertEquals(montantTotal, montantUn.moins(montantDeux));
     }
 
-    @Test(expected = Exception.class)
-    public void testMoinsValeursLimites1() {
-        Dollar montantUn = new Dollar(-Double.MAX_VALUE);
-        System.out.println("-Double.MAX_VALUE " + -Double.MAX_VALUE);
-        Dollar montantDeux = new Dollar(1.00);
-        montantUn.moins(montantDeux);
-    }
-
-    @Test
-    public void testMoinsValeursLimites2() {
-        Dollar montantUn = new Dollar((-Double.MAX_VALUE) + 1.00);
-        Dollar montantDeux = new Dollar(1.00);
-        Dollar montantTotal = new Dollar(-Double.MAX_VALUE);
-        assertEquals(montantTotal, montantUn.moins(montantDeux));
-    }
-
     @Test
     public void testMoinsGrosMontants() {
         Dollar montantUn = new Dollar(464836.88);
@@ -301,21 +270,6 @@ public class DollarTest {
         Dollar montantUn = new Dollar(-40.00);
         Dollar montantDeux = new Dollar(10.00);
         Dollar montantTotal = new Dollar(-400.00);
-        assertEquals(montantTotal, montantUn.fois(montantDeux));
-    }
-
-    @Test(expected = Exception.class)
-    public void testfoisValeursLimites1() {
-        Dollar montantUn = new Dollar(Double.MAX_VALUE / 2 + 1);
-        Dollar montantDeux = new Dollar(2.00);
-        montantUn.fois(montantDeux);
-    }
-
-    @Test
-    public void testfoisValeursLimites2() {
-        Dollar montantUn = new Dollar(Double.MAX_VALUE / 2);
-        Dollar montantDeux = new Dollar(2.00);
-        Dollar montantTotal = new Dollar(Double.MAX_VALUE);
         assertEquals(montantTotal, montantUn.fois(montantDeux));
     }
 
