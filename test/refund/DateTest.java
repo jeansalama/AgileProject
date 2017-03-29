@@ -88,6 +88,7 @@ public class DateTest {
 
     /**
      * Test of setMois method, of class Date.
+     *
      * @throws java.lang.Exception
      */
     @Test
@@ -136,6 +137,29 @@ public class DateTest {
     public void testToString() throws DateException {
         Date d1 = new Date("2017-02-02");
         assertEquals("2017-02-02", d1.toString());
+    }
+
+    @Test(expected = DateException.class)
+    public void testDateNull() throws DateException {
+        Date d9 = new Date(null);
+    }
+
+    @Test(expected = DateException.class)
+    public void testDateAnneeNonNombre() throws DateException {
+        Date d10 = new Date("20i1-05-06");
+        d10.getAnnee();
+    }
+
+    @Test(expected = DateException.class)
+    public void testDateMoisNonNombre() throws DateException {
+        Date d10 = new Date("2017-o5-06");
+        d10.getMois();
+    }
+
+    @Test(expected = DateException.class)
+    public void testDateJourNonNombre() throws DateException {
+        Date d10 = new Date("20i1-05-0p");
+        d10.getJour();
     }
 
 }
