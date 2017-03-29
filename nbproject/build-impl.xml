@@ -939,8 +939,8 @@ is divided into following sections:
         </copy>
     </target>
     <target name="-post-compile">
-        <!-- Empty placeholder for easier customization. -->
-        <!-- You can override this target in the ../build.xml file. -->
+        <copy file="inputfile.json" todir="${dist.dir}"/> 
+        <copy file="Contrats.json" todir="${dist.dir}"/> 
     </target>
     <target depends="init,deps-jar,-verify-automatic-build,-pre-pre-compile,-pre-compile,-do-compile,-post-compile" description="Compile project." name="compile"/>
     <target name="-pre-compile-single">
