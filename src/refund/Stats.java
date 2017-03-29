@@ -65,6 +65,8 @@ public class Stats {
             stats.getJSONObject("Soins").put(element, 0);
         }
         sauverStats();
+        System.out.println("Le fichier contenant les statistiques a été "
+                + "réinitialisé correctement.");
     }
 
     private static JSONObject initialiserStats() {
