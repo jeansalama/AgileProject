@@ -23,7 +23,7 @@ public class Sortie {
         this.fichierSortie = fichierSortie;
         ecrireDebut();
         ecrireReclamations();
-        Entree.reclamValide();
+        Stats.reclamValide();
         sortirFichier();
     }
 
@@ -66,7 +66,7 @@ public class Sortie {
         temp.accumulate("soin", reclam.getSoin());
         temp.accumulate("date", reclam.getDate().toString());
         temp.accumulate("montant", montant.toString());
-        Entree.ajoutSoinStats(reclam.getSoin());
+        Stats.ajoutSoinStats(reclam.getSoin());
         liste.add(temp);
         temp.clear();
 
@@ -76,16 +76,6 @@ public class Sortie {
     private void sortirFichier() {
         try {
             Utf8File.saveStringIntoFile(fichierSortie, infoClient.toString(2));
-        } catch (IOException e) {
-            System.out.println("Erreur avec le fichier de sortie : "
-                    + e.getLocalizedMessage());
-        }
-    }
-
-    public static void sauverStats() {
-        try {
-            Utf8File.saveStringIntoFile("Statistiques.json",
-                    Entree.stats.toString(2));
         } catch (IOException e) {
             System.out.println("Erreur avec le fichier de sortie : "
                     + e.getLocalizedMessage());

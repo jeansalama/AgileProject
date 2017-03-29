@@ -15,8 +15,6 @@ public class Entree {
 
     private ArrayList<Reclamation> listeReclamations = new ArrayList<>(0);
     private JSONObject infoClient;
-    public static JSONObject stats = chargerStats();
-    
     private Dossier client;
 
     /**
@@ -122,90 +120,5 @@ public class Entree {
                     + ex.getLocalizedMessage());
         }
         return jsonTxt;
-    }
-
-    public static void reclamRejete() {
-        JSONObject temp = stats.getJSONObject("Reclamations");
-        int total = temp.getInt("rejetees");
-        total++;
-        temp.put("rejetees", total);
-        Sortie.sauverStats();
-    }
-
-    public static void reclamValide() {
-        JSONObject temp = stats.getJSONObject("Reclamations");
-        int total = temp.getInt("traitees");
-        total++;
-        temp.put("traitees", total);
-        Sortie.sauverStats();
-    }
-
-    public static void ajoutSoinStats(int soin) {
-        JSONObject temp = stats.getJSONObject("Soins");
-        if(soin >= 300 && soin < 400){
-            soin = 300;
-        }
-        String type = soin + "";
-        int total = temp.getInt(type);
-        total++;
-        temp.put(type, total);
-        Sortie.sauverStats();
-    }
-
-    public static void viderStats() {
-        String[] listeReclam = {"traitees", "rejetees"};
-        String[] listeSoin = {"0", "100", "150", "175", "200", "300", "400", 
-            "500", "600", "700"};
-
-        for (String element : listeReclam) {
-            stats.getJSONObject("Reclamations").put(element, 0);
-        }
-        for (String element : listeSoin) {
-            stats.getJSONObject("Soins").put(element, 0);
-        }
-        Sortie.sauverStats();
-    }
-    
-    private static JSONObject initialiserStats(){
-        
-        JSONObject stats = new JSONObject();
-        
-        initialiserStatsReclamations(stats);
-        initialiserStatsSoins(stats);
-        
-        return stats;
-    }
-
-    private static void initialiserStatsSoins(JSONObject stats) {
-        JSONObject soins = new JSONObject();
-        String[] listeSoin = {"0", "100", "150", "175", "200", "300", "400",
-            "500", "600", "700"};
-        for (String element : listeSoin) {
-            soins.accumulate(element, 0);
-        }
-        stats.accumulate("Soins", soins);
-    }
-
-    private static void initialiserStatsReclamations(JSONObject stats) {
-        JSONObject reclamations = new JSONObject();
-        String[] listeReclam = {"traitees", "rejetees"};
-        for (String element : listeReclam) {
-            reclamations.accumulate(element, 0);
-        }
-        stats.accumulate("Reclamations", reclamations);
-    }
-    
-    private static JSONObject chargerStats(){
-        String contenu;
-        JSONObject stats = new JSONObject();
-        try {
-            contenu = Utf8File.loadFileIntoString("Statistiques.json");
-            stats = (JSONObject) JSONSerializer.toJSON(contenu);
-        } catch (FileNotFoundException fnfe) {
-            stats = initialiserStats();
-        } catch (IOException ioe) {
-            System.out.println(ioe.getMessage());
-        }
-        return stats;
     }
 }
