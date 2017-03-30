@@ -14,6 +14,7 @@ public class Refund {
             entreeConsole(args);
 
         } else {
+            args = formatterNomsFichiers(args);
             analyserFichiers(args);
         }
     }
@@ -37,10 +38,10 @@ public class Refund {
      * @param args Les arguments entres a la console
      */
     private static void analyserFichiers(String[] args) {
-
+        
         try {
-            Entree entree = new Entree(formatterNomFichier(args[0]));
-            Sortie sortie = new Sortie(entree, formatterNomFichier(args[1]));
+            Entree entree = new Entree(args[0]);
+            Sortie sortie = new Sortie(entree, args[1]);
 
         } catch (ContratException | DateException | DossierException
                 | ReclamationException e) {
@@ -50,15 +51,16 @@ public class Refund {
         } catch (JSONException j) {
             Stats.reclamRejete();
             Erreur.erreurJson(j, args[1]);
-
+        
         }
     }
-    
-    private static String formatterNomFichier(String fichier){
-        String temp = fichier.toLowerCase();
-        if(!temp.contains(".json")){
-            fichier = fichier + ".json";
+    private static String[] formatterNomsFichiers(String[] args) {
+        for (int i = 0; i < args.length; i++) {
+            String temp = args[i].toLowerCase();
+            if (!temp.contains(".json")) {
+                args[i] = args[i] + ".json";
+            }
         }
-        return fichier;
+        return args;
     }
 }
