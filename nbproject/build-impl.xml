@@ -939,7 +939,6 @@ is divided into following sections:
         </copy>
     </target>
     <target name="-post-compile">
-        <copy file="inputfile.json" todir="${dist.dir}"/> 
         <copy file="Contrats.json" todir="${dist.dir}"/> 
     </target>
     <target depends="init,deps-jar,-verify-automatic-build,-pre-pre-compile,-pre-compile,-do-compile,-post-compile" description="Compile project." name="compile"/>
