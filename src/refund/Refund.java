@@ -29,6 +29,8 @@ public class Refund {
             System.out.println(new Stats());
         } else if (args[0].equals("-SR")) {
             Stats.viderStats();
+        } else {
+            System.out.println("Saisie invalide");
         }
 
     }
