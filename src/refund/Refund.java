@@ -39,8 +39,8 @@ public class Refund {
     private static void analyserFichiers(String[] args) {
 
         try {
-            Entree entree = new Entree(args[0]);
-            Sortie sortie = new Sortie(entree, args[1]);
+            Entree entree = new Entree(formatterNomFichier(args[0]));
+            Sortie sortie = new Sortie(entree, formatterNomFichier(args[1]));
 
         } catch (ContratException | DateException | DossierException
                 | ReclamationException e) {
@@ -52,5 +52,13 @@ public class Refund {
             Erreur.erreurJson(j, args[1]);
 
         }
+    }
+    
+    private static String formatterNomFichier(String fichier){
+        String temp = fichier.toLowerCase();
+        if(!temp.contains(".json")){
+            fichier = fichier + ".json";
+        }
+        return fichier;
     }
 }
