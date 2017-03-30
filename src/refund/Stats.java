@@ -140,15 +140,15 @@ public class Stats {
     }
 
     private String afficherSoins() {
-        return "\n Massothérapie: " + soins.getInt("0")
-                + "\n Ostéopathie: " + soins.getInt("100")
-                + "\n Kinésithérapie: " + soins.getInt("150")
-                + "\n Médecin généraliste privé: " + soins.getInt("175")
-                + "\n Psychologie individuelle: " + soins.getInt("200")
-                + "\n Soins dentaires: " + soins.getInt("300")
-                + "\n Naturopathie, acuponcture: " + soins.getInt("400")
-                + "\n Chiropratie: " + soins.getInt("500")
-                + "\n Physiothérapie: " + soins.getInt("600")
-                + "\n Orthophonie, ergothérapie: " + soins.getInt("700");
+        return "\n Massothérapie (0) : " + soins.getInt("0")
+                + "\n Ostéopathie (100) : " + soins.getInt("100")
+                + "\n Kinésithérapie (150) : " + soins.getInt("150")
+                + "\n Médecin généraliste privé (175) : " + soins.getInt("175")
+                + "\n Psychologie individuelle (200) : " + soins.getInt("200")
+                + "\n Soins dentaires (300) : " + soins.getInt("300")
+                + "\n Naturopathie, acuponcture (400) : " + soins.getInt("400")
+                + "\n Chiropratie (500) : " + soins.getInt("500")
+                + "\n Physiothérapie (600) : " + soins.getInt("600")
+                + "\n Orthophonie, ergothérapie (700) : " + soins.getInt("700");
     }
 }
