@@ -4,18 +4,22 @@ import net.sf.json.JSONException;
 
 public class Refund {
 
+    private static boolean prediction;
+
     /**
      * @param args le noms des fichiers utilises
      */
     public static void main(String[] args) {
-        if (args.length < 1 || args.length > 2) {
+        if (args.length < 1 || args.length > 3) {
             System.out.println("Saisie invalide");
         } else if (args.length == 1) {
-            entreeConsole(args);
+            entrerConsole(args);
 
-        } else {
+        } else if (args.length == 2) {
             args = formatterNomsFichiers(args);
             analyserFichiers(args);
+        } else {
+            entrerPrediction(args);
         }
     }
 
@@ -23,7 +27,22 @@ public class Refund {
      *
      * @param args Les arguments entres a la console
      */
-    private static void entreeConsole(String[] args) {
+    private static void entrerPrediction(String[] args) {
+
+        if (args[0].equals("-p")) {
+            prediction = true;
+            args = formatterNomsFichiers(args);
+            analyserFichiers(args);
+        } else {
+            System.out.println("Saisie invalide");
+        }
+    }
+
+    /**
+     *
+     * @param args Les arguments entres a la console
+     */
+    private static void entrerConsole(String[] args) {
 
         if (args[0].equals("-S")) {
             System.out.println(new Stats());
@@ -40,22 +59,29 @@ public class Refund {
      * @param args Les arguments entres a la console
      */
     private static void analyserFichiers(String[] args) {
-        
+
         try {
             Entree entree = new Entree(args[0]);
-            Sortie sortie = new Sortie(entree, args[1]);
+            Sortie sortie = new Sortie(entree, args[1], prediction);
 
         } catch (ContratException | DateException | DossierException
                 | ReclamationException e) {
-            Stats.reclamRejete();
+            statsRejetee();
             Erreur.erreurDonnees(e, args[1]);
 
         } catch (JSONException j) {
-            Stats.reclamRejete();
+            statsRejetee();
             Erreur.erreurJson(j, args[1]);
-        
+
         }
     }
+
+    private static void statsRejetee() {
+        if (!prediction) {
+            Stats.reclamRejete();
+        }
+    }
+
     private static String[] formatterNomsFichiers(String[] args) {
         for (int i = 0; i < args.length; i++) {
             String temp = args[i].toLowerCase();

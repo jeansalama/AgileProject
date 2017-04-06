@@ -9,6 +9,7 @@ public class Sortie {
 
     private Entree entree;
     private String fichierSortie;
+    private boolean prediction;
     private JSONObject infoClient = new JSONObject();
     JSONArray liste = new JSONArray();
     static double montantMaxMensuel;
@@ -18,12 +19,15 @@ public class Sortie {
      * @param entree l'object avec l'info a sortir
      * @param fichierSortie le fichier de sortie
      */
-    public Sortie(Entree entree, String fichierSortie) {
+    public Sortie(Entree entree, String fichierSortie, boolean prediction) {
         this.entree = entree;
         this.fichierSortie = fichierSortie;
+        this.prediction = prediction;
         ecrireDebut();
         ecrireReclamations();
-        Stats.reclamValide();
+        if(!prediction){
+            Stats.reclamValide();
+        }
         sortirFichier();
     }
 
@@ -66,7 +70,9 @@ public class Sortie {
         temp.accumulate("soin", reclam.getSoin());
         temp.accumulate("date", reclam.getDate().toString());
         temp.accumulate("montant", montant.toString());
-        Stats.ajoutSoinStats(reclam.getSoin());
+        if(!prediction){
+            Stats.ajoutSoinStats(reclam.getSoin());
+        }
         liste.add(temp);
         temp.clear();
 
