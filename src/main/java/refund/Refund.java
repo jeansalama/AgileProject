@@ -10,16 +10,15 @@ public class Refund {
      * @param args le noms des fichiers utilises
      */
     public static void main(String[] args) {
-        if (args.length < 1 || args.length > 3) {
-            System.out.println("Saisie invalide");
+        if (args[0].equals("-p") && args.length == 3) {
+            entrerPrediction(args);
         } else if (args.length == 1) {
             entrerConsole(args);
-
         } else if (args.length == 2) {
             args = formatterNomsFichiers(args);
             analyserFichiers(args);
         } else {
-            entrerPrediction(args);
+            System.out.println("Saisie invalide");
         }
     }
 
@@ -28,14 +27,12 @@ public class Refund {
      * @param args Les arguments entres a la console
      */
     private static void entrerPrediction(String[] args) {
-
-        if (args[0].equals("-p")) {
             prediction = true;
+            args[0] = args[1];
+            args[1] = args[2];
             args = formatterNomsFichiers(args);
             analyserFichiers(args);
-        } else {
-            System.out.println("Saisie invalide");
-        }
+       
     }
 
     /**
@@ -49,9 +46,9 @@ public class Refund {
         } else if (args[0].equals("-SR")) {
             Stats.viderStats();
         } else {
-            System.out.println("Saisie invalide");
+            System.out.println("-S pour afficher les statistiques ou -SR pour "
+                    + "les réinitialiser.");
         }
-
     }
 
     /**
