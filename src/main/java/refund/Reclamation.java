@@ -1,8 +1,5 @@
 package refund;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 /**
  * Classe visant à créer et gérer des objets Reclamation.
  *
@@ -12,9 +9,6 @@ public class Reclamation {
 
     public final static String MSG_DATE_INCOMPLETE_EXCEPTION = "La date est "
             + "incomplete. Le format d'une date complete est aaaa-mm-jj.";
-    public static final ArrayList<Integer> TABLEAU_SOINS = 
-            new ArrayList<>(Arrays.asList(0, 100, 150, 175, 200, 400, 500, 600,
-                    700));
     
     private int soin;
     private Date date;
@@ -88,8 +82,9 @@ public class Reclamation {
      * @return true si le numéro de soin est valide, false sinon.
      */
     public static boolean validerSoin(int soin) {
-        return TABLEAU_SOINS.contains(soin) || (soin >= 300 && soin <= 399);
-                
+        return soin == 0 || 100 == soin || soin == 200
+                || (soin >= 300 && soin <= 399) || soin == 400 || soin == 500
+                || soin == 600 || soin == 700 || soin == 150 || soin == 175;
     }
 
 
