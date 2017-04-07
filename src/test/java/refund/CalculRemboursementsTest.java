@@ -15,9 +15,6 @@ import static org.junit.Assert.*;
  */
 public class CalculRemboursementsTest {
 
-    public CalculRemboursementsTest() {
-    }
-
     
     @Test
     public void testCalculerRemboursementDossier1() throws DossierException, 
