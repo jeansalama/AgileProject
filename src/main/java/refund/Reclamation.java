@@ -67,7 +67,7 @@ public class Reclamation {
     public void setMontantReclamation(String montantReclam)
             throws ReclamationException {
         this.montantReclamation = new Dollar (montantReclam);
-        verifierSiNegatif(montantReclamation);
+        verifierSiSuperieurAZero(montantReclamation);
     }
 
 
@@ -75,12 +75,12 @@ public class Reclamation {
      * @param montantReclam Un nombre décimal représentant un montant.
      * @throws ReclamationException si le montant passé en paramètre est négatif
      */
-    private void verifierSiNegatif(Dollar montantReclam)
+    private void verifierSiSuperieurAZero(Dollar montantReclam)
             throws ReclamationException {
 
-        if (montantReclam.estNegatif()) {
-            throw new ReclamationException("Le montant de la réclamation ne"
-                    + " peut pas être négatif!");
+        if(montantReclamation.getCents() <= 0){
+            throw new ReclamationException("Le montant de réclamation doit être"
+                    + "supérieur à zéro!");
         }
 }
 
