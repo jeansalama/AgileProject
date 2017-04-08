@@ -102,8 +102,6 @@ public class Reclamation {
 
 class ReclamationException extends Exception {
 
-    public ReclamationException() {
-    }
 
     public ReclamationException(String msg) {
         super(msg);
