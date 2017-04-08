@@ -32,6 +32,7 @@
         </dependency>
 
     </dependencies>
+    
     <build>
         <plugins>
             <plugin>
@@ -53,6 +54,39 @@
                     </execution>
                 </executions>
             </plugin>
+            
+            <plugin>
+                <!-- Build an executable JAR -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>refund.Refund</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            
         </plugins>
+        
+        <resources>
+            <resource>
+                <!-- <targetPath>${project.build.directory}</targetPath> -->
+                <targetPath>${project.build.directory}</targetPath>
+                <filtering>false</filtering>
+                <directory>${basedir}</directory>
+                <includes>
+                    <include>Contrats.json</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.properties</exclude>
+                </excludes>
+            </resource>
+        </resources>
+        
     </build>
 </project>
