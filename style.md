@@ -10,4 +10,5 @@
 * Les variables locales sont déclarées au début des méthodes.
 * La nomenclature des méthodes est *verbeComplement* ou *nomComplement* (Exemple: afficherTableau() ou methodeValide()).
   * La nomenclature doit reflété de façon évidente la fonctionnalité de la méthode
+* La nomenclature des tests unitaire commence toujour par «test» et est suivi du nom de la méthode testée, puis d'une description en quelques mots de ce qui est testé : *testNomDeLaMethodeTesteeDescriptionDeCeQuiEstTeste* (Exemple: testValiderDateAvecDateInvalide)  
 * Seuls les @params, @return et @throws sont utilisés en JavaDoc pour commenter les méthodes (au besoin), mais les "getters", les "setters" ainsi que la méthode toString() n'ont jamais de JavaDoc.
