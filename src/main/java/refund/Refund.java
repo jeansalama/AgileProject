@@ -10,7 +10,7 @@ public class Refund {
      * @param args le noms des fichiers utilises
      */
     public static void main(String[] args) {
-        if (args[0].equals("-p") && args.length == 3) {
+       if (args.length == 3 && args[0].equals("-p")) {
             entrerPrediction(args);
         } else if (args.length == 1) {
             entrerConsole(args);
