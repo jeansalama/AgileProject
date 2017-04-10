@@ -14,6 +14,7 @@ public class Entree {
             + "Le format d'un mois accepte est aaaa-mm.";
 
     private ArrayList<Reclamation> listeReclamations = new ArrayList<>(0);
+    private ArrayList<String> jourNbrReclamation = new ArrayList<>(0);
     private JSONObject infoClient;
     private Dossier client;
 
@@ -49,10 +50,41 @@ public class Entree {
     public void setListeReclamations()
             throws DateException, ReclamationException {
         JSONArray tableauReclamations = infoClient.getJSONArray("reclamations");
+
         for (int i = 0; i < tableauReclamations.size(); i++) {
 
             JSONObject reclamation = tableauReclamations.getJSONObject(i);
+
+            Date dateJour = new Date(reclamation.getString("date"));
+            jourNbrReclamation.add(dateJour.getJour());
+
             ajouterUneReclamation(reclamation);
+        }
+
+        validerNbrJourAccepteDansReclamation(jourNbrReclamation);
+    }
+
+    public void validerNbrJourAccepteDansReclamation(ArrayList jourNbrReclamation)
+            throws ReclamationException {
+        int compteur = 0;
+        for (int i = 0; i < jourNbrReclamation.size(); i++) {
+            Object temp = jourNbrReclamation.get(i);
+            validerNbrJoursReclames(jourNbrReclamation, temp, compteur);
+            compteur = 0;
+        }
+    }
+
+    private void validerNbrJoursReclames(ArrayList jourNbrReclamation1, Object temp,
+            int compteur) throws ReclamationException {
+        for (int i = 0; i < jourNbrReclamation1.size(); i++) {
+            if (temp.equals(jourNbrReclamation1.get(i))) {
+                compteur = compteur + 1;
+            }
+            if (compteur > 4) {
+                throw new ReclamationException(
+                        "Vous avez plus de 4 reclamations pour la date :"
+                        + client.getDate() + "-" + temp);
+            }
         }
     }
 
@@ -95,7 +127,7 @@ public class Entree {
      *
      * @param date Une date formatter
      * @throws ReclamationException si la date de la reclamation prise en
-     * paramètre n'a pas le même mois que celle du client
+     * paramÃ¨tre n'a pas le mÃªme mois que celle du client
      */
     private void validationBonMois(Date date) throws ReclamationException {
         if (!client.getDate().getMois().equals(date.getMois())
