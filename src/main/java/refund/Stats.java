@@ -39,17 +39,35 @@ public class Stats {
 
     /**
      *
-     * @param soin entier representant le soin a ajoute au Statistiques
+     * @param numeroSoin entier representant le soin a ajoute au Statistiques
      */
-    public static void ajoutSoinStats(int soin) {
-        JSONObject temp = stats.getJSONObject("Soins");
-        if (soin >= 300 && soin < 400) {
-            soin = 300;
+    public static void ajoutSoinStats(int numeroSoin, Dollar montantReclame) {
+        JSONObject soins = stats.getJSONObject("Soins");
+        JSONObject soin;
+        if (numeroSoin >= 300 && numeroSoin < 400) {
+            numeroSoin = 300;
         }
-        String type = soin + "";
-        int total = temp.getInt(type);
+        String typeSoin = numeroSoin + "";
+        soin = soins.getJSONObject(typeSoin);
+
+        int total = soin.getInt("nbTotal");
         total++;
-        temp.put(type, total);
+        soin.put("nbTotal", total);
+
+        Dollar montantMax 
+                = new Dollar(soin.getDouble("montantMaximalReclame"));
+
+        if (montantMax.estInferieurA(montantReclame)) {
+            montantMax = montantReclame;
+        }
+
+        soin.put("montantMaximalReclame", montantMax.convertirEnDouble());
+
+        Dollar totalMontants 
+                = new Dollar(soin.getDouble("totalMontantsReclames"));
+        totalMontants = totalMontants.plus(montantReclame);
+        soin.put("totalMontantsReclames", totalMontants.convertirEnDouble());
+
         sauverStats();
     }
 
@@ -58,11 +76,18 @@ public class Stats {
         String[] listeSoin = {"0", "100", "150", "175", "200", "300", "400",
             "500", "600", "700"};
 
+        JSONObject soin;
+
         for (String element : listeReclam) {
             stats.getJSONObject("Reclamations").put(element, 0);
         }
         for (String element : listeSoin) {
-            stats.getJSONObject("Soins").put(element, 0);
+            soin = new JSONObject();
+            soin.accumulate("nbTotal", 0);
+            soin.accumulate("montantMaximalReclame", 0.0);
+            soin.accumulate("totalMontantsReclames", 0.0);
+
+            stats.getJSONObject("Soins").put(element, soin);
         }
         sauverStats();
         System.out.println("Le fichier contenant les statistiques a été "
@@ -85,10 +110,16 @@ public class Stats {
      */
     private static void initialiserStatsSoins(JSONObject stats) {
         JSONObject soins = new JSONObject();
+        JSONObject soin;
         String[] listeSoin = {"0", "100", "150", "175", "200", "300", "400",
             "500", "600", "700"};
         for (String element : listeSoin) {
-            soins.accumulate(element, 0);
+            soin = new JSONObject();
+            soin.accumulate("nbTotal", 0);
+            soin.accumulate("montantMaximalReclame", 0.0);
+            soin.accumulate("totalMontantsReclames", 0.0);
+
+            soins.accumulate(element, soin);
         }
         stats.accumulate("Soins", soins);
     }
@@ -140,15 +171,38 @@ public class Stats {
     }
 
     private String afficherSoins() {
-        return "\n Massothérapie (0) : " + soins.getInt("0")
-                + "\n Ostéopathie (100) : " + soins.getInt("100")
-                + "\n Kinésithérapie (150) : " + soins.getInt("150")
-                + "\n Médecin généraliste privé (175) : " + soins.getInt("175")
-                + "\n Psychologie individuelle (200) : " + soins.getInt("200")
-                + "\n Soins dentaires (300) : " + soins.getInt("300")
-                + "\n Naturopathie, acuponcture (400) : " + soins.getInt("400")
-                + "\n Chiropratie (500) : " + soins.getInt("500")
-                + "\n Physiothérapie (600) : " + soins.getInt("600")
-                + "\n Orthophonie, ergothérapie (700) : " + soins.getInt("700");
+        return "\n Massothérapie (0) : " 
+                + afficherUnSoin((JSONObject)soins.get("0"))
+                + "\n Ostéopathie (100) : " 
+                + afficherUnSoin((JSONObject)soins.get("100"))
+                + "\n Kinésithérapie (150) : "
+                + afficherUnSoin((JSONObject)soins.get("150"))
+                + "\n Médecin généraliste privé (175) : " 
+                + afficherUnSoin((JSONObject)soins.get("175"))
+                + "\n Psychologie individuelle (200) : "
+                + afficherUnSoin((JSONObject)soins.get("200"))
+                + "\n Soins dentaires (300-399) : " 
+                + afficherUnSoin((JSONObject)soins.get("300"))
+                + "\n Naturopathie, acuponcture (400) : " 
+                + afficherUnSoin((JSONObject)soins.get("400"))
+                + "\n Chiropratie (500) : " 
+                + afficherUnSoin((JSONObject)soins.get("500"))
+                + "\n Physiothérapie (600) : " 
+                + afficherUnSoin((JSONObject)soins.get("600"))
+                + "\n Orthophonie, ergothérapie (700) : " 
+                + afficherUnSoin((JSONObject)soins.get("700"));
+    }
+
+    public String afficherUnSoin(JSONObject soin) {
+
+        int total = soin.getInt("nbTotal");
+        Dollar montantMax = new Dollar(soin.getDouble("montantMaximalReclame"));
+        Dollar totalMontants = new Dollar(soin.getDouble("totalMontantsReclames"));
+        Dollar moyenneMontants
+                = new Dollar(totalMontants.convertirEnDouble() / total);
+
+        return "\n    total : " + total
+                + "\n    montant maximal réclamé : " + montantMax
+                + "\n    moyenne des montants réclamés : " + moyenneMontants;
     }
 }

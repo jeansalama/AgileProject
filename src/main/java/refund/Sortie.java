@@ -71,7 +71,8 @@ public class Sortie {
         temp.accumulate("date", reclam.getDate().toString());
         temp.accumulate("montant", montant.toString());
         if(!prediction){
-            Stats.ajoutSoinStats(reclam.getSoin());
+            Stats.ajoutSoinStats(reclam.getSoin(), 
+                    reclam.getMontantReclamation());
         }
         liste.add(temp);
         temp.clear();
