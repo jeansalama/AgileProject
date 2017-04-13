@@ -6,7 +6,6 @@
 package refund;
 
 import static java.lang.Integer.parseInt;
-
 /**
  * Classe cree et gere des objets Date.
  *
@@ -251,16 +250,5 @@ public class Date {
     @Override
     public String toString() {
         return date;
-    }
-
-}//fin classe Date
-
-class DateException extends Exception {
-
-    public DateException() {
-    }
-
-    public DateException(String msg) {
-        super(msg);
     }
 }
