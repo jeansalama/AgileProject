@@ -7,6 +7,7 @@ package refund;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static refund.Date.MSG_DATE_EXCEPTION;
 
 /**
  *
@@ -84,6 +85,12 @@ public class DateTest {
         Date d7 = new Date("2017-01-01");
         d7.setAnnee("2018");
         assertEquals("get/set", "2018", d7.getAnnee());
+    }
+
+    @Test(expected = DateException.class)
+    public void testSetAnneeInvalide() throws DateException {
+        Date date = new Date("2017-03-03");
+        date.setAnnee("28");
     }
 
     /**
