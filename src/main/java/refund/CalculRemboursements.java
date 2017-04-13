@@ -83,20 +83,11 @@ public class CalculRemboursements {
         return remboursement;
     }
 
-    /*
-     public static double calculerRemboursementMaximalMensuel(JSONObject regle, double remboursement) {
-
-     if (regle.has("maxMensuel")) {
-     montantMaxMensuel = regle.getDouble("maxMensuel");
-
-     if (remboursement <= montantMaxMensuel) {
-     montantMaxMensuel = montantMaxMensuel - remboursement;
-     } else {
-     remboursement = remboursement - montantMaxMensuel;
-     }
-     }
-     return remboursement;
-     }
+     /**
+     * @param regle une regle de remboursement specifique
+     * @param remboursement
+     * @return remboursement, le remboursement maximal mensuel etant donne 
+     * le montant de reclamation fourni et la regle de rembourssement
      */
     public static Dollar calculerRemboursementMaximalMensuel(JSONObject regle,
             Dollar remboursement) {
