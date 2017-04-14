@@ -69,12 +69,3 @@ public class Dossier {
 
 }
 
-class DossierException extends Exception {
-
-    public DossierException() {
-    }
-
-    public DossierException(String msg) {
-        super(msg);
-    }
-}
