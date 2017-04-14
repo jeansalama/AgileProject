@@ -163,7 +163,15 @@ public class Date {
                 throw new DateException(MSG_DATE_EXCEPTION);
         }
 
-        if ((date.length() != 7)) {
+        SeparerDateTableauStringDateAMJ(date);
+
+        String separateurs = "[-]";
+        tabDateEstSeparee = date.split(separateurs);
+        return tabDateEstSeparee;
+    }
+
+    private static void SeparerDateTableauStringDateAMJ(String date) throws DateException {
+        if (date.length() != 7) {
             int nbrCh = 0;
             for (int i = 0; i < date.length(); i++) {
                 if (date.charAt(i) == '-') {
@@ -174,10 +182,6 @@ public class Date {
                 throw new DateException(MSG_DATE_EXCEPTION);
             }
         }
-
-        String separateurs = "[-]";
-        tabDateEstSeparee = date.split(separateurs);
-        return tabDateEstSeparee;
     }
 
     /**
