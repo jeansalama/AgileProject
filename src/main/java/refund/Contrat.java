@@ -47,13 +47,3 @@ public class Contrat {
     }
 
 }
-
-class ContratException extends Exception {
-
-    public ContratException() {
-    }
-
-    public ContratException(String msg) {
-        super(msg);
-    }
-}
