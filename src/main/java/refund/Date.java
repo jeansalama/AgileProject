@@ -6,6 +6,7 @@
 package refund;
 
 import static java.lang.Integer.parseInt;
+
 /**
  * Classe cree et gere des objets Date.
  *
@@ -13,6 +14,9 @@ import static java.lang.Integer.parseInt;
  */
 public class Date {
 
+    /**
+     *
+     */
     public final static String MSG_DATE_EXCEPTION = "La date est invalide. "
             + "Le format de date accepte est aaaa-mm ou aaaa-mm-jj.";
     private String date;
@@ -28,22 +32,43 @@ public class Date {
         setDate(date);
     }
 
+    /**
+     *
+     * @return
+     */
     public String getAnnee() {
         return annee;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getMois() {
         return mois;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getJour() {
         return jour;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDate() {
         return date;
     }
 
+    /**
+     *
+     * @param date
+     * @throws DateException
+     */
     public final void setDate(String date) throws DateException {
         if (date == null) {
             throw new DateException(MSG_DATE_EXCEPTION);
@@ -52,20 +77,31 @@ public class Date {
         this.date = date;
     }
 
+    /**
+     *
+     * @param annee
+     * @throws DateException
+     */
     public void setAnnee(String annee) throws DateException {
-        if (!validerAnnee(annee)) {
-            throw new DateException(MSG_DATE_EXCEPTION);
-        }
+        validerAnnee(annee);
         this.annee = annee;
     }
 
+    /**
+     *
+     * @param mois
+     * @throws DateException
+     */
     public void setMois(String mois) throws DateException {
-        if (!validerMois(mois)) {
-            throw new DateException(MSG_DATE_EXCEPTION);
-        }
+        validerMois(mois);
         this.mois = mois;
     }
 
+    /**
+     *
+     * @param jour
+     * @throws DateException
+     */
     public final void setJour(String jour) throws DateException {
         if (!validerJour(mois, jour, annee)) {
             throw new DateException(MSG_DATE_EXCEPTION);
@@ -74,7 +110,7 @@ public class Date {
     }
 
     /**
-     * 
+     *
      * @return vrai si la longueur de la date est de 10 caracteres sinon faux
      */
     public boolean contientUnJour() {
@@ -113,19 +149,32 @@ public class Date {
         return estLongueur;
     }
 
-  /**
-   * 
-   * @param date
-   * @return la date separee dans un tableau de chaine de caracteres
-   * @throws DateException si les separateurs ne correspondent pas a '-'
+    /**
+     *
+     * @param date
+     * @return la date separee dans un tableau de chaine de caracteres
+     * @throws DateException si les separateurs ne correspondent pas a '-'
      */
     private static String[] SeparerDateTableauString(String date)
             throws DateException {
         String[] tabDateEstSeparee;
 
-        if ((date.indexOf('-') == -1)) {
-            throw new DateException(MSG_DATE_EXCEPTION);
+        if ((date.indexOf('-') == -1) && (date.length() == 7)) {          
+                throw new DateException(MSG_DATE_EXCEPTION);
         }
+
+        if ((date.length() != 7)) {
+            int nbrCh = 0;
+            for (int i = 0; i < date.length(); i++) {
+                if (date.charAt(i) == '-') {
+                    nbrCh = nbrCh + 1;
+                }
+            }
+            if (nbrCh < 2 || nbrCh > 2) {
+                throw new DateException(MSG_DATE_EXCEPTION);
+            }
+        }
+
         String separateurs = "[-]";
         tabDateEstSeparee = date.split(separateurs);
         return tabDateEstSeparee;
@@ -150,7 +199,7 @@ public class Date {
     }
 
     /**
-     * 
+     *
      * @param mois
      * @return
      * @throws DateException si mois pas numerique ou mauvaise longueuer
@@ -247,6 +296,10 @@ public class Date {
         return estBissextile;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return date;
