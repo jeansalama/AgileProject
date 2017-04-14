@@ -169,4 +169,26 @@ public class DateTest {
         d10.getJour();
     }
 
+    @Test(expected = DateException.class)
+    public void testDateSeparateurPremierNonValide() throws DateException {
+        Date d11 = new Date("2017-05-09");
+        d11.setDate("2017*05-09");
+    }
+
+    @Test(expected = DateException.class)
+    public void testDateSeparateurDexiemeNonValide() throws DateException {
+        Date d12 = new Date("2017-05-30");
+        d12.setDate("2017-05&30");
+    }
+
+    @Test(expected = DateException.class)
+    public void testDateSeparateurNonValideAM() throws DateException {
+        Date d13 = new Date("2017-07");
+       d13.setDate("2017+05");
+    }
+    @Test
+    public void testValiderJourParAnnee() throws DateException{
+         Date d14 = new Date("2000-02-28");
+      d14.setJour("29");
+    }
 }
