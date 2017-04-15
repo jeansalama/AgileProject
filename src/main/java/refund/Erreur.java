@@ -15,15 +15,17 @@ public class Erreur {
      * @param e une exception qui a ete lancee
      * @param fichier le nom du fichier de sortie
      */
-    public static void erreurDonnees(Exception e, String fichier) {
+    public static String erreurDonnees(Exception e, String fichier) {
         JSONObject erreur = new JSONObject();
         erreur.accumulate("message", e.getMessage());
+        String contenuErreur = erreur.toString(2); 
         try {
-            Utf8File.saveStringIntoFile(fichier, erreur.toString(2));
+            Utf8File.saveStringIntoFile(fichier, contenuErreur);
         } catch (IOException ect) {
             System.out.println("Erreur avec le fichier de sortie : "
                     + ect.getLocalizedMessage());
         }
+        return contenuErreur;
     }
 
     /**
@@ -31,16 +33,18 @@ public class Erreur {
      * @param e une exception qui a ete lancee
      * @param fichier le nom du fichier de sortie
      */
-    public static void erreurJson(JSONException e, String fichier) {
+    public static String erreurJson(JSONException e, String fichier) {
         JSONObject erreur = new JSONObject();
         erreur.accumulate("message",
                 retourProprieteManquantes(e.getMessage()));
+        String contenuErreur = erreur.toString(2);
         try {
-            Utf8File.saveStringIntoFile(fichier, erreur.toString(2));
+            Utf8File.saveStringIntoFile(fichier, contenuErreur);
         } catch (IOException ioe) {
             System.out.println("Erreur avec le fichier de sortie : "
                     + ioe.getLocalizedMessage());
         }
+        return contenuErreur;
     }
 
     /**

@@ -14,7 +14,7 @@ public class ErreurTest {
     
     @Before
     public void setUp(){
-    fichierBidon = "nomFichierBidon.txt";
+    fichierBidon = "nomFichierBidon";
     except = new Exception("Ceci fonctionne correctement.");
     }
     @After
@@ -24,86 +24,50 @@ public class ErreurTest {
     }
     
     @Test
-    public void testErreurDonnee() 
-            throws FileNotFoundException, IOException{
-        String contenuFichier;
-        Erreur.erreurDonnees(except,fichierBidon);
-        BufferedReader sortie = 
-                new BufferedReader(new FileReader(fichierBidon));
-        contenuFichier = sortie.readLine();
-        sortie.close();
+    public void testErreurDonnee(){
+        String contenuFichier = Erreur.erreurDonnees(except,fichierBidon);
         assertEquals("{\"message\": \"Ceci fonctionne correctement.\"}",
                 contenuFichier);
         
     }
    @Test
-   public void testErreurJsonErreurFichierALire()
-           throws FileNotFoundException, IOException{
-       String contenuFichier;
-       JSONException exceptJS =
+   public void testErreurJsonErreurFichierALire(){
+        JSONException exceptJS =
                new JSONException("Ceci fonctionne correctement");
-        Erreur.erreurJson(exceptJS,fichierBidon);
-        BufferedReader sortie =
-                new BufferedReader(new FileReader(fichierBidon));
-        contenuFichier = sortie.readLine();
-        sortie.close();
+        String contenuFichier = Erreur.erreurJson(exceptJS,fichierBidon);
         assertEquals("{\"message\": \"Erreur dans le fichier d'entree.\"}",
                 contenuFichier);
    }
    
    @Test
-   public void testErreurJsonErreurProprieteManquanteExpected() 
-           throws FileNotFoundException, IOException{
-       String contenuFichier;
+   public void testErreurJsonErreurProprieteManquanteExpected(){
        JSONException exceptJS = new JSONException("Expected \"proriete\"");
-        Erreur.erreurJson(exceptJS,fichierBidon);
-        BufferedReader sortie =
-                new BufferedReader(new FileReader(fichierBidon));
-        contenuFichier = sortie.readLine();
-        sortie.close();
-        assertEquals("{\"message\": \"Erreur dans le fichier d'entree.\"}",
+       String contenuFichier = Erreur.erreurJson(exceptJS,fichierBidon);
+       assertEquals("{\"message\": \"Erreur dans le fichier d'entree.\"}",
                 contenuFichier);
    }
    
    @Test
-   public void testErreurJsonErreurProprieteManquanteMissing()
-           throws FileNotFoundException, IOException{
-       String contenuFichier;
+   public void testErreurJsonErreurProprieteManquanteMissing(){
        JSONException exceptJS =
                new JSONException("Missing \"proriete\"");
-        Erreur.erreurJson(exceptJS,fichierBidon);
-        BufferedReader sortie =
-                new BufferedReader(new FileReader(fichierBidon));
-        contenuFichier = sortie.readLine();
-        sortie.close();
+        String contenuFichier = Erreur.erreurJson(exceptJS,fichierBidon);
         assertEquals("{\"message\": \"Erreur dans le fichier d'entree.\"}",
                 contenuFichier);
    }
    
    @Test
-   public void testErreurJsonErreurProprieteManquanteUnterminated() 
-           throws FileNotFoundException, IOException{
-       String contenuFichier;
+   public void testErreurJsonErreurProprieteManquanteUnterminated(){
        JSONException exceptJS = new JSONException("Unterminated \"proriete\"");
-        Erreur.erreurJson(exceptJS,fichierBidon);
-        BufferedReader sortie = 
-                new BufferedReader(new FileReader(fichierBidon));
-        contenuFichier = sortie.readLine();
-        sortie.close();
+        String contenuFichier = Erreur.erreurJson(exceptJS,fichierBidon);
         assertEquals("{\"message\": \"Erreur dans le fichier d'entree.\"}",
                 contenuFichier);
    }
    
    @Test
-   public void testErreurJsonErreurProprieteManquante()
-           throws FileNotFoundException, IOException{
-       String contenuFichier;
+   public void testErreurJsonErreurProprieteManquante(){
        JSONException exceptJS = new JSONException("\" prorieteManquante \"");
-        Erreur.erreurJson(exceptJS,fichierBidon);
-        BufferedReader sortie = 
-                new BufferedReader(new FileReader(fichierBidon));
-        contenuFichier = sortie.readLine();
-        sortie.close();
+        String contenuFichier = Erreur.erreurJson(exceptJS,fichierBidon);
         assertEquals("{\"message\": \"La propriete  prorieteManquante  est"
                 + " manquante.\"}", contenuFichier);
    }
