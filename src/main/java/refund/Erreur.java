@@ -18,7 +18,7 @@ public class Erreur {
     public static String erreurDonnees(Exception e, String fichier) {
         JSONObject erreur = new JSONObject();
         erreur.accumulate("message", e.getMessage());
-        String contenuErreur = erreur.toString(2); 
+        String contenuErreur = erreur.toString(2);
         try {
             Utf8File.saveStringIntoFile(fichier, contenuErreur);
         } catch (IOException ect) {
