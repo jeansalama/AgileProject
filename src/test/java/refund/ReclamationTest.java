@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 
 
 
-
 public class ReclamationTest {
     Date date1;
     String montant1;
