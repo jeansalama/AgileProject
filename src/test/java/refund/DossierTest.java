@@ -49,10 +49,17 @@ public class DossierTest {
         Dossier d4 = new Dossier("C3333337", new Date("2017-12-01"));
         d4.setIdDossier("A1233");
     }
+
+    @Test
+    public void testDossierToString() throws DossierException, DateException {
+        Dossier d5 = new Dossier("B456789", new Date("2017-08-08"));
+        assertEquals(("dossier: " + "B456789" + "\nMois: " + d5.getDate()), d5.toString());
+    }
     
     @Test
-    public void testDossierToString() throws DossierException, DateException{
-       Dossier d5 = new Dossier("B456789", new Date("2017-08-08"));
-        assertEquals(("dossier: " + "B456789" + "\nMois: " + d5.getDate()),d5.toString());
+    public void testDossierGetIdDossier()throws DossierException, DateException{
+        Dossier d6 = new Dossier("C123456", new Date("2017-03-03"));
+       
+        assertEquals("C123456", d6.getIdDossier());
     }
 }
