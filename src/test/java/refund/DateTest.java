@@ -184,11 +184,17 @@ public class DateTest {
     @Test(expected = DateException.class)
     public void testDateSeparateurNonValideAM() throws DateException {
         Date d13 = new Date("2017-07");
-       d13.setDate("2017+05");
+        d13.setDate("2017+05");
     }
+
     @Test
-    public void testValiderJourParAnnee() throws DateException{
-         Date d14 = new Date("2000-02-28");
-      d14.setJour("29");
+    public void testValiderJourParAnnee() throws DateException {
+        Date d14 = new Date("2000-02-28");
+        d14.setJour("29");
+    }
+
+    @Test
+    public void testValiderLongueurDate() throws DateException {
+        Date d15 = new Date("2017-12-12");
     }
 }
