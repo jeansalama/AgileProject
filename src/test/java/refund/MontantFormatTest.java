@@ -16,6 +16,7 @@ import static org.junit.Assert.*;
 public class MontantFormatTest {
 
     public MontantFormatTest() {
+        new MontantFormat();
     }
 
     /**************************************************
@@ -47,6 +48,12 @@ public class MontantFormatTest {
     public void testAnalyserReclamationPasUnNombre()
             throws ReclamationException {
         MontantFormat.analyserMontant("1*25$");
+    }
+    
+    @Test(expected = ReclamationException.class)
+    public void testAnalyserReclamationPasUnNombre2()
+            throws ReclamationException {
+        MontantFormat.analyserMontant("*1,25$");
     }
 
     @Test(expected = ReclamationException.class)
