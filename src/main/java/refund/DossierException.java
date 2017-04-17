@@ -10,10 +10,6 @@ package refund;
  * @author Billy
  */
 class DossierException extends Exception {
-
-    public DossierException() {
-    }
-
     public DossierException(String msg) {
         super(msg);
     }
