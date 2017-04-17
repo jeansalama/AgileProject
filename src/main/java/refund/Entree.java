@@ -16,7 +16,7 @@ public class Entree {
     private ArrayList<Reclamation> listeReclamations = new ArrayList<>(0);
     private ArrayList<String> jourNbrReclamation = new ArrayList<>(0);
     private JSONObject infoClient;
-    private Dossier client;
+    private Dossier dossier;
 
     /**
      *
@@ -31,12 +31,16 @@ public class Entree {
         infoClient = (JSONObject) JSONSerializer.toJSON(
                 lireFichier(fichierEntree));
 
-        client = new Dossier(infoClient.getString("dossier"),
+        dossier = new Dossier(infoClient.getString("dossier"),
                 new Date(infoClient.getString("mois")));
-        if (client.getDate().contientUnJour()) {
+        if (dossier.getDate().contientUnJour()) {
             throw new ReclamationException(MSG_MOIS_EXCEPTION);
         }
         setListeReclamations();
+    }
+    
+    public Entree(){
+        
     }
 
     public ArrayList<Reclamation> getListeReclamations() {
@@ -44,9 +48,9 @@ public class Entree {
     }
 
     public Dossier getDossier() {
-        return client;
+        return dossier;
     }
-
+    
     public void setListeReclamations()
             throws DateException, ReclamationException {
         JSONArray tableauReclamations = infoClient.getJSONArray("reclamations");
@@ -83,7 +87,7 @@ public class Entree {
             if (compteur > 4) {
                 throw new ReclamationException(
                         "Vous avez plus de 4 reclamations pour la date :"
-                        + client.getDate() + "-" + temp);
+                        + dossier.getDate() + "-" + temp);
             }
         }
     }
@@ -127,18 +131,18 @@ public class Entree {
      *
      * @param date Une date formatter
      * @throws ReclamationException si la date de la reclamation prise en
-     * paramÃ¨tre n'a pas le mÃªme mois que celle du client
+ paramÃ¨tre n'a pas le mÃªme mois que celle du dossier
      */
     private void validationBonMois(Date date) throws ReclamationException {
-        if (!client.getDate().getMois().equals(date.getMois())
-                || !client.getDate().getAnnee().equals(date.getAnnee())) {
+        if (!dossier.getDate().getMois().equals(date.getMois())
+                || !dossier.getDate().getAnnee().equals(date.getAnnee())) {
             throw new ReclamationException("Les reclamations doivent "
                     + "etre du meme mois");
         }
     }
 
     /**
-     * Lit le fichier inputfile avec l'info du client
+     * Lit le fichier inputfile avec l'info du dossier
      *
      * @param fileName fichier avec les infos
      * @return retourne un String en format .JSON

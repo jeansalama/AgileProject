@@ -10,8 +10,8 @@ public class Sortie {
     private Entree entree;
     private String fichierSortie;
     private boolean prediction;
-    private JSONObject infoClient = new JSONObject();
-    JSONArray liste = new JSONArray();
+    private JSONObject infoClient;
+    JSONArray liste;
     static double montantMaxMensuel;
 
     /**
@@ -30,15 +30,21 @@ public class Sortie {
         }
         sortirFichier();
     }
+    
+    public JSONObject getInfoClient(){
+        return infoClient;
+    }
 
-    private void ecrireDebut() {
+    public void ecrireDebut() {
+        infoClient = new JSONObject();
         Dossier dossier = entree.getDossier();
         infoClient.accumulate("dossier", dossier.getIdDossier());
         infoClient.accumulate("mois", dossier.getDate().toString());
 
     }
 
-    private void ecrireReclamations() {
+    public void ecrireReclamations() {
+        liste = new JSONArray();
         Dollar total = ajouterReclamations();
         infoClient.accumulate("remboursement", liste);
         infoClient.accumulate("total", total.toString());
@@ -49,7 +55,7 @@ public class Sortie {
      *
      * @return le montant total ajouter avec celui de la reclamation
      */
-    private Dollar ajouterReclamations() {
+    public Dollar ajouterReclamations() {
         Dollar total = new Dollar();
         for (Reclamation reclam : entree.getListeReclamations()) {
             Dollar montant = ajouterUneReclamation(reclam);
@@ -63,7 +69,7 @@ public class Sortie {
      * @param reclam reclamation a ajouter
      * @return le montant de la reclamation a ajouter
      */
-    private Dollar ajouterUneReclamation(Reclamation reclam) {
+    public Dollar ajouterUneReclamation(Reclamation reclam) {
         JSONObject temp = new JSONObject();
         Dollar montant = calculerRemboursement(reclam, entree.getDossier());
 
@@ -80,7 +86,7 @@ public class Sortie {
         return montant;
     }
 
-    private void sortirFichier() {
+    public void sortirFichier() {
         try {
             Utf8File.saveStringIntoFile(fichierSortie, infoClient.toString(2));
         } catch (IOException e) {
