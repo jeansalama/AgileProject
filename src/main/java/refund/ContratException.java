@@ -10,10 +10,6 @@ package refund;
  * @author Billy
  */
 class ContratException extends Exception {
-
-    public ContratException() {
-    }
-
     public ContratException(String msg) {
         super(msg);
     }
