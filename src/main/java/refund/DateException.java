@@ -5,10 +5,11 @@
  */
 package refund;
 
-public class DateException extends Exception{
-      public DateException() {
-    }
+public class DateException extends Exception {
 
+    /*public DateException() {
+    }
+    */
     public DateException(String msg) {
         super(msg);
     }
