@@ -78,7 +78,7 @@ public class Entree {
         }
     }
 
-    private void validerNbrJoursReclames(ArrayList jourNbrReclamation1, Object temp,
+    public void validerNbrJoursReclames(ArrayList jourNbrReclamation1, Object temp,
             int compteur) throws ReclamationException {
         for (int i = 0; i < jourNbrReclamation1.size(); i++) {
             if (temp.equals(jourNbrReclamation1.get(i))) {
@@ -98,7 +98,7 @@ public class Entree {
      * @throws DateException
      * @throws ReclamationException
      */
-    private void ajouterUneReclamation(JSONObject reclamation)
+    public void ajouterUneReclamation(JSONObject reclamation)
             throws DateException, ReclamationException {
         int soin = obtenirSoin(reclamation);
         Date date = new Date(reclamation.getString("date"));
@@ -113,7 +113,7 @@ public class Entree {
      * @return le numero du soin de la reclamation prise en parametre
      * @throws ReclamationException
      */
-    private int obtenirSoin(JSONObject reclam) throws ReclamationException {
+    public int obtenirSoin(JSONObject reclam) throws ReclamationException {
         int soin;
         if (reclam.containsKey("soin")) {
             try {
@@ -133,7 +133,7 @@ public class Entree {
      * @throws ReclamationException si la date de la reclamation prise en
  paramÃ¨tre n'a pas le mÃªme mois que celle du dossier
      */
-    private void validationBonMois(Date date) throws ReclamationException {
+    public void validationBonMois(Date date) throws ReclamationException {
         if (!dossier.getDate().getMois().equals(date.getMois())
                 || !dossier.getDate().getAnnee().equals(date.getAnnee())) {
             throw new ReclamationException("Les reclamations doivent "

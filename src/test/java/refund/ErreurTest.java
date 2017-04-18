@@ -1,6 +1,9 @@
 package refund;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import net.sf.json.JSONException;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
@@ -19,9 +22,12 @@ public class ErreurTest {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown() throws Exception {
+        Path p = Paths.get(fichierBidon);
+        Files.deleteIfExists(p);
         fichierBidon = null;
         except = null;
+        
     }
 
     @Test

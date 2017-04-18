@@ -19,7 +19,7 @@ public class MockEntree extends Entree{
             ReclamationException{
         dossier = new Dossier("A123456", new Date("2017-10"));
         listeReclamation.add(new Reclamation(100, new Date("2017-10-01"), 
-                "10,00$"));
+                "100,00$"));
     }
     
     @Override
@@ -30,5 +30,10 @@ public class MockEntree extends Entree{
     @Override
     public ArrayList<Reclamation> getListeReclamations(){
         return listeReclamation;
+    }
+    
+    @Override
+    public String toString(){
+        return dossier.toString() + " " + listeReclamation.toString();
     }
 }
