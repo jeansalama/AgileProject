@@ -51,23 +51,41 @@ public class Sortie {
     public String getFichierSortie(){
         return fichierSortie;
     }
-        
+    /**
+     * 
+     * @param entree le fichier entrant
+     */    
     public void setEntree(Entree entree){
         this.entree = entree;
     }
-    
+    /**
+     * 
+     * @param infoClient l'information du client
+     */
     public void setInfoClient(JSONObject infoClient){
         this.infoClient = infoClient;
     }
-    
+    /**
+     * 
+     * @param fichierSortie le nom du fichier de sortie
+     */
     public void setFichierSortie(String fichierSortie){
         this.fichierSortie = fichierSortie;
     }
     
+    /**
+     * 
+     * @param prediction true si le mode prediction est active 
+     */
     public void setPrediction(boolean prediction){
         this.prediction = prediction;
     }
             
+    /**
+     * 
+     * @param prediction True si le mode prediction est active
+     * @return true si les stats ont été modifiée
+     */
     public boolean activerStatsDebut(boolean prediction){
         boolean statsActive = false;
         if(!prediction){
@@ -77,7 +95,11 @@ public class Sortie {
         return statsActive;
       
     }
-
+    /**
+     * 
+     * @param dossier le dossier a ecrire sur le fichier
+     * @return l'objet JSON modifie
+     */
     public JSONObject ecrireDebut(Dossier dossier) {
         JSONObject fichier = new JSONObject();
         fichier.accumulate("dossier", dossier.getIdDossier());

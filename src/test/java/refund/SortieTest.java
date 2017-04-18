@@ -24,12 +24,9 @@ import static refund.CalculRemboursements.calculerRemboursement;
  */
 public class SortieTest {
     
-    Entree entree;
-    Dossier dossier;
-    Reclamation reclam1;
-    Reclamation reclam2;
-    Reclamation reclam3;
     
+ 
+     
     String fichierSortie;
     boolean prediction;
     Sortie sortie;   
@@ -41,6 +38,7 @@ public class SortieTest {
     }
     @After
     public void tearDown() throws Exception{
+        sortie = null;
         Path p = Paths.get("testRefunds.json");
         Files.deleteIfExists(p);
     }
@@ -70,13 +68,15 @@ public class SortieTest {
     }
        
     @Test
-    public void testecrireReclamations(){
+    public void testecrireReclamations()throws Exception{
         ArrayList<Reclamation> liste = new ArrayList<>();
         Sortie sortieTemp = new Sortie();
         Sortie sortieTemp2 = new Sortie();
-        JSONObject temp = sortieTemp.ecrireReclamations(liste, dossier);
+        JSONObject temp = sortieTemp.ecrireReclamations(liste, 
+                new Dossier("A123456", new Date("2017-10")));
         JSONObject test = new JSONObject();
-        Dollar total = sortieTemp2.ajouterReclamations(liste, dossier);
+        Dollar total = sortieTemp2.ajouterReclamations(liste, 
+                new Dossier("A123456", new Date("2017-10")));
         test.accumulate("remboursement", sortieTemp2.getListe());
         test.accumulate("total", total.toString());
         
@@ -85,14 +85,16 @@ public class SortieTest {
     }    
     
     @Test 
-    public void testAjouterReclamations(){
+    public void testAjouterReclamations() throws Exception{
         ArrayList<Reclamation> liste = new ArrayList<>();
         Sortie sortie = new Sortie();
         Sortie temp = new Sortie();
-        Dollar test = temp.ajouterReclamations(liste, dossier);
+        Dollar test = temp.ajouterReclamations(liste, 
+                new Dossier("A123456", new Date("2017-10")));
         Dollar dollar = new Dollar();
         for(Reclamation reclam: liste){
-            Dollar montant = sortie.ajouterUneReclamation(reclam, dossier);
+            Dollar montant = sortie.ajouterUneReclamation(reclam, 
+                    new Dossier("A123456", new Date("2017-10")));
             dollar = test.plus(montant);
         }
         assertEquals(test.toString(), dollar.toString());
@@ -100,9 +102,10 @@ public class SortieTest {
     
     @Test
     public void testAjouterUneReclamationMontant() throws Exception{
+        Sortie sortie = new Sortie();
         Dollar temp = sortie.ajouterUneReclamation(new Reclamation(100, 
                 new Date("2017-01-20"), "100,00$"), 
-                new Dossier("A123456", new Date("2017-10")));
+                new Dossier("A123456", new Date("2017-01")));
         Dollar montant = new Dollar("35.00$");
         
         assertEquals(montant, temp);

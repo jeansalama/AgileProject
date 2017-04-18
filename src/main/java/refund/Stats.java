@@ -10,7 +10,16 @@ import net.sf.json.JSONSerializer;
  * @author Max
  */
 public class Stats {
-
+    
+    public static final String [] TITRES = {"\n Massothérapie (0) : ",
+        "\n Ostéopathie (100) : ","\n Kinésithérapie (150) : ",
+        "\n Médecin généraliste privé (175) : ",
+        "\n Psychologie individuelle (200) : ",
+        "\n Soins dentaires (300-399) : ",
+        "\n Naturopathie, acuponcture (400) : ","\n Chiropratie (500) : ",
+        "\n Physiothérapie (600) : ","\n Orthophonie, ergothérapie (700) : "};
+    public static final String[] LISTE_SOIN = {"0", "100", "150", "175", "200", 
+        "300", "400", "500", "600", "700"};
     private JSONObject reclamations;
     private JSONObject soins;
     public static JSONObject stats = chargerStats();
@@ -73,15 +82,12 @@ public class Stats {
 
     public static void viderStats() {
         String[] listeReclam = {"traitees", "rejetees"};
-        String[] listeSoin = {"0", "100", "150", "175", "200", "300", "400",
-            "500", "600", "700"};
-
+       
         JSONObject soin;
-
         for (String element : listeReclam) {
             stats.getJSONObject("Reclamations").put(element, 0);
         }
-        for (String element : listeSoin) {
+        for (String element : LISTE_SOIN) {
             soin = new JSONObject();
             soin.accumulate("nbTotal", 0);
             soin.accumulate("montantMaximalReclame", 0.0);
@@ -111,9 +117,8 @@ public class Stats {
     private static void initialiserStatsSoins(JSONObject stats) {
         JSONObject soins = new JSONObject();
         JSONObject soin;
-        String[] listeSoin = {"0", "100", "150", "175", "200", "300", "400",
-            "500", "600", "700"};
-        for (String element : listeSoin) {
+        
+        for (String element : LISTE_SOIN) {
             soin = new JSONObject();
             soin.accumulate("nbTotal", 0);
             soin.accumulate("montantMaximalReclame", 0.0);
@@ -171,26 +176,13 @@ public class Stats {
     }
 
     private String afficherSoins() {
-        return "\n Massothérapie (0) : " 
-                + afficherUnSoin((JSONObject)soins.get("0"))
-                + "\n Ostéopathie (100) : " 
-                + afficherUnSoin((JSONObject)soins.get("100"))
-                + "\n Kinésithérapie (150) : "
-                + afficherUnSoin((JSONObject)soins.get("150"))
-                + "\n Médecin généraliste privé (175) : " 
-                + afficherUnSoin((JSONObject)soins.get("175"))
-                + "\n Psychologie individuelle (200) : "
-                + afficherUnSoin((JSONObject)soins.get("200"))
-                + "\n Soins dentaires (300-399) : " 
-                + afficherUnSoin((JSONObject)soins.get("300"))
-                + "\n Naturopathie, acuponcture (400) : " 
-                + afficherUnSoin((JSONObject)soins.get("400"))
-                + "\n Chiropratie (500) : " 
-                + afficherUnSoin((JSONObject)soins.get("500"))
-                + "\n Physiothérapie (600) : " 
-                + afficherUnSoin((JSONObject)soins.get("600"))
-                + "\n Orthophonie, ergothérapie (700) : " 
-                + afficherUnSoin((JSONObject)soins.get("700"));
+        String temp = "";
+        for(int i = 0; i < TITRES.length; i++){
+            temp = temp + TITRES[i] 
+                    + afficherUnSoin((JSONObject)soins.get(LISTE_SOIN[i]));        
+        }
+        return temp;
+                
     }
 
     public String afficherUnSoin(JSONObject soin) {
