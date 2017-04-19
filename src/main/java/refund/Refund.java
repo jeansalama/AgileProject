@@ -79,7 +79,7 @@ public class Refund {
         }
     }
 
-    private static String[] formatterNomsFichiers(String[] args) {
+  public static String[] formatterNomsFichiers(String[] args) {
         for (int i = 0; i < args.length; i++) {
             String temp = args[i].toLowerCase();
             if (!temp.contains(".json")) {

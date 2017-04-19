@@ -125,17 +125,19 @@ public class Stats {
 
         JSONObject stats = new JSONObject();
 
-        initialiserStatsReclamations(stats);
-        initialiserStatsSoins(stats);
+        JSONObject soins = initialiserStatsReclamations();
+        stats.accumulate("Soins", soins);
+        JSONObject reclamations = initialiserStatsSoins();
+        stats.accumulate("Reclamations", reclamations);
 
         return stats;
     }
 
     /**
-     *
-     * @param stats l'objets .json representant les statistiques
+     * 
+     * @return JSONObject modelisant les statistiques des soins
      */
-    public static void initialiserStatsSoins(JSONObject stats) {
+    public static JSONObject initialiserStatsSoins() {
         JSONObject soins = new JSONObject();
         JSONObject soin;
 
@@ -147,20 +149,21 @@ public class Stats {
 
             soins.accumulate(element, soin);
         }
-        stats.accumulate("Soins", soins);
+        return soins;
     }
 
     /**
-     *
-     * @param stats l'objet .json representant les statistiques
+     * 
+     * @return JSONObject modelisant les statistiques des reclamations
      */
-    public static void initialiserStatsReclamations(JSONObject stats) {
+    public static JSONObject initialiserStatsReclamations() {
         JSONObject reclamations = new JSONObject();
         String[] listeReclam = {"traitees", "rejetees"};
         for (String element : listeReclam) {
             reclamations.accumulate(element, 0);
         }
-        stats.accumulate("Reclamations", reclamations);
+        
+        return reclamations;
     }
 
     public static JSONObject chargerStats() {
@@ -192,29 +195,30 @@ public class Stats {
         return "Statistiques: \n Réclamations traitées: "
                 + reclamations.getInt("traitees") + "\n Réclamations rejetées: "
                 + reclamations.getInt("rejetees") + "\nSoins déclarés: "
-                + afficherSoins();
+                + afficherSoins(soins);
 
     }
 
-    private String afficherSoins() {
+    public static String afficherSoins(JSONObject soins) {
         String temp = "";
         for (int i = 0; i < TITRES.length; i++) {
             temp = temp + TITRES[i]
-                    + afficherUnSoin((JSONObject) soins.get(LISTE_SOIN[i]));
+                    + afficherUnSoin( soins.getJSONObject(LISTE_SOIN[i]));
         }
         return temp;
-
     }
 
-    public String afficherUnSoin(JSONObject soin) {
+    public static String afficherUnSoin(JSONObject soin) {
 
         int total = soin.getInt("nbTotal");
         Dollar montantMax = new Dollar(soin.getDouble("montantMaximalReclame"));
-        Dollar totalMontants
-                = new Dollar(soin.getDouble("totalMontantsReclames"));
-        Dollar moyenneMontants
-                = new Dollar(totalMontants.convertirEnDouble() / total);
-
+        double totalMontants = soin.getDouble("totalMontantsReclames");
+        Dollar moyenneMontants = new Dollar();
+        
+        if(total != 0 ){
+            moyenneMontants = new Dollar(totalMontants / total);
+        }
+                
         return "\n    total : " + total
                 + "\n    montant maximal réclamé : " + montantMax
                 + "\n    moyenne des montants réclamés : " + moyenneMontants;
