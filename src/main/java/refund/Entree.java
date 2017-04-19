@@ -39,8 +39,8 @@ public class Entree {
         setListeReclamations();
     }
     
-    public Entree(){
-        
+    public Entree() throws Exception {
+        dossier = new Dossier("A123456", new Date("2017-01-11"));
     }
 
     public ArrayList<Reclamation> getListeReclamations() {

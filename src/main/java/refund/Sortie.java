@@ -31,7 +31,7 @@ public class Sortie {
         sortirFichier();
     }
     
-    public Sortie(){
+    public Sortie() throws Exception{
         entree = new Entree();
         liste = new JSONArray();
         infoClient = new JSONObject();

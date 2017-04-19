@@ -27,7 +27,10 @@ import org.apache.commons.io.IOUtils;
 public class Utf8File {
 
     public static String loadFileIntoString(String filePath) throws FileNotFoundException, IOException {
-        return IOUtils.toString(new FileInputStream(filePath), "UTF-8");
+        FileInputStream file = new FileInputStream(filePath);
+        String temp = IOUtils.toString(file, "UTF-8");
+        file.close();
+        return temp;
     }
     
     public static void saveStringIntoFile(String filePath, String content) throws IOException {

@@ -5,6 +5,7 @@
  */
 package refund;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,9 +27,8 @@ public class EntreeTest {
     JSONObject reclamation = new JSONObject();
 
     @After
-    public void tearDown() {
+    public void tearDown() throws Exception{
         reclamation = null;
-
     }
 
     @Test
@@ -84,5 +84,56 @@ public class EntreeTest {
         reclamation.accumulate("montant", "10.00$");
 
         entree.ajouterUneReclamation(reclamation);
+    }
+    
+    @Test
+    public void testAjouterUneReclamationListe()throws Exception{
+        Entree entree = new Entree();
+        Reclamation reclam = new Reclamation(100, new Date("2017-01-11"), "100.00$");
+        ArrayList<Reclamation> liste = new ArrayList<>();
+        liste.add(reclam);
+        JSONObject temp = new JSONObject();
+        temp.accumulate("soin", 100);
+        temp.accumulate("date", "2017-01-11");
+        temp.accumulate("montant", "100.00$");
+        entree.ajouterUneReclamation(temp);
+        assertEquals(entree.getListeReclamations().toString(), liste.toString());
+                
+    }
+    
+    @Test(expected=ReclamationException.class)
+    public void testValiderNbrJoursReclamesException() 
+            throws ReclamationException, DateException {
+        Reclamation reclam = new Reclamation(100, new Date("2017-01-11"), "100.00$");
+        ArrayList<Reclamation> liste = new ArrayList<>();
+        liste.add(reclam);
+        liste.add(reclam);
+        Entree.validerNbrJoursReclames(liste, reclam, 3);
+    }
+    
+    @Test(expected=ReclamationException.class)
+    public void testValidationBonMoisException() throws Exception{
+        Entree entree = new Entree();
+        Date date = new Date("2017-02-11");
+        entree.validationBonMois(date);
+        
+    }
+    
+    @Test
+    public void testLireFichier()throws IOException{
+        JSONObject temp = new JSONObject();
+        temp.accumulate("test", 0);
+        Utf8File.saveStringIntoFile("test.json", temp.toString(2));
+        String test = lireFichier("test.json");
+        Path p = Paths.get("test.json");
+        Files.delete(p);
+        assertEquals("{\"test\": 0}", test);
+         
+    }
+    
+    @Test
+    public void testLireFichierException(){
+        String temp = lireFichier("test.json");
+        assertEquals(temp, null);
     }
 }
