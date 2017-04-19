@@ -16,7 +16,7 @@ public class Entree {
     private ArrayList<Reclamation> listeReclamations = new ArrayList<>(0);
     private ArrayList<String> jourNbrReclamation = new ArrayList<>(0);
     private JSONObject infoClient;
-    private Dossier dossier;
+    private static Dossier dossier;
 
     /**
      *
@@ -68,7 +68,7 @@ public class Entree {
         validerNbrJourAccepteDansReclamation(jourNbrReclamation);
     }
 
-    public void validerNbrJourAccepteDansReclamation(ArrayList jourNbrReclamation)
+    public static void validerNbrJourAccepteDansReclamation(ArrayList jourNbrReclamation)
             throws ReclamationException {
         int compteur = 0;
         for (int i = 0; i < jourNbrReclamation.size(); i++) {
@@ -78,7 +78,7 @@ public class Entree {
         }
     }
 
-    public void validerNbrJoursReclames(ArrayList jourNbrReclamation1, Object temp,
+    public static void validerNbrJoursReclames(ArrayList jourNbrReclamation1, Object temp,
             int compteur) throws ReclamationException {
         for (int i = 0; i < jourNbrReclamation1.size(); i++) {
             if (temp.equals(jourNbrReclamation1.get(i))) {
