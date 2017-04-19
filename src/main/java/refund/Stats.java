@@ -31,18 +31,18 @@ public class Stats {
     }
 
     public static void reclamRejete() {
-        JSONObject temp = stats.getJSONObject("Reclamations");
-        int total = temp.getInt("rejetees");
+        JSONObject reclamations = stats.getJSONObject("Reclamations");
+        int total = reclamations.getInt("rejetees");
         total++;
-        temp.put("rejetees", total);
+        reclamations.put("rejetees", total);
         sauverStats();
     }
 
     public static void reclamValide() {
-        JSONObject temp = stats.getJSONObject("Reclamations");
-        int total = temp.getInt("traitees");
+        JSONObject reclamations = stats.getJSONObject("Reclamations");
+        int total = reclamations.getInt("traitees");
         total++;
-        temp.put("traitees", total);
+        reclamations.put("traitees", total);
         sauverStats();
     }
 
@@ -64,7 +64,7 @@ public class Stats {
 
         changerMontantMaximal(soin, montantReclame);
 
-        changerTotalMontant(soin, montantReclame);
+        changerTotalMontants(soin, montantReclame);
 
         sauverStats();
     }
@@ -75,14 +75,16 @@ public class Stats {
         soin.put("nbTotal", total);
     }
 
-    public static void changerTotalMontant(JSONObject soin, Dollar montantReclame) {
+    public static void changerTotalMontants(JSONObject soin,
+            Dollar montantReclame) {
         Dollar totalMontants
                 = new Dollar(soin.getDouble("totalMontantsReclames"));
         totalMontants = totalMontants.plus(montantReclame);
         soin.put("totalMontantsReclames", totalMontants.convertirEnDouble());
     }
 
-    public static void changerMontantMaximal(JSONObject soin, Dollar montantReclame) {
+    public static void changerMontantMaximal(JSONObject soin,
+            Dollar montantReclame) {
         Dollar montantMax
                 = new Dollar(soin.getDouble("montantMaximalReclame"));
 
@@ -94,47 +96,53 @@ public class Stats {
     }
 
     public static void viderStats() {
+        viderStats(stats);
+    }
 
-        viderStatsReclamations();
-        viderStatsSoins();
+    public static void viderStats(JSONObject stats) {
+        viderStatsReclamations(stats.getJSONObject("Reclamations"));
+        viderStatsSoins(stats.getJSONObject("Soins"));
+
         sauverStats();
+
         System.out.println("Le fichier contenant les statistiques a été "
                 + "réinitialisé correctement.");
     }
 
-    public static void viderStatsReclamations() {
+    public static void viderStatsReclamations(JSONObject reclamations) {
         String[] listeReclam = {"traitees", "rejetees"};
         for (String element : listeReclam) {
-            stats.getJSONObject("Reclamations").put(element, 0);
+            reclamations.put(element, 0);
         }
     }
 
-    public static void viderStatsSoins() {
+    public static void viderStatsSoins(JSONObject soins) {
         JSONObject soin;
+
         for (String element : LISTE_SOIN) {
             soin = new JSONObject();
             soin.accumulate("nbTotal", 0);
             soin.accumulate("montantMaximalReclame", 0.0);
             soin.accumulate("totalMontantsReclames", 0.0);
 
-            stats.getJSONObject("Soins").put(element, soin);
+            soins.put(element, soin);
         }
+
     }
 
     public static JSONObject initialiserStats() {
 
         JSONObject stats = new JSONObject();
-
-        JSONObject soins = initialiserStatsReclamations();
-        stats.accumulate("Soins", soins);
-        JSONObject reclamations = initialiserStatsSoins();
+        JSONObject reclamations = initialiserStatsReclamations();
         stats.accumulate("Reclamations", reclamations);
+        JSONObject soins = initialiserStatsSoins();
+        stats.accumulate("Soins", soins);
 
         return stats;
     }
 
     /**
-     * 
+     *
      * @return JSONObject modelisant les statistiques des soins
      */
     public static JSONObject initialiserStatsSoins() {
@@ -153,7 +161,7 @@ public class Stats {
     }
 
     /**
-     * 
+     *
      * @return JSONObject modelisant les statistiques des reclamations
      */
     public static JSONObject initialiserStatsReclamations() {
@@ -162,7 +170,7 @@ public class Stats {
         for (String element : listeReclam) {
             reclamations.accumulate(element, 0);
         }
-        
+
         return reclamations;
     }
 
@@ -203,7 +211,7 @@ public class Stats {
         String temp = "";
         for (int i = 0; i < TITRES.length; i++) {
             temp = temp + TITRES[i]
-                    + afficherUnSoin( soins.getJSONObject(LISTE_SOIN[i]));
+                    + afficherUnSoin(soins.getJSONObject(LISTE_SOIN[i]));
         }
         return temp;
     }
@@ -214,11 +222,11 @@ public class Stats {
         Dollar montantMax = new Dollar(soin.getDouble("montantMaximalReclame"));
         double totalMontants = soin.getDouble("totalMontantsReclames");
         Dollar moyenneMontants = new Dollar();
-        
-        if(total != 0 ){
+
+        if (total != 0) {
             moyenneMontants = new Dollar(totalMontants / total);
         }
-                
+
         return "\n    total : " + total
                 + "\n    montant maximal réclamé : " + montantMax
                 + "\n    moyenne des montants réclamés : " + moyenneMontants;
