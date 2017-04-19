@@ -75,14 +75,14 @@ public class EntreeTest {
     }
 
     @Test(expected=DateException.class)
-    public void testAjouterUneReclamation() throws DateException, ReclamationException {
-
+    public void testAjouterUneReclamationException() throws Exception, DateException, ReclamationException {
+        Entree entree = new Entree();
         Date date = new Date("2017-01-03");
         
         reclamation.accumulate("soin", 100);
         reclamation.accumulate("date", date);
         reclamation.accumulate("montant", "10.00$");
 
-        ajouterUneReclamation(reclamation);
+        entree.ajouterUneReclamation(reclamation);
     }
 }

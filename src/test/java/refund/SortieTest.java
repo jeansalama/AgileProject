@@ -31,9 +31,8 @@ public class SortieTest {
     boolean prediction;
     Sortie sortie;   
     @Before
-    public void setUp() throws DossierException, DateException, 
-            ReclamationException{
-        sortie = new Sortie(new MockEntree(), "testRefunds.json", true);     
+    public void setUp() throws Exception{
+        sortie = new Sortie(new MockEntree("test"), "testRefunds.json", true);     
         
     }
     @After
@@ -45,7 +44,7 @@ public class SortieTest {
     
     @Test
     public void testSortieEntree()throws Exception{
-        MockEntree entree = new MockEntree();       
+        MockEntree entree = new MockEntree("test");       
         assertEquals(entree.toString(), sortie.getEntree().toString());
          
     }
