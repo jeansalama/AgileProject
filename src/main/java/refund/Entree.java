@@ -113,7 +113,7 @@ public class Entree {
      * @return le numero du soin de la reclamation prise en parametre
      * @throws ReclamationException
      */
-    public int obtenirSoin(JSONObject reclam) throws ReclamationException {
+    public  static int obtenirSoin(JSONObject reclam) throws ReclamationException {
         int soin;
         if (reclam.containsKey("soin")) {
             try {
