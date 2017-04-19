@@ -30,7 +30,11 @@ public class Stats {
         soins = stats.getJSONObject("Soins");
     }
 
-    public static void reclamRejete() {
+    public static void reclamRejetee() {
+        Stats.reclamRejetee(stats);
+    }
+
+    public static void reclamRejetee(JSONObject stats) {
         JSONObject reclamations = stats.getJSONObject("Reclamations");
         int total = reclamations.getInt("rejetees");
         total++;
@@ -39,6 +43,10 @@ public class Stats {
     }
 
     public static void reclamValide() {
+        reclamValide(stats);
+    }
+
+    public static void reclamValide(JSONObject stats) {
         JSONObject reclamations = stats.getJSONObject("Reclamations");
         int total = reclamations.getInt("traitees");
         total++;
@@ -52,13 +60,14 @@ public class Stats {
      * @param montantReclame
      */
     public static void ajoutSoinStats(int numeroSoin, Dollar montantReclame) {
+        ajoutSoinStats(numeroSoin, montantReclame, stats);
+    }
+
+    public static void ajoutSoinStats(int numeroSoin, Dollar montantReclame,
+            JSONObject stats) {
         JSONObject soins = stats.getJSONObject("Soins");
-        JSONObject soin;
-        if (numeroSoin >= 300 && numeroSoin < 400) {
-            numeroSoin = 300;
-        }
-        String typeSoin = numeroSoin + "";
-        soin = soins.getJSONObject(typeSoin);
+
+        JSONObject soin = extraireStatsSoin(numeroSoin, soins);
 
         incrementerNbrTotalPourUnSoin(soin);
 
@@ -67,6 +76,17 @@ public class Stats {
         changerTotalMontants(soin, montantReclame);
 
         sauverStats();
+    }
+
+    public static JSONObject extraireStatsSoin(int numeroSoin,
+            JSONObject soins) {
+        JSONObject soin;
+        if (numeroSoin >= 300 && numeroSoin < 400) {
+            numeroSoin = 300;
+        }
+        String typeSoin = numeroSoin + "";
+        soin = soins.getJSONObject(typeSoin);
+        return soin;
     }
 
     public static void incrementerNbrTotalPourUnSoin(JSONObject soin) {
@@ -200,15 +220,27 @@ public class Stats {
 
     @Override
     public String toString() {
-        return "Statistiques: \n Réclamations traitées: "
-                + reclamations.getInt("traitees") + "\n Réclamations rejetées: "
-                + reclamations.getInt("rejetees") + "\nSoins déclarés: "
-                + afficherSoins(soins);
+        return afficherStats(stats);
+    }
 
+    public static String afficherStats(JSONObject stats) {
+        JSONObject reclamations = stats.getJSONObject("Reclamations");
+        JSONObject soins = stats.getJSONObject("Soins");
+        
+        return "Statistiques: "
+                + afficherReclamations(reclamations)
+                + afficherSoins(soins);
+    }
+
+    public static String afficherReclamations(JSONObject reclamations) {
+        return "\n Réclamations traitées: " 
+                + reclamations.getInt("traitees") 
+                + "\n Réclamations rejetées: " 
+                + reclamations.getInt("rejetees");
     }
 
     public static String afficherSoins(JSONObject soins) {
-        String temp = "";
+        String temp = "\nSoins déclarés: ";
         for (int i = 0; i < TITRES.length; i++) {
             temp = temp + TITRES[i]
                     + afficherUnSoin(soins.getJSONObject(LISTE_SOIN[i]));

@@ -75,7 +75,7 @@ public class Refund {
 
     private static void statsRejetee() {
         if (!prediction) {
-            Stats.reclamRejete();
+            Stats.reclamRejetee();
         }
     }
 
