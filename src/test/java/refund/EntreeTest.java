@@ -73,4 +73,16 @@ public class EntreeTest {
         testJourNbrReclamation.add("09, 03, 03, 05, 03, 08, 06, 08, 03");
         validerNbrJourAccepteDansReclamation(testJourNbrReclamation);
     }
+
+    @Test(expected=DateException.class)
+    public void testAjouterUneReclamation() throws DateException, ReclamationException {
+
+        Date date = new Date("2017-01-03");
+        
+        reclamation.accumulate("soin", 100);
+        reclamation.accumulate("date", date);
+        reclamation.accumulate("montant", "10.00$");
+
+        ajouterUneReclamation(reclamation);
+    }
 }
