@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
-import static refund.Sortie.montantMaxMensuel;
 
 /**
  *

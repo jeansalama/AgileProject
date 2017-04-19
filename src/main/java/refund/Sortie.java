@@ -13,7 +13,6 @@ public class Sortie {
     private boolean prediction;
     private JSONObject infoClient;
     private JSONArray liste;
-    static double montantMaxMensuel;
 
     /**
      *
