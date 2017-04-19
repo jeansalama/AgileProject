@@ -125,7 +125,7 @@ public class Date {
     private void validerFormatDate(String date) throws DateException {
         String[] tab;
         if (validerLongueurDate(date)) {
-            tab = SeparerDateTableauString(date);
+            tab = separerDateTableauString(date);
             setAnnee(tab[0]);
             setMois(tab[1]);
             if (tab.length == 3) {
@@ -155,7 +155,7 @@ public class Date {
      * @return la date separee dans un tableau de chaine de caracteres
      * @throws DateException si les separateurs ne correspondent pas a '-'
      */
-    private static String[] SeparerDateTableauString(String date)
+    private static String[] separerDateTableauString(String date)
             throws DateException {
         String[] tabDateEstSeparee;
 
@@ -163,16 +163,17 @@ public class Date {
                 throw new DateException(MSG_DATE_EXCEPTION);
         }
 
-        SeparerDateTableauStringDateAMJ(date);
+        separerDateTableauStringDateAMJ(date);
 
         String separateurs = "[-]";
         tabDateEstSeparee = date.split(separateurs);
+
         return tabDateEstSeparee;
     }
 
-    private static void SeparerDateTableauStringDateAMJ(String date) throws DateException {
+    private static void separerDateTableauStringDateAMJ(String date) throws DateException {
         if (date.length() != 7) {
-            int nbrCh = 0;
+            int nbrCh = 0; 
             for (int i = 0; i < date.length(); i++) {
                 if (date.charAt(i) == '-') {
                     nbrCh = nbrCh + 1;
