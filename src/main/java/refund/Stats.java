@@ -10,15 +10,15 @@ import net.sf.json.JSONSerializer;
  * @author Max
  */
 public class Stats {
-    
-    public static final String [] TITRES = {"\n Massothérapie (0) : ",
-        "\n Ostéopathie (100) : ","\n Kinésithérapie (150) : ",
+
+    public static final String[] TITRES = {"\n Massothérapie (0) : ",
+        "\n Ostéopathie (100) : ", "\n Kinésithérapie (150) : ",
         "\n Médecin généraliste privé (175) : ",
         "\n Psychologie individuelle (200) : ",
         "\n Soins dentaires (300-399) : ",
-        "\n Naturopathie, acuponcture (400) : ","\n Chiropratie (500) : ",
-        "\n Physiothérapie (600) : ","\n Orthophonie, ergothérapie (700) : "};
-    public static final String[] LISTE_SOIN = {"0", "100", "150", "175", "200", 
+        "\n Naturopathie, acuponcture (400) : ", "\n Chiropratie (500) : ",
+        "\n Physiothérapie (600) : ", "\n Orthophonie, ergothérapie (700) : "};
+    public static final String[] LISTE_SOIN = {"0", "100", "150", "175", "200",
         "300", "400", "500", "600", "700"};
     private JSONObject reclamations;
     private JSONObject soins;
@@ -49,6 +49,7 @@ public class Stats {
     /**
      *
      * @param numeroSoin entier representant le soin a ajoute au Statistiques
+     * @param montantReclame
      */
     public static void ajoutSoinStats(int numeroSoin, Dollar montantReclame) {
         JSONObject soins = stats.getJSONObject("Soins");
@@ -59,11 +60,30 @@ public class Stats {
         String typeSoin = numeroSoin + "";
         soin = soins.getJSONObject(typeSoin);
 
+        incrementerNbrTotalPourUnSoin(soin);
+
+        changerMontantMaximal(soin, montantReclame);
+
+        changerTotalMontant(soin, montantReclame);
+
+        sauverStats();
+    }
+
+    public static void incrementerNbrTotalPourUnSoin(JSONObject soin) {
         int total = soin.getInt("nbTotal");
         total++;
         soin.put("nbTotal", total);
+    }
 
-        Dollar montantMax 
+    public static void changerTotalMontant(JSONObject soin, Dollar montantReclame) {
+        Dollar totalMontants
+                = new Dollar(soin.getDouble("totalMontantsReclames"));
+        totalMontants = totalMontants.plus(montantReclame);
+        soin.put("totalMontantsReclames", totalMontants.convertirEnDouble());
+    }
+
+    public static void changerMontantMaximal(JSONObject soin, Dollar montantReclame) {
+        Dollar montantMax
                 = new Dollar(soin.getDouble("montantMaximalReclame"));
 
         if (montantMax.estInferieurA(montantReclame)) {
@@ -71,22 +91,26 @@ public class Stats {
         }
 
         soin.put("montantMaximalReclame", montantMax.convertirEnDouble());
-
-        Dollar totalMontants 
-                = new Dollar(soin.getDouble("totalMontantsReclames"));
-        totalMontants = totalMontants.plus(montantReclame);
-        soin.put("totalMontantsReclames", totalMontants.convertirEnDouble());
-
-        sauverStats();
     }
 
     public static void viderStats() {
+
+        viderStatsReclamations();
+        viderStatsSoins();
+        sauverStats();
+        System.out.println("Le fichier contenant les statistiques a été "
+                + "réinitialisé correctement.");
+    }
+
+    public static void viderStatsReclamations() {
         String[] listeReclam = {"traitees", "rejetees"};
-       
-        JSONObject soin;
         for (String element : listeReclam) {
             stats.getJSONObject("Reclamations").put(element, 0);
         }
+    }
+
+    public static void viderStatsSoins() {
+        JSONObject soin;
         for (String element : LISTE_SOIN) {
             soin = new JSONObject();
             soin.accumulate("nbTotal", 0);
@@ -95,12 +119,9 @@ public class Stats {
 
             stats.getJSONObject("Soins").put(element, soin);
         }
-        sauverStats();
-        System.out.println("Le fichier contenant les statistiques a été "
-                + "réinitialisé correctement.");
     }
 
-    private static JSONObject initialiserStats() {
+    public static JSONObject initialiserStats() {
 
         JSONObject stats = new JSONObject();
 
@@ -114,10 +135,10 @@ public class Stats {
      *
      * @param stats l'objets .json representant les statistiques
      */
-    private static void initialiserStatsSoins(JSONObject stats) {
+    public static void initialiserStatsSoins(JSONObject stats) {
         JSONObject soins = new JSONObject();
         JSONObject soin;
-        
+
         for (String element : LISTE_SOIN) {
             soin = new JSONObject();
             soin.accumulate("nbTotal", 0);
@@ -131,9 +152,9 @@ public class Stats {
 
     /**
      *
-     * @param stats l'objets .json representant les statistiques
+     * @param stats l'objet .json representant les statistiques
      */
-    private static void initialiserStatsReclamations(JSONObject stats) {
+    public static void initialiserStatsReclamations(JSONObject stats) {
         JSONObject reclamations = new JSONObject();
         String[] listeReclam = {"traitees", "rejetees"};
         for (String element : listeReclam) {
@@ -142,7 +163,7 @@ public class Stats {
         stats.accumulate("Reclamations", reclamations);
     }
 
-    private static JSONObject chargerStats() {
+    public static JSONObject chargerStats() {
         String contenu;
         JSONObject stats = new JSONObject();
         try {
@@ -177,19 +198,20 @@ public class Stats {
 
     private String afficherSoins() {
         String temp = "";
-        for(int i = 0; i < TITRES.length; i++){
-            temp = temp + TITRES[i] 
-                    + afficherUnSoin((JSONObject)soins.get(LISTE_SOIN[i]));        
+        for (int i = 0; i < TITRES.length; i++) {
+            temp = temp + TITRES[i]
+                    + afficherUnSoin((JSONObject) soins.get(LISTE_SOIN[i]));
         }
         return temp;
-                
+
     }
 
     public String afficherUnSoin(JSONObject soin) {
 
         int total = soin.getInt("nbTotal");
         Dollar montantMax = new Dollar(soin.getDouble("montantMaximalReclame"));
-        Dollar totalMontants = new Dollar(soin.getDouble("totalMontantsReclames"));
+        Dollar totalMontants
+                = new Dollar(soin.getDouble("totalMontantsReclames"));
         Dollar moyenneMontants
                 = new Dollar(totalMontants.convertirEnDouble() / total);
 
