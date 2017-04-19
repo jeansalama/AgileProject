@@ -54,10 +54,10 @@ public class CalculRemboursementsTest {
             DateException, ReclamationException{
         Date date = new Date("2017-04-23");
         Dossier dossier = new Dossier("A123456", date);
-        Reclamation reclam = new Reclamation(100, date, "100.00$");
+        Reclamation reclam = new Reclamation(100, date, "1.00$");
         Dollar remboursement 
                 =  CalculRemboursements.calculerRemboursement(reclam, dossier);
-        assertEquals("35.00$", remboursement.toString());
+        assertEquals("0.35$", remboursement.toString());
     }
     
     @Test

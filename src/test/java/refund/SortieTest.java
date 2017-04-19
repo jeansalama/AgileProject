@@ -103,10 +103,10 @@ public class SortieTest {
     @Test
     public void testAjouterUneReclamationMontant() throws Exception{
         Sortie sortie = new Sortie();
-        Dollar temp = sortie.ajouterUneReclamation(new Reclamation(100, 
+        Dollar temp = sortie.ajouterUneReclamation(new Reclamation(200, 
                 new Date("2017-01-20"), "100,00$"), 
                 new Dossier("A123456", new Date("2017-01")));
-        Dollar montant = new Dollar("35.00$");
+        Dollar montant = new Dollar("25.00$");
         
         assertEquals(montant, temp);
     }
