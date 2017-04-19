@@ -73,6 +73,4 @@ public class EntreeTest {
         testJourNbrReclamation.add("09, 03, 03, 05, 03, 08, 06, 08, 03");
         validerNbrJourAccepteDansReclamation(testJourNbrReclamation);
     }
-
-   
 }
