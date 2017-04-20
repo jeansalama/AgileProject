@@ -150,7 +150,7 @@ public class EntreeTest {
 
     }
 
-    @Test(expected=ReclamationException.class)
+    @Test(expected = ReclamationException.class)
     public void testValiderNbrJoursReclamesException()
             throws ReclamationException, DateException {
         ArrayList<String> listeJoursReclames = new ArrayList<>();
@@ -165,7 +165,7 @@ public class EntreeTest {
         listeJoursReclames.add("03");
         Entree.validerNbrJoursReclames(listeJoursReclames, "03");
     }
-    
+
     @Test
     public void testValiderNbrJoursReclames()
             throws ReclamationException, DateException {
@@ -182,14 +182,18 @@ public class EntreeTest {
         Entree.validerNbrJoursReclames(listeJoursReclames, "08");
     }
 
-    @Test(expected = ReclamationException.class)
-    public void testValidationBonMoisException() throws Exception {
-        Entree entree = new Entree();
-        Date date = new Date("2017-02-11");
+    @Test
+    public void testValidationBonMois() throws Exception {
+        Date date = new Date("2017-01-01");
         entree.validationBonMois(date);
-
     }
 
+    @Test(expected = ReclamationException.class)
+    public void testValidationBonMoisException() throws Exception {
+        Date date = new Date("2017-02-11");
+        entree.validationBonMois(date);
+    }
+    
     @Test
     public void testLireFichier() throws IOException {
         JSONObject temp = new JSONObject();

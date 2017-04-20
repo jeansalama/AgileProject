@@ -14,11 +14,7 @@ import static org.junit.Assert.*;
  * @author jean
  */
 public class MontantFormatTest {
-
-    public MontantFormatTest() {
-        new MontantFormat();
-    }
-
+    
     /**************************************************
      *
      * double analyserMontant(String montantReclamation) throws

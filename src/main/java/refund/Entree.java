@@ -39,7 +39,7 @@ public class Entree {
     }
 
     public Entree() throws DateException, DossierException {
-        dossier = new Dossier("A123456", new Date("2017-01-11"));
+        dossier = new Dossier("A123456", new Date("2017-01-01"));
     }
 
     public ArrayList<Reclamation> getListeReclamations() {
