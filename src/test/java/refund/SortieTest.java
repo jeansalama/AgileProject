@@ -24,16 +24,28 @@ public class SortieTest {
     String fichierSortie;
     boolean prediction;
     Sortie sortie;
+    ArrayList<Reclamation> listeReclamations;
+    Reclamation reclamation;
+    Dossier dossier;
 
     @Before
     public void setUp() throws Exception {
         sortie = new Sortie(new MockEntree("test"), "testRefunds.json", true);
-
+        
+        dossier = new Dossier("A123456", new Date("2017-10"));
+        
+        listeReclamations = new ArrayList<>();
+        reclamation = new Reclamation(200, new Date("2017-10-20"), "100,00$");
+        listeReclamations.add(reclamation);
+        listeReclamations.add(reclamation);
+        
     }
 
     @After
     public void tearDown() throws Exception {
         sortie = null;
+        listeReclamations =null;
+        reclamation = null;
         Path p = Paths.get("testRefunds.json");
         Files.deleteIfExists(p);
     }
@@ -53,26 +65,27 @@ public class SortieTest {
     @Test
     public void testEcrireDebut() throws Exception {
         Sortie sortie = new Sortie();
-        JSONObject fichier = new JSONObject();
+        
+        JSONObject fichier = sortie.ecrireDebut(dossier);
+        
         JSONObject vide = new JSONObject();
-        fichier = sortie.ecrireDebut(new Dossier("A123456", new Date("2017-10")));
         vide.accumulate("dossier", "A123456");
         vide.accumulate("mois", "2017-10");
+        
         assertEquals(fichier.toString(), vide.toString());
     }
 
     @Test
     public void testecrireReclamations() throws Exception {
-        ArrayList<Reclamation> liste = new ArrayList<>();
         Sortie sortieTemp = new Sortie();
         Sortie sortieTemp2 = new Sortie();
         
-        JSONObject temp = sortieTemp.ecrireReclamations(liste,
-                new Dossier("A123456", new Date("2017-10")));
+        JSONObject temp = sortieTemp.ecrireReclamations(listeReclamations,
+                dossier);
         
         JSONObject test = new JSONObject();
-        Dollar total = sortieTemp2.ajouterReclamations(liste,
-                new Dossier("A123456", new Date("2017-10")));
+        Dollar total = sortieTemp2.ajouterReclamations(listeReclamations,
+                dossier);
         test.accumulate("remboursement", sortieTemp2.getListe());
         test.accumulate("total", total.toString());
 
@@ -81,31 +94,32 @@ public class SortieTest {
 
     @Test
     public void testAjouterReclamations() throws Exception {
-        ArrayList<Reclamation> liste = new ArrayList<>();
+        
         Sortie sortie = new Sortie();
-        Sortie temp = new Sortie();
+        Sortie sortieTmp = new Sortie();
         
-        Dollar test = temp.ajouterReclamations(liste,
-                new Dossier("A123456", new Date("2017-10")));
+        Dollar montantTotal = sortieTmp.ajouterReclamations(listeReclamations,
+                dossier);
         
-        Dollar dollar = new Dollar();
-        for (Reclamation reclam : liste) {
-            Dollar montant = sortie.ajouterUneReclamation(reclam,
-                    new Dossier("A123456", new Date("2017-10")));
-            dollar = test.plus(montant);
+        Dollar total = new Dollar();
+        for (Reclamation reclam : listeReclamations) {
+            Dollar montant = sortie.ajouterUneReclamation(reclam, dossier);
+            total = total.plus(montant);
         }
-        assertEquals(test.toString(), dollar.toString());
+        assertEquals(montantTotal.toString(), total.toString());
     }
 
     @Test
-    public void testAjouterUneReclamationMontant() throws Exception {
+    public void testAjouterUneReclamationMontant() throws ReclamationException, 
+            DateException, DossierException  {
         Sortie sortie = new Sortie();
-        Dollar temp = sortie.ajouterUneReclamation(new Reclamation(200,
-                new Date("2017-01-20"), "100,00$"),
-                new Dossier("A123456", new Date("2017-01")));
+        
+        Dollar montantAjoute = sortie.ajouterUneReclamation(reclamation,
+                dossier);
+        
         Dollar montant = new Dollar("25.00$");
 
-        assertEquals(montant, temp);
+        assertEquals(montant, montantAjoute);
     }
 
 }

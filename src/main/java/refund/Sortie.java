@@ -18,6 +18,7 @@ public class Sortie {
      *
      * @param entree l'object avec l'info a sortir
      * @param fichierSortie le fichier de sortie
+     * @param prediction true si le mode prediction est active
      */
     public Sortie(Entree entree, String fichierSortie, boolean prediction) {
         liste = new JSONArray();
@@ -30,72 +31,76 @@ public class Sortie {
         activerStatsDebut(prediction);
         sortirFichier();
     }
-    
-    public Sortie() throws Exception{
+
+    public Sortie() throws DateException, DossierException {
         entree = new Entree();
         liste = new JSONArray();
         infoClient = new JSONObject();
         prediction = true;
-       
+
     }
-            
-    public Entree getEntree(){
+
+    public Entree getEntree() {
         return entree;
     }
-    
-    public JSONArray getListe(){
+
+    public JSONArray getListe() {
         return liste;
     }
-    
-    public String getFichierSortie(){
+
+    public String getFichierSortie() {
         return fichierSortie;
     }
+
     /**
-     * 
+     *
      * @param entree le fichier entrant
-     */    
-    public void setEntree(Entree entree){
+     */
+    public void setEntree(Entree entree) {
         this.entree = entree;
     }
+
     /**
-     * 
+     *
      * @param infoClient l'information du client
      */
-    public void setInfoClient(JSONObject infoClient){
+    public void setInfoClient(JSONObject infoClient) {
         this.infoClient = infoClient;
     }
+
     /**
-     * 
+     *
      * @param fichierSortie le nom du fichier de sortie
      */
-    public void setFichierSortie(String fichierSortie){
+    public void setFichierSortie(String fichierSortie) {
         this.fichierSortie = fichierSortie;
     }
-    
+
     /**
-     * 
-     * @param prediction true si le mode prediction est active 
+     *
+     * @param prediction true si le mode prediction est active
      */
-    public void setPrediction(boolean prediction){
+    public void setPrediction(boolean prediction) {
         this.prediction = prediction;
     }
-            
+
     /**
-     * 
+     *
      * @param prediction True si le mode prediction est active
      * @return true si les stats ont été modifiée
      */
-    public boolean activerStatsDebut(boolean prediction){
+    public boolean activerStatsDebut(boolean prediction) {
         boolean statsActive = false;
-        if(!prediction){
+        if (!prediction) {
             Stats.reclamValide();
             statsActive = true;
         }
         return statsActive;
-      
+
     }
+
     /**
-     * 
+     *
      * @param dossier le dossier a ecrire sur le fichier
      * @return l'objet JSON modifie
      */
@@ -106,26 +111,29 @@ public class Sortie {
         return fichier;
 
     }
+
     /**
-     * 
+     *
      * @param reclamations Une liste de reclamations
-     * @param dossier 
-     * @return 
+     * @param dossier
+     * @return
      */
     public JSONObject ecrireReclamations(ArrayList<Reclamation> reclamations,
             Dossier dossier) {
         Dollar total = ajouterReclamations(reclamations, dossier);
         infoClient.accumulate("remboursement", liste);
         infoClient.accumulate("total", total.toString());
-        
+
         return infoClient;
     }
 
     /**
      *
+     * @param reclamations liste des reclamations a ajouter
+     * @param dossier
      * @return le montant total ajouter avec celui de la reclamation
      */
-    public Dollar ajouterReclamations(ArrayList<Reclamation> reclamations, 
+    public Dollar ajouterReclamations(ArrayList<Reclamation> reclamations,
             Dossier dossier) {
         Dollar total = new Dollar();
         for (Reclamation reclam : reclamations) {
@@ -138,6 +146,7 @@ public class Sortie {
     /**
      *
      * @param reclam reclamation a ajouter
+     * @param dossier
      * @return le montant de la reclamation a ajouter
      */
     public Dollar ajouterUneReclamation(Reclamation reclam, Dossier dossier) {
@@ -153,15 +162,16 @@ public class Sortie {
 
         return montant;
     }
+
     /**
-     * 
+     *
      * @param reclam Une reclamation
      * @return True si les stats sont enregistrees
      */
-    public boolean activerStatsReclam(Reclamation reclam){
+    public boolean activerStatsReclam(Reclamation reclam) {
         boolean statsActive = false;
-        if(!prediction){
-            Stats.ajoutSoinStats(reclam.getSoin(), 
+        if (!prediction) {
+            Stats.ajoutSoinStats(reclam.getSoin(),
                     reclam.getMontantReclamation());
             statsActive = true;
         }
@@ -176,5 +186,5 @@ public class Sortie {
                     + e.getLocalizedMessage());
         }
     }
-    
+
 }
