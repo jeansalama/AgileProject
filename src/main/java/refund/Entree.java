@@ -13,7 +13,7 @@ public class Entree {
     public final static String MSG_MOIS_EXCEPTION = "Le mois est invalide. "
             + "Le format d'un mois accepte est aaaa-mm.";
 
-    private ArrayList<Reclamation> listeReclamations = new ArrayList<>(0);
+    private ArrayList<Reclamation> listeReclamations = new ArrayList<>();
     private ArrayList<String> jourNbrReclamation = new ArrayList<>(0);
     private JSONObject infoClient;
     private static Dossier dossier;
@@ -49,6 +49,11 @@ public class Entree {
 
     public Dossier getDossier() {
         return dossier;
+    }
+    
+    public void setInfoClient(JSONObject infoClient){
+        this.infoClient = new JSONObject();
+        this.infoClient = infoClient;
     }
     
     public void setListeReclamations()

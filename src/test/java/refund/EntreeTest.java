@@ -9,13 +9,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.sf.json.JSONObject;
 import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.ArrayList;
+import net.sf.json.JSONArray;
+import org.junit.Before;
 import static refund.Entree.*;
 
 /**
@@ -23,12 +23,33 @@ import static refund.Entree.*;
  * @author Billy
  */
 public class EntreeTest {
-
-    JSONObject reclamation = new JSONObject();
-
+    JSONObject reclamation;
+    JSONObject reclam;
+    JSONArray liste;
+    JSONObject infoClient;
+    
+    @Before
+    public void setUp(){
+        infoClient = new JSONObject();
+        infoClient.accumulate("dossier", "A123456");
+        infoClient.accumulate("mois", "2017-01");
+        reclamation = new JSONObject();
+        reclam = new JSONObject();
+        reclam.accumulate("soin", 100);
+        reclam.accumulate("date", "2017-01-11");
+        reclam.accumulate("montant", "100.00$");
+        liste = new JSONArray();
+        liste.add(reclam);
+        infoClient.accumulate("reclamations", liste);
+    }
     @After
     public void tearDown() throws Exception{
         reclamation = null;
+        reclam = null;
+        liste = null;
+        infoClient = null;
+        Path p = Paths.get("test.json");
+        Files.deleteIfExists(p);
     }
 
     @Test
@@ -136,4 +157,41 @@ public class EntreeTest {
         String temp = lireFichier("test.json");
         assertEquals(temp, null);
     }
+    
+    @Test
+    public void testSetListeReclamations()throws Exception{
+        Entree entree = new Entree();
+        Reclamation test = new Reclamation(100, new Date("2017-01-11"), "100.00$");
+        ArrayList<Reclamation> listeTemp = new ArrayList<>();
+        listeTemp.add(test);
+        entree.setInfoClient(infoClient);
+        entree.setListeReclamations();
+        assertEquals("[" + test.toString() + "]",
+                entree.getListeReclamations().toString());
+               
+    }
+    
+    @Test
+    public void testEntree() throws Exception {
+        Utf8File.saveStringIntoFile("test.json", infoClient.toString(2));
+        Entree entree = new Entree("test.json");
+        Path p = Paths.get("test.json");
+        Files.delete(p);
+        assertEquals(entree.getDossier().getIdDossier(), "A123456");
+    }
+    
+    @Test(expected=ReclamationException.class)
+    public void testEntreeException() throws Exception {
+        infoClient.put("mois", "2017-01-11");
+        Utf8File.saveStringIntoFile("test.json", infoClient.toString(2));
+        Entree entree = new Entree("test.json");
+    }
+    
+    
+    
+   
+    
+    
+    
+    
 }
