@@ -13,6 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/**
+ * Le fichier UTF-8 file a été modifié le 19 avril 2017 et diffère de la version originale(2015) de M. Jacques Berger de la façon suivante:
+ * 
+ * 
+ * Fonction originale:
+ * 
+ *  public static String loadFileIntoString(String filePath) throws FileNotFoundException, IOException {
+ *           return IOUtils.toString(new FileInputStream(filePath), "UTF-8");
+ *  }
+ * 
+ * 
+ * Fonction modifiée:
+ * 
+ * public static String loadFileIntoString(String filePath) throws FileNotFoundException, IOException {
+        FileInputStream file = new FileInputStream(filePath);
+        String temp = IOUtils.toString(file, "UTF-8");
+        file.close();
+        return temp;
+    }
+ */
 package refund;
 
 import java.io.File;
