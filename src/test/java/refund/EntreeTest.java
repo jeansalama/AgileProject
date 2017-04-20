@@ -23,13 +23,15 @@ import static refund.Entree.*;
  * @author Billy
  */
 public class EntreeTest {
+
     JSONObject reclamation;
     JSONObject reclam;
     JSONArray liste;
     JSONObject infoClient;
-    
+    Entree entree;
+
     @Before
-    public void setUp(){
+    public void setUp() throws DateException, DossierException {
         infoClient = new JSONObject();
         infoClient.accumulate("dossier", "A123456");
         infoClient.accumulate("mois", "2017-01");
@@ -41,9 +43,11 @@ public class EntreeTest {
         liste = new JSONArray();
         liste.add(reclam);
         infoClient.accumulate("reclamations", liste);
+        entree = new Entree();
     }
+
     @After
-    public void tearDown() throws Exception{
+    public void tearDown() throws Exception {
         reclamation = null;
         reclam = null;
         liste = null;
@@ -89,26 +93,50 @@ public class EntreeTest {
     }
 
     @Test
-    public void testValiderNbrJourAccepteDansReclamation() throws ReclamationException {
-        ArrayList testJourNbrReclamation = new ArrayList(9);
-        testJourNbrReclamation.add("09, 03, 03, 05, 03, 08, 06, 08, 03");
-        validerNbrJourAccepteDansReclamation(testJourNbrReclamation);
+    public void testValiderNbrJoursAccepteDansReclamation() throws ReclamationException {
+        ArrayList testJourNbrReclamation = new ArrayList();
+        testJourNbrReclamation.add("09");
+        testJourNbrReclamation.add("03");
+        testJourNbrReclamation.add("03");
+        testJourNbrReclamation.add("05");
+        testJourNbrReclamation.add("03");
+        testJourNbrReclamation.add("08");
+        testJourNbrReclamation.add("06");
+        testJourNbrReclamation.add("08");
+        testJourNbrReclamation.add("03");
+        validerNbrJoursAccepteDansReclamation(testJourNbrReclamation);
     }
 
-    @Test(expected=DateException.class)
+    @Test(expected = ReclamationException.class)
+    public void testValiderNbrJoursPasAccepteDansReclamation()
+            throws ReclamationException {
+        ArrayList<String> testJourNbrReclamation = new ArrayList<>();
+        testJourNbrReclamation.add("03");
+        testJourNbrReclamation.add("03");
+        testJourNbrReclamation.add("03");
+        testJourNbrReclamation.add("05");
+        testJourNbrReclamation.add("03");
+        testJourNbrReclamation.add("08");
+        testJourNbrReclamation.add("06");
+        testJourNbrReclamation.add("08");
+        testJourNbrReclamation.add("03");
+        validerNbrJoursAccepteDansReclamation(testJourNbrReclamation);
+    }
+
+    @Test(expected = DateException.class)
     public void testAjouterUneReclamationException() throws Exception, DateException, ReclamationException {
         Entree entree = new Entree();
         Date date = new Date("2017-01-03");
-        
+
         reclamation.accumulate("soin", 100);
         reclamation.accumulate("date", date);
         reclamation.accumulate("montant", "10.00$");
 
         entree.ajouterUneReclamation(reclamation);
     }
-    
+
     @Test
-    public void testAjouterUneReclamationListe()throws Exception{
+    public void testAjouterUneReclamationListe() throws Exception {
         Entree entree = new Entree();
         Reclamation reclam = new Reclamation(100, new Date("2017-01-11"), "100.00$");
         ArrayList<Reclamation> liste = new ArrayList<>();
@@ -119,29 +147,51 @@ public class EntreeTest {
         temp.accumulate("montant", "100.00$");
         entree.ajouterUneReclamation(temp);
         assertEquals(entree.getListeReclamations().toString(), liste.toString());
-                
+
     }
-    
+
     @Test(expected=ReclamationException.class)
-    public void testValiderNbrJoursReclamesException() 
+    public void testValiderNbrJoursReclamesException()
             throws ReclamationException, DateException {
-        Reclamation reclam = new Reclamation(100, new Date("2017-01-11"), "100.00$");
-        ArrayList<Reclamation> liste = new ArrayList<>();
-        liste.add(reclam);
-        liste.add(reclam);
-        Entree.validerNbrJoursReclames(liste, reclam, 3);
-    }
-    
-    @Test(expected=ReclamationException.class)
-    public void testValidationBonMoisException() throws Exception{
-        Entree entree = new Entree();
-        Date date = new Date("2017-02-11");
-        entree.validationBonMois(date);
-        
+        ArrayList<String> listeJoursReclames = new ArrayList<>();
+        listeJoursReclames.add("03");
+        listeJoursReclames.add("03");
+        listeJoursReclames.add("03");
+        listeJoursReclames.add("05");
+        listeJoursReclames.add("03");
+        listeJoursReclames.add("08");
+        listeJoursReclames.add("06");
+        listeJoursReclames.add("08");
+        listeJoursReclames.add("03");
+        Entree.validerNbrJoursReclames(listeJoursReclames, "03");
     }
     
     @Test
-    public void testLireFichier()throws IOException{
+    public void testValiderNbrJoursReclames()
+            throws ReclamationException, DateException {
+        ArrayList<String> listeJoursReclames = new ArrayList<>();
+        listeJoursReclames.add("03");
+        listeJoursReclames.add("03");
+        listeJoursReclames.add("03");
+        listeJoursReclames.add("05");
+        listeJoursReclames.add("03");
+        listeJoursReclames.add("08");
+        listeJoursReclames.add("06");
+        listeJoursReclames.add("08");
+        listeJoursReclames.add("03");
+        Entree.validerNbrJoursReclames(listeJoursReclames, "08");
+    }
+
+    @Test(expected = ReclamationException.class)
+    public void testValidationBonMoisException() throws Exception {
+        Entree entree = new Entree();
+        Date date = new Date("2017-02-11");
+        entree.validationBonMois(date);
+
+    }
+
+    @Test
+    public void testLireFichier() throws IOException {
         JSONObject temp = new JSONObject();
         temp.accumulate("test", 0);
         Utf8File.saveStringIntoFile("test.json", temp.toString(2));
@@ -149,17 +199,17 @@ public class EntreeTest {
         Path p = Paths.get("test.json");
         Files.delete(p);
         assertEquals("{\"test\": 0}", test);
-         
+
     }
-    
+
     @Test
-    public void testLireFichierException(){
+    public void testLireFichierException() {
         String temp = lireFichier("test.json");
         assertEquals(temp, null);
     }
-    
+
     @Test
-    public void testSetListeReclamations()throws Exception{
+    public void testSetListeReclamations() throws Exception {
         Entree entree = new Entree();
         Reclamation test = new Reclamation(100, new Date("2017-01-11"), "100.00$");
         ArrayList<Reclamation> listeTemp = new ArrayList<>();
@@ -168,9 +218,9 @@ public class EntreeTest {
         entree.setListeReclamations();
         assertEquals("[" + test.toString() + "]",
                 entree.getListeReclamations().toString());
-               
+
     }
-    
+
     @Test
     public void testEntree() throws Exception {
         Utf8File.saveStringIntoFile("test.json", infoClient.toString(2));
@@ -179,19 +229,12 @@ public class EntreeTest {
         Files.delete(p);
         assertEquals(entree.getDossier().getIdDossier(), "A123456");
     }
-    
-    @Test(expected=ReclamationException.class)
+
+    @Test(expected = ReclamationException.class)
     public void testEntreeException() throws Exception {
         infoClient.put("mois", "2017-01-11");
         Utf8File.saveStringIntoFile("test.json", infoClient.toString(2));
         Entree entree = new Entree("test.json");
     }
-    
-    
-    
-   
-    
-    
-    
-    
+
 }

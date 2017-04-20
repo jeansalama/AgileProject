@@ -171,7 +171,8 @@ public class Date {
         return tabDateEstSeparee;
     }
 
-    private static void separerDateTableauStringDateAMJ(String date) throws DateException {
+    private static void separerDateTableauStringDateAMJ(String date) 
+            throws DateException {
         if (date.length() != 7) {
             int nbrCh = 0; 
             for (int i = 0; i < date.length(); i++) {

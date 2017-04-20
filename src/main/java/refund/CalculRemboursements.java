@@ -10,6 +10,12 @@ import net.sf.json.JSONSerializer;
  * @author Jean Salama
  */
 public class CalculRemboursements {
+    
+    public static final String MSG_CONTRATS_INTROUVABLE = ". Le fichier "
+            + "Contrats.json doit être à la racine du répertoire courant "
+            + "de l'exécutable. Veuillez reconstruire l'exécutable, ou"
+            + "simplement copiez-collez le fichier Contrats.json se trouvant"
+            + "à la racine du dépôt du projet.";
 
     private static JSONObject reglesRemboursement
             = chargerReglesRemboursement();
@@ -24,7 +30,7 @@ public class CalculRemboursements {
             stringJson = Utf8File.loadFileIntoString("Contrats.json");
             regles = (JSONObject) JSONSerializer.toJSON(stringJson);
         } catch (FileNotFoundException fnfe) {
-            System.out.println(fnfe.getMessage());
+            System.out.println(fnfe.getMessage() + MSG_CONTRATS_INTROUVABLE);
         } catch (IOException ioe) {
             System.out.println(ioe.getMessage());
         }

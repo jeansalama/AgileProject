@@ -1,6 +1,5 @@
 package refund;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import net.sf.json.JSONArray;
@@ -14,7 +13,7 @@ public class Entree {
             + "Le format d'un mois accepte est aaaa-mm.";
 
     private ArrayList<Reclamation> listeReclamations = new ArrayList<>();
-    private ArrayList<String> jourNbrReclamation = new ArrayList<>(0);
+    private ArrayList<String> jourNbrReclamation = new ArrayList<>();
     private JSONObject infoClient;
     private static Dossier dossier;
 
@@ -38,8 +37,8 @@ public class Entree {
         }
         setListeReclamations();
     }
-    
-    public Entree() throws Exception {
+
+    public Entree() throws DateException, DossierException {
         dossier = new Dossier("A123456", new Date("2017-01-11"));
     }
 
@@ -50,12 +49,12 @@ public class Entree {
     public Dossier getDossier() {
         return dossier;
     }
-    
-    public void setInfoClient(JSONObject infoClient){
+
+    public void setInfoClient(JSONObject infoClient) {
         this.infoClient = new JSONObject();
         this.infoClient = infoClient;
     }
-    
+
     public void setListeReclamations()
             throws DateException, ReclamationException {
         JSONArray tableauReclamations = infoClient.getJSONArray("reclamations");
@@ -70,29 +69,29 @@ public class Entree {
             ajouterUneReclamation(reclamation);
         }
 
-        validerNbrJourAccepteDansReclamation(jourNbrReclamation);
+        validerNbrJoursAccepteDansReclamation(jourNbrReclamation);
     }
 
-    public static void validerNbrJourAccepteDansReclamation(ArrayList jourNbrReclamation)
-            throws ReclamationException {
-        int compteur = 0;
+    public static void validerNbrJoursAccepteDansReclamation(
+            ArrayList<String> jourNbrReclamation) throws ReclamationException {
+        
         for (int i = 0; i < jourNbrReclamation.size(); i++) {
-            Object temp = jourNbrReclamation.get(i);
-            validerNbrJoursReclames(jourNbrReclamation, temp, compteur);
-            compteur = 0;
+            String jour = jourNbrReclamation.get(i);
+            validerNbrJoursReclames(jourNbrReclamation, jour);
         }
     }
 
-    public static void validerNbrJoursReclames(ArrayList jourNbrReclamation1, Object temp,
-            int compteur) throws ReclamationException {
+    public static void validerNbrJoursReclames(ArrayList<String> jourNbrReclamation1, 
+            String jour) throws ReclamationException {
+        int compteur = 0;
         for (int i = 0; i < jourNbrReclamation1.size(); i++) {
-            if (temp.equals(jourNbrReclamation1.get(i))) {
+            if (jour.equals(jourNbrReclamation1.get(i))) {
                 compteur = compteur + 1;
             }
             if (compteur > 4) {
                 throw new ReclamationException(
-                        "Vous avez plus de 4 reclamations pour la date :"
-                        + dossier.getDate() + "-" + temp);
+                        "Vous avez plus de 4 reclamations pour la date : "
+                        + dossier.getDate() + "-" + jour);
             }
         }
     }
@@ -118,7 +117,7 @@ public class Entree {
      * @return le numero du soin de la reclamation prise en parametre
      * @throws ReclamationException
      */
-    public  static int obtenirSoin(JSONObject reclam) throws ReclamationException {
+    public static int obtenirSoin(JSONObject reclam) throws ReclamationException {
         int soin;
         if (reclam.containsKey("soin")) {
             try {
@@ -136,7 +135,7 @@ public class Entree {
      *
      * @param date Une date formatter
      * @throws ReclamationException si la date de la reclamation prise en
- paramÃ¨tre n'a pas le mÃªme mois que celle du dossier
+     * parametre n'a pas le meme mois que celle du dossier
      */
     public void validationBonMois(Date date) throws ReclamationException {
         if (!dossier.getDate().getMois().equals(date.getMois())

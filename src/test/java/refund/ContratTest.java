@@ -5,7 +5,6 @@
  */
 package refund;
 
-import net.sf.json.JSONObject;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -25,7 +24,8 @@ public class ContratTest {
     }
 
     @Test(expected = ContratException.class)
-    public void testContratConstructeurNonValideTypeTropLong() throws ContratException {
+    public void testContratConstructeurNonValideTypeTropLong() 
+            throws ContratException {
         Contrat contrat0 = new Contrat("CC");
     }
 
@@ -56,20 +56,6 @@ public class ContratTest {
     public void testContratGetType() throws ContratException {
         Contrat contrat6 = new Contrat("A");
         assertEquals("A", contrat6.getType());
-    }
-
-    @Test(expected = DossierException.class)
-    public void testContatTyeNonValideSetIdDossier1() throws DossierException, DateException {
-        Date date = new Date("2017-02-03");
-        Dossier d1 = new Dossier("A123456", date);
-        d1.setIdDossier("Z123456");
-    }
-
-    @Test(expected = DossierException.class)
-    public void testContatTyeNonValideSetIdDossier2() throws DossierException, DateException {
-        Date date = new Date("2017-02-03");
-        Dossier d1 = new Dossier("A123456", date);
-        d1.setIdDossier("-123456");
     }
 
 }

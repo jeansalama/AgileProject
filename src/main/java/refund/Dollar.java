@@ -9,7 +9,7 @@ package refund;
  *
  * @author Billy
  */
-public class Dollar      {   
+public class Dollar {
 
     private final long cents;
 
@@ -24,17 +24,17 @@ public class Dollar      {
     public Dollar(double montant) {
         cents = (long) (montant * 100);
     }
-    
-    public Dollar(String montant) throws ReclamationException{
+
+    public Dollar(String montant) throws ReclamationException {
         this(MontantFormat.analyserMontant(montant));
     }
 
     public long getCents() {
         return cents;
     }
-    
-    public double convertirEnDouble(){
-        return cents/100.00;
+
+    public double convertirEnDouble() {
+        return cents / 100.00;
     }
 
     public Dollar plus(Dollar montant) {
@@ -56,24 +56,24 @@ public class Dollar      {
         long resultat = Math.round(cents * taux);
         return new Dollar(resultat);
     }
-    
-    public boolean estSuperieurA(Dollar montant){
+
+    public boolean estSuperieurA(Dollar montant) {
         return cents > montant.cents;
     }
-    
-    public boolean estNegatif(){
+
+    public boolean estNegatif() {
         return cents < 0;
     }
 
-    public boolean estInferieurA(Dollar montant){
+    public boolean estInferieurA(Dollar montant) {
         return cents < montant.cents;
     }
-    
+
     @Override
     public String toString() {
         String montantDollar = toString2(cents);
-        
-        if(cents < 0){
+
+        if (cents < 0) {
             montantDollar = "-" + toString2(-cents);
         }
         return montantDollar;
@@ -82,7 +82,7 @@ public class Dollar      {
     public String toString2(long cents) {
         String partieEntiere = "" + cents / 100;
         String partieFractionnaire = "" + cents % 100;
-        if(partieFractionnaire.length() == 1){
+        if (partieFractionnaire.length() == 1) {
             partieFractionnaire = "0" + partieFractionnaire;
         }
         return partieEntiere + "." + partieFractionnaire + "$";
@@ -96,8 +96,5 @@ public class Dollar      {
                 && this.getClass().equals(obj.getClass())
                 && this.cents == ((Dollar) obj).cents);
     }
-
-
-    
 
 }

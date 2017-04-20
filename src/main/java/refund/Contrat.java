@@ -7,9 +7,9 @@ package refund;
  */
 public class Contrat {
 
-    public static final String MSG_CONTRAT_EXCEPTION 
+    public static final String MSG_CONTRAT_EXCEPTION
             = "Le contrat du client est invalide";
-    
+
     private String type;
 
     /**
@@ -38,8 +38,8 @@ public class Contrat {
 
     /**
      * @param type un String representant le type d'un contrat
-     * @return boolean true si le type est valide (cad si c'est un String 
-     * d'un caractere parmi 'A','B','C', 'D'ou 'E'), false sinon
+     * @return boolean true si le type est valide (cad si c'est un String d'un
+     * caractere parmi 'A','B','C', 'D'ou 'E'), false sinon
      */
     private boolean estTypeValide(String type) {
         return type != null && type.length() == 1

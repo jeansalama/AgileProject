@@ -30,7 +30,7 @@ public class DossierTest {
         Dossier d1 = new Dossier("A123456", date);
         d1.setIdDossier("-123456");
     }
-
+    
     @Test
     public void testDossierGetDate() throws DateException, DossierException {
         Dossier d3 = new Dossier("B654321", new Date("2017-02-07"));
