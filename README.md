@@ -13,4 +13,4 @@ Ce logiciel utilise des fichiers JSON pour les réclamations et les remboursemen
 Pour la construction automatisée, nous utilisons Maven avec des tests JUnit.
 
 Afin d'executer l'application refunds.jar, le fichier [Contrats.json](https://github.com/jeansalama/AgileProject/blob/master/Contrats.json) doit être à la racine de l'application. Un nouveau build copiera ce fichier à la racine du dossier contenant l'executable.
-Sinon, copiez-le la [main](https://github.com/jeansalama/AgileProject.git)
+Sinon, copiez-le à la [main](https://github.com/jeansalama/AgileProject.git)
